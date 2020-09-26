@@ -1,0 +1,43 @@
+﻿
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
+using EmployeeWebMySQL.Models.enums;
+
+namespace EmployeeWebMySQL.Models
+{
+    public class Order
+    {
+        [Key]
+        public int OrderId { get; set; }
+        public string OrderNumber { get; set; }
+
+        public int AddressDeliveryId { get; set; }
+        public Address OrderAddress { get; set; }
+
+        public int CustomerId { get; set; }
+        public Customer Customer { get; set; }
+        
+        public int EmployeeId { get; set; }
+        public Employee Employee { get; set; }
+
+        public OrderPriority OrderPriority { get; set; }
+        public OrderState OrderState { get; set; }
+
+        public DateTime CreationOrder { get; set; }
+        public DateTime DoneByEmployeeOrder { get; set; }
+        public DateTime OrderCompleted { get; set; }
+
+        public int ProductId { get; set; }
+        public int ProductQuantity { get; set; }
+
+        [JsonIgnore]
+        public ICollection<Product> Products { get; set; }
+
+        public double PriceItem { get; set; }
+        public double PriceItemIva { get; set; }
+        public double TotalPrice { get; set; }
+
+    }
+}
