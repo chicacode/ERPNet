@@ -11,8 +11,9 @@ namespace EmployeeWebMySQL.Models
     {
         [Key]
         public int CustomerId { get; set; }
-        public string Name { get; set; }
-        public string LastName { get; set; }
+
+        public int PersonForeignKey { get; set; }
+        public virtual Person Person { get; set; }
 
         [JsonIgnore]
         public ICollection<Order> Orders { get; set; }

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ERPNet.Migrations
 {
-    public partial class FirstMigration : Migration
+    public partial class AddData : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -44,8 +44,7 @@ namespace ERPNet.Migrations
                 {
                     CustomerId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(nullable: true),
-                    LastName = table.Column<string>(nullable: true)
+                    PersonForeignKey = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -144,9 +143,9 @@ namespace ERPNet.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(maxLength: 100, nullable: false),
                     LastName = table.Column<string>(nullable: true),
-                    EmployeeId = table.Column<int>(nullable: true),
-                    CustomerId = table.Column<int>(nullable: true),
-                    AddressId = table.Column<int>(nullable: true)
+                    EmployeeId = table.Column<int>(nullable: false),
+                    CustomerId = table.Column<int>(nullable: false),
+                    AddressId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -156,19 +155,19 @@ namespace ERPNet.Migrations
                         column: x => x.AddressId,
                         principalTable: "Address",
                         principalColumn: "AddressId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Person_Customer_CustomerId",
                         column: x => x.CustomerId,
                         principalTable: "Customer",
                         principalColumn: "CustomerId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Person_Employee_EmployeeId",
                         column: x => x.EmployeeId,
                         principalTable: "Employee",
                         principalColumn: "EmployeeId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -250,58 +249,6 @@ namespace ERPNet.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.InsertData(
-                table: "Category",
-                columns: new[] { "CategoryId", "Name" },
-                values: new object[,]
-                {
-                    { 1, "Clothing" },
-                    { 2, "Merchandising" }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Customer",
-                columns: new[] { "CustomerId", "LastName", "Name" },
-                values: new object[,]
-                {
-                    { 1, "Richardson", "Liam" },
-                    { 2, "Wilde", "Olivia" },
-                    { 3, "Pollock", "Noah" },
-                    { 4, "Watson", "Emma" }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Employee",
-                columns: new[] { "EmployeeId", "LastName", "Name", "Password", "PositionJob", "Salary", "UserName" },
-                values: new object[,]
-                {
-                    { 1, "Stark", "Tony", "test", "Boss", 300, "Ironman" },
-                    { 2, "Rogers", "Steve", "test", "Soldier", 200, "Capitan America" },
-                    { 3, "Banner", "Bruce", "test", "BioTech", 200, "Hulk" },
-                    { 4, "Romanoff", "Natacha", "test", "Secret Agent", 200, "Black Widow" },
-                    { 5, "Son of Odin", "Thor", "test", "God of Thunder", 200, "Thor" }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Warehouse",
-                columns: new[] { "WarehouseId", "Address", "AddressId", "Name" },
-                values: new object[,]
-                {
-                    { 1, "8 street / 23", null, "New York C" },
-                    { 2, "Zona Franca", null, "Barcelona C" }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Product",
-                columns: new[] { "ProductId", "CategoryId", "Description", "Name", "OrderId", "TotalQuantity" },
-                values: new object[,]
-                {
-                    { 1, 1, "Shop high-quality unique T-Shirts designed and sold by artist. 100% cotton", "T-Shirts", null, 2 },
-                    { 2, 1, "Shop high-quality unique Hoodies designed and sold by artist. 100% cotton", "Hoodies", null, 2 },
-                    { 3, 2, "Coffee, Tea Mugs", "Mugs", null, 12 },
-                    { 4, 2, "Code Stickers", "Stickers", null, 10 }
-                });
-
             migrationBuilder.CreateIndex(
                 name: "IX_Movements_StorageId",
                 table: "Movements",
@@ -330,7 +277,8 @@ namespace ERPNet.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Person_CustomerId",
                 table: "Person",
-                column: "CustomerId");
+                column: "CustomerId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Person_EmployeeId",

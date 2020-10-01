@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ERPNet.Migrations
 {
     [DbContext(typeof(ERPNetContext))]
-    [Migration("20200926150431_FirstMigration")]
-    partial class FirstMigration
+    [Migration("20201001163443_AddData")]
+    partial class AddData
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -66,18 +66,6 @@ namespace ERPNet.Migrations
                     b.HasKey("CategoryId");
 
                     b.ToTable("Category");
-
-                    b.HasData(
-                        new
-                        {
-                            CategoryId = 1,
-                            Name = "Clothing"
-                        },
-                        new
-                        {
-                            CategoryId = 2,
-                            Name = "Merchandising"
-                        });
                 });
 
             modelBuilder.Entity("EmployeeWebMySQL.Models.Customer", b =>
@@ -87,41 +75,12 @@ namespace ERPNet.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("PersonForeignKey")
+                        .HasColumnType("int");
 
                     b.HasKey("CustomerId");
 
                     b.ToTable("Customer");
-
-                    b.HasData(
-                        new
-                        {
-                            CustomerId = 1,
-                            LastName = "Richardson",
-                            Name = "Liam"
-                        },
-                        new
-                        {
-                            CustomerId = 2,
-                            LastName = "Wilde",
-                            Name = "Olivia"
-                        },
-                        new
-                        {
-                            CustomerId = 3,
-                            LastName = "Pollock",
-                            Name = "Noah"
-                        },
-                        new
-                        {
-                            CustomerId = 4,
-                            LastName = "Watson",
-                            Name = "Emma"
-                        });
                 });
 
             modelBuilder.Entity("EmployeeWebMySQL.Models.Employee", b =>
@@ -152,58 +111,6 @@ namespace ERPNet.Migrations
                     b.HasKey("EmployeeId");
 
                     b.ToTable("Employee");
-
-                    b.HasData(
-                        new
-                        {
-                            EmployeeId = 1,
-                            LastName = "Stark",
-                            Name = "Tony",
-                            Password = "test",
-                            PositionJob = "Boss",
-                            Salary = 300,
-                            UserName = "Ironman"
-                        },
-                        new
-                        {
-                            EmployeeId = 2,
-                            LastName = "Rogers",
-                            Name = "Steve",
-                            Password = "test",
-                            PositionJob = "Soldier",
-                            Salary = 200,
-                            UserName = "Capitan America"
-                        },
-                        new
-                        {
-                            EmployeeId = 3,
-                            LastName = "Banner",
-                            Name = "Bruce",
-                            Password = "test",
-                            PositionJob = "BioTech",
-                            Salary = 200,
-                            UserName = "Hulk"
-                        },
-                        new
-                        {
-                            EmployeeId = 4,
-                            LastName = "Romanoff",
-                            Name = "Natacha",
-                            Password = "test",
-                            PositionJob = "Secret Agent",
-                            Salary = 200,
-                            UserName = "Black Widow"
-                        },
-                        new
-                        {
-                            EmployeeId = 5,
-                            LastName = "Son of Odin",
-                            Name = "Thor",
-                            Password = "test",
-                            PositionJob = "God of Thunder",
-                            Salary = 200,
-                            UserName = "Thor"
-                        });
                 });
 
             modelBuilder.Entity("EmployeeWebMySQL.Models.Movements", b =>
@@ -302,13 +209,13 @@ namespace ERPNet.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("AddressId")
+                    b.Property<int>("AddressId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("CustomerId")
+                    b.Property<int>("CustomerId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("EmployeeId")
+                    b.Property<int>("EmployeeId")
                         .HasColumnType("int");
 
                     b.Property<string>("LastName")
@@ -323,7 +230,8 @@ namespace ERPNet.Migrations
 
                     b.HasIndex("AddressId");
 
-                    b.HasIndex("CustomerId");
+                    b.HasIndex("CustomerId")
+                        .IsUnique();
 
                     b.HasIndex("EmployeeId");
 
@@ -362,40 +270,6 @@ namespace ERPNet.Migrations
                     b.HasIndex("OrderId");
 
                     b.ToTable("Product");
-
-                    b.HasData(
-                        new
-                        {
-                            ProductId = 1,
-                            CategoryId = 1,
-                            Description = "Shop high-quality unique T-Shirts designed and sold by artist. 100% cotton",
-                            Name = "T-Shirts",
-                            TotalQuantity = 2
-                        },
-                        new
-                        {
-                            ProductId = 2,
-                            CategoryId = 1,
-                            Description = "Shop high-quality unique Hoodies designed and sold by artist. 100% cotton",
-                            Name = "Hoodies",
-                            TotalQuantity = 2
-                        },
-                        new
-                        {
-                            ProductId = 3,
-                            CategoryId = 2,
-                            Description = "Coffee, Tea Mugs",
-                            Name = "Mugs",
-                            TotalQuantity = 12
-                        },
-                        new
-                        {
-                            ProductId = 4,
-                            CategoryId = 2,
-                            Description = "Code Stickers",
-                            Name = "Stickers",
-                            TotalQuantity = 10
-                        });
                 });
 
             modelBuilder.Entity("EmployeeWebMySQL.Models.Storage", b =>
@@ -449,20 +323,6 @@ namespace ERPNet.Migrations
                     b.HasIndex("AddressId");
 
                     b.ToTable("Warehouse");
-
-                    b.HasData(
-                        new
-                        {
-                            WarehouseId = 1,
-                            Address = "8 street / 23",
-                            Name = "New York C"
-                        },
-                        new
-                        {
-                            WarehouseId = 2,
-                            Address = "Zona Franca",
-                            Name = "Barcelona C"
-                        });
                 });
 
             modelBuilder.Entity("EmployeeWebMySQL.Models.Movements", b =>
@@ -497,15 +357,21 @@ namespace ERPNet.Migrations
                 {
                     b.HasOne("EmployeeWebMySQL.Models.Address", "Address")
                         .WithMany("Persons")
-                        .HasForeignKey("AddressId");
+                        .HasForeignKey("AddressId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("EmployeeWebMySQL.Models.Customer", "Customer")
-                        .WithMany()
-                        .HasForeignKey("CustomerId");
+                        .WithOne("Person")
+                        .HasForeignKey("EmployeeWebMySQL.Models.Person", "CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("EmployeeWebMySQL.Models.Employee", "Employee")
                         .WithMany()
-                        .HasForeignKey("EmployeeId");
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("EmployeeWebMySQL.Models.Product", b =>
