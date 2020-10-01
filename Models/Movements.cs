@@ -14,6 +14,6 @@ namespace EmployeeWebMySQL.Models
         public int Quantity { get; set; }
         public bool IsInput { get; set; }
         public int StorageId { get; set; }
-        public Storage Storage { get; set; }
+        public virtual Storage Storage { get; set; }
     }
 }

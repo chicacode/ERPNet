@@ -16,8 +16,11 @@ namespace EmployeeWebMySQL.Models
         [StringLength ( 100 )]
         public string Name { get; set; }
         public string LastName { get; set; }
-        public Employee Employee { get; set; }
-        public Customer Customer { get; set; }
-        public Address Address { get; set; }
+        public int EmployeeId { get; set; }
+        public int CustomerId { get; set; }
+        public int AddressId { get; set; }
+        public virtual Employee Employee { get; set; }
+        public virtual Customer Customer { get; set; }
+        public virtual Address Address { get; set; }
     }
 }

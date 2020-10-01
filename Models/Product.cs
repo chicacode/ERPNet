@@ -21,7 +21,7 @@ namespace EmployeeWebMySQL.Models
         public int TotalQuantity { get; set; }
 
         public int CategoryId { get; set; }
-        public Category Category { get; set; }
+        public virtual Category Category { get; set; }
 
         [JsonIgnore]
         public ICollection<Storage> Storages { get; set; }

@@ -14,13 +14,13 @@ namespace EmployeeWebMySQL.Models
         public string OrderNumber { get; set; }
 
         public int AddressDeliveryId { get; set; }
-        public Address OrderAddress { get; set; }
+        public virtual Address OrderAddress { get; set; }
 
         public int CustomerId { get; set; }
-        public Customer Customer { get; set; }
+        public virtual Customer Customer { get; set; }
         
         public int EmployeeId { get; set; }
-        public Employee Employee { get; set; }
+        public virtual Employee Employee { get; set; }
 
         public OrderPriority OrderPriority { get; set; }
         public OrderState OrderState { get; set; }
@@ -30,6 +30,7 @@ namespace EmployeeWebMySQL.Models
         public DateTime OrderCompleted { get; set; }
 
         public int ProductId { get; set; }
+
         public int ProductQuantity { get; set; }
 
         [JsonIgnore]
