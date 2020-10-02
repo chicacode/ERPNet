@@ -211,38 +211,68 @@ namespace ERPNet.Data
                 }
             );
             modelBuilder.Entity<Product> ().HasData (
-            new Product
-            {
-                ProductId = 1,
-                Name = "T-Shirts",
-                Description = "Shop high-quality unique T-Shirts designed and sold by artist. 100% cotton",
-                TotalQuantity = 2,
-                CategoryId = 1
-            },
-            new Product
-            {
-                ProductId = 2,
-                Name = "Hoodies",
-                Description = "Shop high-quality unique Hoodies designed and sold by artist. 100% cotton",
-                TotalQuantity = 2,
-                CategoryId = 1
-            },
-             new Product
-             {
-                 ProductId = 3,
-                 Name = "Mugs",
-                 Description = "Coffee, Tea Mugs",
-                 TotalQuantity = 12,
-                 CategoryId = 2
-             },
-              new Product
-              {
-                  ProductId = 4,
-                  Name = "Stickers",
-                  Description = "Code Stickers",
-                  TotalQuantity = 10,
-                  CategoryId = 2
-              }
+                new Product
+                {
+                    ProductId = 1,
+                    Name = "T-Shirts",
+                    Description = "Shop high-quality unique T-Shirts designed and sold by artist. 100% cotton",
+                    TotalQuantity = 2,
+                    CategoryId = 1
+                },
+                new Product
+                {
+                    ProductId = 2,
+                    Name = "Hoodies",
+                    Description = "Shop high-quality unique Hoodies designed and sold by artist. 100% cotton",
+                    TotalQuantity = 2,
+                    CategoryId = 1
+                },
+                 new Product
+                 {
+                     ProductId = 3,
+                     Name = "Mugs",
+                     Description = "Coffee, Tea Mugs",
+                     TotalQuantity = 12,
+                     CategoryId = 2
+                 },
+                  new Product
+                  {
+                      ProductId = 4,
+                      Name = "Stickers",
+                      Description = "Code Stickers",
+                      TotalQuantity = 10,
+                      CategoryId = 2
+                  }
+            );
+            modelBuilder.Entity<Order> ().HasData (
+                new Order
+                {
+                    OrderId = 1,
+                    OrderNumber = "XXX909090",
+                    ProductId = 1,
+                    ProductQuantity = 350
+                },
+                new Order
+                {
+                    OrderId = 2,
+                    OrderNumber = "XXX909091",
+                    ProductId = 2,
+                    ProductQuantity = 450
+                },
+                 new Order
+                 {
+                     OrderId = 4,
+                     OrderNumber = "XXX909092",
+                     ProductId = 1,
+                     ProductQuantity = 50
+                 },
+                new Order
+                {
+                    OrderId = 5,
+                    OrderNumber = "XXX909093",
+                    ProductId = 2,
+                    ProductQuantity = 760
+                }
             );
         }
     }

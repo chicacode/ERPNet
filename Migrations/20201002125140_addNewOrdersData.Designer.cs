@@ -4,14 +4,16 @@ using ERPNet.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ERPNet.Migrations
 {
     [DbContext(typeof(ERPNetContext))]
-    partial class ERPNetContextModelSnapshot : ModelSnapshot
+    [Migration("20201002125140_addNewOrdersData")]
+    partial class addNewOrdersData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -323,36 +325,6 @@ namespace ERPNet.Migrations
                             PriceItemIva = 0.0,
                             ProductId = 2,
                             ProductQuantity = 450,
-                            TotalPrice = 0.0
-                        },
-                        new
-                        {
-                            OrderId = 4,
-                            CreationOrder = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DoneByEmployeeOrder = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            OrderCompleted = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            OrderNumber = "XXX909092",
-                            OrderPriority = 0,
-                            OrderState = 0,
-                            PriceItem = 0.0,
-                            PriceItemIva = 0.0,
-                            ProductId = 1,
-                            ProductQuantity = 50,
-                            TotalPrice = 0.0
-                        },
-                        new
-                        {
-                            OrderId = 5,
-                            CreationOrder = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DoneByEmployeeOrder = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            OrderCompleted = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            OrderNumber = "XXX909093",
-                            OrderPriority = 0,
-                            OrderState = 0,
-                            PriceItem = 0.0,
-                            PriceItemIva = 0.0,
-                            ProductId = 2,
-                            ProductQuantity = 760,
                             TotalPrice = 0.0
                         });
                 });
