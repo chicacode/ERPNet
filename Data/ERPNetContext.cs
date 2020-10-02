@@ -274,6 +274,23 @@ namespace ERPNet.Data
                     ProductQuantity = 760
                 }
             );
+
+            modelBuilder.Entity<Storage> ().HasData (
+             new Storage
+             {
+                 StorageId = 1,
+                 PartialQuantity = 900,
+                 ProductId = 1,
+                 WarehouseId = 1
+             },
+             new Storage
+             {
+                 StorageId = 2,
+                 PartialQuantity = 700,
+                 ProductId = 2,
+                 WarehouseId = 1
+             }
+         );
         }
     }
  }
