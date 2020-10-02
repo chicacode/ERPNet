@@ -4,14 +4,16 @@ using ERPNet.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ERPNet.Migrations
 {
     [DbContext(typeof(ERPNetContext))]
-    partial class ERPNetContextModelSnapshot : ModelSnapshot
+    [Migration("20201002113907_addData")]
+    partial class addData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -94,28 +96,6 @@ namespace ERPNet.Migrations
                         .IsUnique();
 
                     b.ToTable("Customer");
-
-                    b.HasData(
-                        new
-                        {
-                            CustomerId = 1,
-                            PersonId = 6
-                        },
-                        new
-                        {
-                            CustomerId = 2,
-                            PersonId = 7
-                        },
-                        new
-                        {
-                            CustomerId = 3,
-                            PersonId = 8
-                        },
-                        new
-                        {
-                            CustomerId = 4,
-                            PersonId = 9
-                        });
                 });
 
             modelBuilder.Entity("EmployeeWebMySQL.Models.Employee", b =>
@@ -146,53 +126,6 @@ namespace ERPNet.Migrations
                         .IsUnique();
 
                     b.ToTable("Employee");
-
-                    b.HasData(
-                        new
-                        {
-                            EmployeeId = 1,
-                            Password = "test",
-                            PersonId = 1,
-                            PositionJob = "Boss",
-                            Salary = 300,
-                            UserName = "Ironman"
-                        },
-                        new
-                        {
-                            EmployeeId = 2,
-                            Password = "test",
-                            PersonId = 2,
-                            PositionJob = "Soldier",
-                            Salary = 200,
-                            UserName = "Capitan America"
-                        },
-                        new
-                        {
-                            EmployeeId = 3,
-                            Password = "test",
-                            PersonId = 3,
-                            PositionJob = "BioTech",
-                            Salary = 200,
-                            UserName = "Hulk"
-                        },
-                        new
-                        {
-                            EmployeeId = 4,
-                            Password = "test",
-                            PersonId = 4,
-                            PositionJob = "Secret Agent",
-                            Salary = 200,
-                            UserName = "Black Widow"
-                        },
-                        new
-                        {
-                            EmployeeId = 5,
-                            Password = "test",
-                            PersonId = 5,
-                            PositionJob = "God of Thunder",
-                            Salary = 200,
-                            UserName = "Thor"
-                        });
                 });
 
             modelBuilder.Entity("EmployeeWebMySQL.Models.Movements", b =>
@@ -299,56 +232,6 @@ namespace ERPNet.Migrations
                     b.HasKey("PersonId");
 
                     b.ToTable("Person");
-
-                    b.HasData(
-                        new
-                        {
-                            PersonId = 2,
-                            LastName = "Rogers",
-                            Name = "Steve"
-                        },
-                        new
-                        {
-                            PersonId = 3,
-                            LastName = "Banner",
-                            Name = "Bruce"
-                        },
-                        new
-                        {
-                            PersonId = 4,
-                            LastName = "Romanoff",
-                            Name = "Natacha"
-                        },
-                        new
-                        {
-                            PersonId = 5,
-                            LastName = "Son of Odin",
-                            Name = "Thor"
-                        },
-                        new
-                        {
-                            PersonId = 6,
-                            LastName = "Wilde",
-                            Name = "Olivia"
-                        },
-                        new
-                        {
-                            PersonId = 7,
-                            LastName = "Carreño",
-                            Name = "Teresa"
-                        },
-                        new
-                        {
-                            PersonId = 8,
-                            LastName = "Singleton",
-                            Name = "Lujan"
-                        },
-                        new
-                        {
-                            PersonId = 9,
-                            LastName = "Jefferson",
-                            Name = "Thomas"
-                        });
                 });
 
             modelBuilder.Entity("EmployeeWebMySQL.Models.Product", b =>

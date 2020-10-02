@@ -4,14 +4,16 @@ using ERPNet.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ERPNet.Migrations
 {
     [DbContext(typeof(ERPNetContext))]
-    partial class ERPNetContextModelSnapshot : ModelSnapshot
+    [Migration("20201002115505_addNewPersonsData")]
+    partial class addNewPersonsData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -94,28 +96,6 @@ namespace ERPNet.Migrations
                         .IsUnique();
 
                     b.ToTable("Customer");
-
-                    b.HasData(
-                        new
-                        {
-                            CustomerId = 1,
-                            PersonId = 6
-                        },
-                        new
-                        {
-                            CustomerId = 2,
-                            PersonId = 7
-                        },
-                        new
-                        {
-                            CustomerId = 3,
-                            PersonId = 8
-                        },
-                        new
-                        {
-                            CustomerId = 4,
-                            PersonId = 9
-                        });
                 });
 
             modelBuilder.Entity("EmployeeWebMySQL.Models.Employee", b =>
