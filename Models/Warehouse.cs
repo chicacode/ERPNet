@@ -9,13 +9,15 @@ namespace EmployeeWebMySQL.Models
 {
     public class Warehouse
     {
-        [Key]
         public int WarehouseId { get; set; }
 
         [Required]
         [StringLength ( 100 )]
         public string Name { get; set; }
-        public string Address { get; set; }
+
+        public int AddressId { get; set; }
+
+        public virtual Address Address { get; set; }
 
         [JsonIgnore]
         public ICollection<Storage> Storages { get; set; }

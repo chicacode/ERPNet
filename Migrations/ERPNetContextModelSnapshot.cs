@@ -73,10 +73,13 @@ namespace ERPNet.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("PersonForeignKey")
+                    b.Property<int>("PersonId")
                         .HasColumnType("int");
 
                     b.HasKey("CustomerId");
+
+                    b.HasIndex("PersonId")
+                        .IsUnique();
 
                     b.ToTable("Customer");
                 });
@@ -88,14 +91,11 @@ namespace ERPNet.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Password")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PersonId")
+                        .HasColumnType("int");
 
                     b.Property<string>("PositionJob")
                         .HasColumnType("nvarchar(max)");
@@ -107,6 +107,9 @@ namespace ERPNet.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("EmployeeId");
+
+                    b.HasIndex("PersonId")
+                        .IsUnique();
 
                     b.ToTable("Employee");
                 });
@@ -144,22 +147,19 @@ namespace ERPNet.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("AddressDeliveryId")
+                    b.Property<int?>("AddressId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreationOrder")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("CustomerId")
+                    b.Property<int?>("CustomerId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("DoneByEmployeeOrder")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("EmployeeId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("OrderAddressAddressId")
+                    b.Property<int?>("EmployeeId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("OrderCompleted")
@@ -191,11 +191,11 @@ namespace ERPNet.Migrations
 
                     b.HasKey("OrderId");
 
+                    b.HasIndex("AddressId");
+
                     b.HasIndex("CustomerId");
 
                     b.HasIndex("EmployeeId");
-
-                    b.HasIndex("OrderAddressAddressId");
 
                     b.ToTable("Order");
                 });
@@ -207,15 +207,6 @@ namespace ERPNet.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("AddressId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CustomerId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("EmployeeId")
-                        .HasColumnType("int");
-
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
@@ -225,13 +216,6 @@ namespace ERPNet.Migrations
                         .HasMaxLength(100);
 
                     b.HasKey("PersonId");
-
-                    b.HasIndex("AddressId");
-
-                    b.HasIndex("CustomerId")
-                        .IsUnique();
-
-                    b.HasIndex("EmployeeId");
 
                     b.ToTable("Person");
                 });
@@ -305,10 +289,7 @@ namespace ERPNet.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Address")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("AddressId")
+                    b.Property<int>("AddressId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -323,6 +304,24 @@ namespace ERPNet.Migrations
                     b.ToTable("Warehouse");
                 });
 
+            modelBuilder.Entity("EmployeeWebMySQL.Models.Customer", b =>
+                {
+                    b.HasOne("EmployeeWebMySQL.Models.Person", "Person")
+                        .WithOne("Customer")
+                        .HasForeignKey("EmployeeWebMySQL.Models.Customer", "PersonId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("EmployeeWebMySQL.Models.Employee", b =>
+                {
+                    b.HasOne("EmployeeWebMySQL.Models.Person", "Person")
+                        .WithOne("Employee")
+                        .HasForeignKey("EmployeeWebMySQL.Models.Employee", "PersonId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("EmployeeWebMySQL.Models.Movements", b =>
                 {
                     b.HasOne("EmployeeWebMySQL.Models.Storage", "Storage")
@@ -334,42 +333,17 @@ namespace ERPNet.Migrations
 
             modelBuilder.Entity("EmployeeWebMySQL.Models.Order", b =>
                 {
-                    b.HasOne("EmployeeWebMySQL.Models.Customer", "Customer")
+                    b.HasOne("EmployeeWebMySQL.Models.Address", null)
                         .WithMany("Orders")
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("AddressId");
 
-                    b.HasOne("EmployeeWebMySQL.Models.Employee", "Employee")
+                    b.HasOne("EmployeeWebMySQL.Models.Customer", null)
                         .WithMany("Orders")
-                        .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CustomerId");
 
-                    b.HasOne("EmployeeWebMySQL.Models.Address", "OrderAddress")
+                    b.HasOne("EmployeeWebMySQL.Models.Employee", null)
                         .WithMany("Orders")
-                        .HasForeignKey("OrderAddressAddressId");
-                });
-
-            modelBuilder.Entity("EmployeeWebMySQL.Models.Person", b =>
-                {
-                    b.HasOne("EmployeeWebMySQL.Models.Address", "Address")
-                        .WithMany("Persons")
-                        .HasForeignKey("AddressId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("EmployeeWebMySQL.Models.Customer", "Customer")
-                        .WithOne("Person")
-                        .HasForeignKey("EmployeeWebMySQL.Models.Person", "CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("EmployeeWebMySQL.Models.Employee", "Employee")
-                        .WithMany()
-                        .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("EmployeeId");
                 });
 
             modelBuilder.Entity("EmployeeWebMySQL.Models.Product", b =>
@@ -402,9 +376,11 @@ namespace ERPNet.Migrations
 
             modelBuilder.Entity("EmployeeWebMySQL.Models.Warehouse", b =>
                 {
-                    b.HasOne("EmployeeWebMySQL.Models.Address", null)
+                    b.HasOne("EmployeeWebMySQL.Models.Address", "Address")
                         .WithMany("Warehouses")
-                        .HasForeignKey("AddressId");
+                        .HasForeignKey("AddressId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

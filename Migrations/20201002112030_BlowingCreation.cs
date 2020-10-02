@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ERPNet.Migrations
 {
-    public partial class AddData : Migration
+    public partial class BlowingCreation : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -39,34 +39,17 @@ namespace ERPNet.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Customer",
+                name: "Person",
                 columns: table => new
                 {
-                    CustomerId = table.Column<int>(nullable: false)
+                    PersonId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    PersonForeignKey = table.Column<int>(nullable: false)
+                    Name = table.Column<string>(maxLength: 100, nullable: false),
+                    LastName = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Customer", x => x.CustomerId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Employee",
-                columns: table => new
-                {
-                    EmployeeId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(nullable: true),
-                    LastName = table.Column<string>(nullable: true),
-                    PositionJob = table.Column<string>(nullable: true),
-                    Salary = table.Column<int>(nullable: false),
-                    UserName = table.Column<string>(nullable: true),
-                    Password = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Employee", x => x.EmployeeId);
+                    table.PrimaryKey("PK_Person", x => x.PersonId);
                 });
 
             migrationBuilder.CreateTable(
@@ -76,8 +59,7 @@ namespace ERPNet.Migrations
                     WarehouseId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(maxLength: 100, nullable: false),
-                    Address = table.Column<string>(nullable: true),
-                    AddressId = table.Column<int>(nullable: true)
+                    AddressId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -87,7 +69,49 @@ namespace ERPNet.Migrations
                         column: x => x.AddressId,
                         principalTable: "Address",
                         principalColumn: "AddressId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Customer",
+                columns: table => new
+                {
+                    CustomerId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PersonId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Customer", x => x.CustomerId);
+                    table.ForeignKey(
+                        name: "FK_Customer_Person_PersonId",
+                        column: x => x.PersonId,
+                        principalTable: "Person",
+                        principalColumn: "PersonId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Employee",
+                columns: table => new
+                {
+                    EmployeeId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PersonId = table.Column<int>(nullable: false),
+                    PositionJob = table.Column<string>(nullable: true),
+                    Salary = table.Column<int>(nullable: false),
+                    UserName = table.Column<string>(nullable: true),
+                    Password = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Employee", x => x.EmployeeId);
+                    table.ForeignKey(
+                        name: "FK_Employee_Person_PersonId",
+                        column: x => x.PersonId,
+                        principalTable: "Person",
+                        principalColumn: "PersonId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -97,10 +121,6 @@ namespace ERPNet.Migrations
                     OrderId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     OrderNumber = table.Column<string>(nullable: true),
-                    AddressDeliveryId = table.Column<int>(nullable: false),
-                    OrderAddressAddressId = table.Column<int>(nullable: true),
-                    CustomerId = table.Column<int>(nullable: false),
-                    EmployeeId = table.Column<int>(nullable: false),
                     OrderPriority = table.Column<int>(nullable: false),
                     OrderState = table.Column<int>(nullable: false),
                     CreationOrder = table.Column<DateTime>(nullable: false),
@@ -110,64 +130,32 @@ namespace ERPNet.Migrations
                     ProductQuantity = table.Column<int>(nullable: false),
                     PriceItem = table.Column<double>(nullable: false),
                     PriceItemIva = table.Column<double>(nullable: false),
-                    TotalPrice = table.Column<double>(nullable: false)
+                    TotalPrice = table.Column<double>(nullable: false),
+                    AddressId = table.Column<int>(nullable: true),
+                    CustomerId = table.Column<int>(nullable: true),
+                    EmployeeId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Order", x => x.OrderId);
                     table.ForeignKey(
+                        name: "FK_Order_Address_AddressId",
+                        column: x => x.AddressId,
+                        principalTable: "Address",
+                        principalColumn: "AddressId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
                         name: "FK_Order_Customer_CustomerId",
                         column: x => x.CustomerId,
                         principalTable: "Customer",
                         principalColumn: "CustomerId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Order_Employee_EmployeeId",
                         column: x => x.EmployeeId,
                         principalTable: "Employee",
                         principalColumn: "EmployeeId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Order_Address_OrderAddressAddressId",
-                        column: x => x.OrderAddressAddressId,
-                        principalTable: "Address",
-                        principalColumn: "AddressId",
                         onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Person",
-                columns: table => new
-                {
-                    PersonId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(maxLength: 100, nullable: false),
-                    LastName = table.Column<string>(nullable: true),
-                    EmployeeId = table.Column<int>(nullable: false),
-                    CustomerId = table.Column<int>(nullable: false),
-                    AddressId = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Person", x => x.PersonId);
-                    table.ForeignKey(
-                        name: "FK_Person_Address_AddressId",
-                        column: x => x.AddressId,
-                        principalTable: "Address",
-                        principalColumn: "AddressId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Person_Customer_CustomerId",
-                        column: x => x.CustomerId,
-                        principalTable: "Customer",
-                        principalColumn: "CustomerId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Person_Employee_EmployeeId",
-                        column: x => x.EmployeeId,
-                        principalTable: "Employee",
-                        principalColumn: "EmployeeId",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -250,9 +238,26 @@ namespace ERPNet.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Customer_PersonId",
+                table: "Customer",
+                column: "PersonId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Employee_PersonId",
+                table: "Employee",
+                column: "PersonId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Movements_StorageId",
                 table: "Movements",
                 column: "StorageId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Order_AddressId",
+                table: "Order",
+                column: "AddressId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Order_CustomerId",
@@ -262,27 +267,6 @@ namespace ERPNet.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Order_EmployeeId",
                 table: "Order",
-                column: "EmployeeId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Order_OrderAddressAddressId",
-                table: "Order",
-                column: "OrderAddressAddressId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Person_AddressId",
-                table: "Person",
-                column: "AddressId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Person_CustomerId",
-                table: "Person",
-                column: "CustomerId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Person_EmployeeId",
-                table: "Person",
                 column: "EmployeeId");
 
             migrationBuilder.CreateIndex(
@@ -317,9 +301,6 @@ namespace ERPNet.Migrations
                 name: "Movements");
 
             migrationBuilder.DropTable(
-                name: "Person");
-
-            migrationBuilder.DropTable(
                 name: "Storage");
 
             migrationBuilder.DropTable(
@@ -335,13 +316,16 @@ namespace ERPNet.Migrations
                 name: "Order");
 
             migrationBuilder.DropTable(
+                name: "Address");
+
+            migrationBuilder.DropTable(
                 name: "Customer");
 
             migrationBuilder.DropTable(
                 name: "Employee");
 
             migrationBuilder.DropTable(
-                name: "Address");
+                name: "Person");
         }
     }
 }

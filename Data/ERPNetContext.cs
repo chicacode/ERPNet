@@ -45,5 +45,5 @@ namespace ERPNet.Data
             //.HasForeignKey<Customer> ( c => c.PersonForeignKey );
 
         }
-     }
+    }
  }

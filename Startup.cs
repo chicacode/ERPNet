@@ -43,6 +43,7 @@ namespace ERPNet
 
             services.AddControllers ();
 
+            // configure dbContext with SQL server db
             services.AddDbContext<ERPNetContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString( "ERPNetContext" ) ));
         }
