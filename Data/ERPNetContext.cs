@@ -55,8 +55,7 @@ namespace ERPNet.Data
                    CategoryId = 2,
                    Name = "Merchandising"
                }
-           );
-
+            );
             modelBuilder.Entity<Person> ().HasData (
    
                 new Person
@@ -114,7 +113,6 @@ namespace ERPNet.Data
                          LastName = "Jefferson"
                     }
                 );
-
             modelBuilder.Entity<Employee> ().HasData (
                 new Employee
                 {
@@ -162,7 +160,6 @@ namespace ERPNet.Data
                       Password = "test"
                   }
                 );
-
             modelBuilder.Entity<Customer> ().HasData (
                  new Customer
                  {
@@ -185,7 +182,68 @@ namespace ERPNet.Data
                      PersonId = 9
                  }
              );
-
+             modelBuilder.Entity<Address> ().HasData (
+                new Address
+                {
+                    AddressId = 1,
+                    AddressNumber = 7676,
+                    AddressStreet = "8 street / 23"
+                },
+                new Address
+                {
+                    AddressId = 2,
+                    AddressNumber = 6376,
+                    AddressStreet = "Zona Franca"
+                }
+            );
+            modelBuilder.Entity<Warehouse> ().HasData (
+                new Warehouse
+                {
+                    WarehouseId = 1,
+                    Name = "New York C",
+                    AddressId = 1
+                },
+                new Warehouse
+                {
+                    WarehouseId = 2,
+                    Name = "Barcelona C",
+                    AddressId = 2
+                }
+            );
+            modelBuilder.Entity<Product> ().HasData (
+            new Product
+            {
+                ProductId = 1,
+                Name = "T-Shirts",
+                Description = "Shop high-quality unique T-Shirts designed and sold by artist. 100% cotton",
+                TotalQuantity = 2,
+                CategoryId = 1
+            },
+            new Product
+            {
+                ProductId = 2,
+                Name = "Hoodies",
+                Description = "Shop high-quality unique Hoodies designed and sold by artist. 100% cotton",
+                TotalQuantity = 2,
+                CategoryId = 1
+            },
+             new Product
+             {
+                 ProductId = 3,
+                 Name = "Mugs",
+                 Description = "Coffee, Tea Mugs",
+                 TotalQuantity = 12,
+                 CategoryId = 2
+             },
+              new Product
+              {
+                  ProductId = 4,
+                  Name = "Stickers",
+                  Description = "Code Stickers",
+                  TotalQuantity = 10,
+                  CategoryId = 2
+              }
+            );
         }
     }
  }

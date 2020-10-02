@@ -4,14 +4,16 @@ using ERPNet.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ERPNet.Migrations
 {
     [DbContext(typeof(ERPNetContext))]
-    partial class ERPNetContextModelSnapshot : ModelSnapshot
+    [Migration("20201002124205_addNewWareHouseData")]
+    partial class addNewWareHouseData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -397,40 +399,6 @@ namespace ERPNet.Migrations
                     b.HasIndex("OrderId");
 
                     b.ToTable("Product");
-
-                    b.HasData(
-                        new
-                        {
-                            ProductId = 1,
-                            CategoryId = 1,
-                            Description = "Shop high-quality unique T-Shirts designed and sold by artist. 100% cotton",
-                            Name = "T-Shirts",
-                            TotalQuantity = 2
-                        },
-                        new
-                        {
-                            ProductId = 2,
-                            CategoryId = 1,
-                            Description = "Shop high-quality unique Hoodies designed and sold by artist. 100% cotton",
-                            Name = "Hoodies",
-                            TotalQuantity = 2
-                        },
-                        new
-                        {
-                            ProductId = 3,
-                            CategoryId = 2,
-                            Description = "Coffee, Tea Mugs",
-                            Name = "Mugs",
-                            TotalQuantity = 12
-                        },
-                        new
-                        {
-                            ProductId = 4,
-                            CategoryId = 2,
-                            Description = "Code Stickers",
-                            Name = "Stickers",
-                            TotalQuantity = 10
-                        });
                 });
 
             modelBuilder.Entity("EmployeeWebMySQL.Models.Storage", b =>
