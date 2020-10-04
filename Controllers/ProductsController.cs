@@ -38,7 +38,11 @@ namespace ERPNet.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Product>> GetProduct(int id)
         {
-            var product = await _context.Product.FindAsync(id);
+            //var product = await _context.Product.FindAsync(id);
+
+            var product = await _context.Product
+                .Include ( p => p.Category )
+                .SingleOrDefaultAsync ( p => p.ProductId == id );
 
             if (product == null)
             {
@@ -86,10 +90,27 @@ namespace ERPNet.Controllers
         [HttpPost]
         public async Task<ActionResult<Product>> PostProduct(Product product)
         {
-            _context.Product.Add(product);
-            await _context.SaveChangesAsync();
+            //_context.Product.Add(product);
+            //await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetProduct", new { id = product.ProductId }, product);
+            //return CreatedAtAction("GetProduct", new { id = product.ProductId }, product);
+
+            var categoryId = _context.Category
+                .FirstOrDefault ( p => p.Name == product.Category.Name )
+                .CategoryId;
+
+            var newProduct = new Product
+            {
+                Name = product.Name,
+                Description = product.Description,
+                TotalQuantity = product.TotalQuantity,
+                CategoryId = categoryId
+            };
+            _context.Product.Add ( newProduct );
+            await _context.SaveChangesAsync ();
+
+            return CreatedAtAction ( "GetProduct", new { id = product.ProductId }, newProduct );
+
         }
 
         // DELETE: api/Products/5
