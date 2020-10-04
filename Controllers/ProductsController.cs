@@ -27,7 +27,11 @@ namespace ERPNet.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Product>>> GetProduct()
         {
-            return await _context.Product.ToListAsync();
+            //return await _context.Product.ToListAsync ();
+            // Adding Linq
+            return await _context.Product
+                .Include ( p => p.Category )
+                .ToListAsync ();
         }
 
         // GET: api/Products/5
