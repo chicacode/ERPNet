@@ -9,7 +9,6 @@ namespace EmployeeWebMySQL.Models
 {
     public class Category
     {
-  
         public int CategoryId { get; set; }
         [Required]
         [StringLength ( 50 )]

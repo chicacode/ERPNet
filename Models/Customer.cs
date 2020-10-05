@@ -16,6 +16,9 @@ namespace EmployeeWebMySQL.Models
 
         public virtual Person Person { get; set; }
 
+        //[JsonIgnore]
+        //public ICollection<Person> Persons { get; set; }
+
         [JsonIgnore]
         public ICollection<Order> Orders { get; set; }
     }
