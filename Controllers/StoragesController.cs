@@ -27,7 +27,12 @@ namespace ERPNet.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Storage>>> GetStorage()
         {
-            return await _context.Storage.ToListAsync();
+            return await _context.Storage
+                .Include( s => s.Product )
+                .Include ( s => s.Product.Category )
+                .Include ( s => s.Warehouse )
+                .Include( s => s.Warehouse.Address )
+                .ToListAsync();
         }
 
         // GET: api/Storages/5
