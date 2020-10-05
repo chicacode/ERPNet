@@ -38,9 +38,13 @@ namespace ERPNet.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Customer>> GetCustomer(int id)
         {
-            var customer = await _context.Customer.FindAsync(id);
+            //var customer = await _context.Customer.FindAsync(id);
 
-            if (customer == null)
+            var customer = await _context.Customer
+               .Include ( c => c.Person )
+               .SingleOrDefaultAsync ( c => c.PersonId == id );
+
+            if(customer == null)
             {
                 return NotFound();
             }
