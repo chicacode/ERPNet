@@ -25,5 +25,8 @@ namespace EmployeeWebMySQL.Models
 
         [JsonIgnore]
         public ICollection<Storage> Storages { get; set; }
+
+        [JsonIgnore]
+        public ICollection<Order> Orders { get; set; }
     }
 }

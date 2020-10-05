@@ -38,7 +38,7 @@ namespace EmployeeWebMySQL.Models
         public int ProductQuantity { get; set; }
 
         [JsonIgnore]
-        public ICollection<Product> Products { get; set; }
+        public virtual Product Product { get; set; }
 
     }
 }
