@@ -31,6 +31,7 @@ namespace ERPNet.Controllers
 
             return await _context.Customer
                .Include ( p => p.Person )
+               .Include( p => p.Orders)
                .ToListAsync ();
         }
 

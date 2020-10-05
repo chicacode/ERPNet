@@ -27,7 +27,7 @@ namespace ERPNet.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Order>>> GetOrder()
         {
-            return await _context.Order.ToListAsync();
+            return await _context.Order.ToListAsync ();
         }
 
         // GET: api/Orders/5

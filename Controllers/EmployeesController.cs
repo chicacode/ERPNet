@@ -29,6 +29,7 @@ namespace ERPNet.Controllers
         {
             return await _context.Employee
                  .Include ( p => p.Person )
+                 .Include ( p => p.Orders )
                  .ToListAsync();
         }
 
