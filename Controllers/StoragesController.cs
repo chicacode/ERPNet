@@ -92,7 +92,6 @@ namespace ERPNet.Controllers
 
             _context.Entry ( editStorage ).State = EntityState.Modified;
 
-
             try
             {
                 await _context.SaveChangesAsync();
@@ -118,10 +117,19 @@ namespace ERPNet.Controllers
         [HttpPost]
         public async Task<ActionResult<Storage>> PostStorage(Storage storage)
         {
-            _context.Storage.Add(storage);
-            await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetStorage", new { id = storage.StorageId }, storage);
+            var newStorage = new Storage
+            {
+                LastUpdate = storage.LastUpdate,
+                PartialQuantity = storage.PartialQuantity,
+                ProductId = storage.ProductId,
+                WarehouseId = storage.WarehouseId
+            };
+
+            _context.Storage.Add ( newStorage );
+            await _context.SaveChangesAsync ();
+
+            return CreatedAtAction("GetStorage", new { id = storage.StorageId }, newStorage );
         }
 
         // DELETE: api/Storages/5
