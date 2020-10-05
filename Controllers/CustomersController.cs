@@ -107,10 +107,29 @@ namespace ERPNet.Controllers
         [HttpPost]
         public async Task<ActionResult<Customer>> PostCustomer(Customer customer)
         {
-            _context.Customer.Add(customer);
-            await _context.SaveChangesAsync();
+            //_context.Customer.Add(customer);
+            //await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetCustomer", new { id = customer.CustomerId }, customer);
+            //return CreatedAtAction("GetCustomer", new { id = customer.CustomerId }, customer);
+
+            var person = new Person
+            {
+                Name = customer.Person.Name,
+                LastName = customer.Person.LastName
+            };
+
+            _context.Person.Add ( person );
+            await _context.SaveChangesAsync ();
+
+            var newCustomer = new Customer
+            {
+                PersonId = customer.PersonId
+            };
+
+            _context.Customer.Add ( newCustomer );
+            await _context.SaveChangesAsync ();
+            return CreatedAtAction ( "GetCustomer", new { id = customer.CustomerId }, newCustomer );
+
         }
 
         // DELETE: api/Customers/5
