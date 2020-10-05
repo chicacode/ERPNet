@@ -63,7 +63,24 @@ namespace ERPNet.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(customer).State = EntityState.Modified;
+            var editCustomer = await _context.Customer.FindAsync ( id );
+
+            if(editCustomer == null)
+            {
+                return NotFound ();
+            }
+
+            var person = await _context.Person.FindAsync ( editCustomer.PersonId );
+
+            if(person == null)
+            {
+                return NotFound ();
+            }
+
+            person.Name = customer.Person.Name;
+            person.LastName = customer.Person.LastName;
+
+            _context.Entry( person ).State = EntityState.Modified;
 
             try
             {
