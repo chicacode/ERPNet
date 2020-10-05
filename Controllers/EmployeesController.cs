@@ -27,14 +27,20 @@ namespace ERPNet.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Employee>>> GetEmployee()
         {
-            return await _context.Employee.ToListAsync();
+            return await _context.Employee
+                 .Include ( p => p.Person )
+                 .ToListAsync();
         }
 
         // GET: api/Employees/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Employee>> GetEmployee(int id)
         {
-            var employee = await _context.Employee.FindAsync(id);
+            //var employee = await _context.Employee.FindAsync(id);
+
+            var employee = await _context.Employee
+            .Include ( c => c.Person )
+            .SingleOrDefaultAsync ( c => c.PersonId == id );
 
             if (employee == null)
             {
@@ -55,7 +61,28 @@ namespace ERPNet.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(employee).State = EntityState.Modified;
+            var editEmployee = await _context.Employee.FindAsync ( id );
+
+            if(editEmployee == null)
+            {
+                return NotFound ();
+            }
+
+            var person = await _context.Person.FindAsync ( employee.PersonId );
+
+            if(person == null)
+            {
+                return NotFound ();
+            }
+            editEmployee.PositionJob = employee.PositionJob;
+            editEmployee.Salary = employee.Salary;
+            editEmployee.UserName = employee.UserName;
+            editEmployee.Password = employee.Password;
+
+            person.Name = employee.Person.Name;
+            person.Name = employee.Person.LastName;
+
+            _context.Entry ( person ).State = EntityState.Modified;
 
             try
             {
@@ -82,10 +109,29 @@ namespace ERPNet.Controllers
         [HttpPost]
         public async Task<ActionResult<Employee>> PostEmployee(Employee employee)
         {
-            _context.Employee.Add(employee);
+
+            var person = new Person
+            {
+                Name = employee.Person.Name,
+                LastName = employee.Person.LastName
+            };
+
+            _context.Person.Add ( person );
+            await _context.SaveChangesAsync ();
+
+            var newEmployee = new Employee
+            {
+                PersonId = employee.PersonId,
+                PositionJob = employee.PositionJob,
+                Salary = employee.Salary,
+                UserName = employee.UserName,
+                Password = employee.Password
+            };
+
+            _context.Employee.Add( newEmployee );
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetEmployee", new { id = employee.EmployeeId }, employee);
+            return CreatedAtAction("GetEmployee", new { id = employee.EmployeeId }, newEmployee );
         }
 
         // DELETE: api/Employees/5
