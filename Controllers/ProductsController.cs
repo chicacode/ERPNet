@@ -62,8 +62,24 @@ namespace ERPNet.Controllers
             {
                 return BadRequest();
             }
+            var editproduct = await _context.Product.FindAsync ( id );
 
-            _context.Entry(product).State = EntityState.Modified;
+            if(editproduct == null)
+            {
+                return NotFound ();
+            }
+            // edit each property
+            editproduct.Name = product.Name;
+            editproduct.Description = product.Description;
+            editproduct.TotalQuantity = product.TotalQuantity;
+
+            var categoryId = _context.Category
+                .FirstOrDefault ( p => p.Name == product.Category.Name )
+                .CategoryId;
+
+            editproduct.CategoryId = categoryId;
+
+            _context.Entry( editproduct ).State = EntityState.Modified;
 
             try
             {
