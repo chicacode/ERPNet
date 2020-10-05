@@ -39,7 +39,14 @@ namespace ERPNet.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Storage>> GetStorage(int id)
         {
-            var storage = await _context.Storage.FindAsync(id);
+            //var storage = await _context.Storage.FindAsync(id);
+
+            var storage = await _context.Storage
+              .Include ( s => s.Product )
+              .Include ( s => s.Product.Category )
+              .Include ( s => s.Warehouse )
+              .Include ( s => s.Warehouse.Address )
+              .SingleOrDefaultAsync ( s => s.StorageId == id );
 
             if (storage == null)
             {
@@ -60,7 +67,31 @@ namespace ERPNet.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(storage).State = EntityState.Modified;
+            var editStorage = await _context.Storage.FindAsync ( id );
+
+            if(editStorage == null)
+            {
+                return NotFound ();
+            }
+            // edit each property
+            editStorage.LastUpdate = storage.LastUpdate;
+            editStorage.PartialQuantity = storage.PartialQuantity;
+            editStorage.Product = storage.Product;
+            editStorage.Warehouse = storage.Warehouse;
+
+            var productId = _context.Product
+                .FirstOrDefault ( p => p.Name == storage.Product.Name)
+                .ProductId;
+
+            var warehouseId = _context.Warehouse
+               .FirstOrDefault ( w => w.Name == storage.Warehouse.Name )
+               .WarehouseId;
+
+            editStorage.ProductId = productId;
+            editStorage.WarehouseId = warehouseId;
+
+            _context.Entry ( editStorage ).State = EntityState.Modified;
+
 
             try
             {
