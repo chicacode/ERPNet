@@ -1,22 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using ERPNet.Models;
+using System;
 
 namespace EmployeeWebMySQL.Models
 {
-    public class Movements
+    public class Movements : IEntity
     {
-     
-        public int MovementsId { get; set; }
+        public int Id { get; set; }
         public DateTime InOutDate { get; set; }
         public int Quantity { get; set; }
         public bool IsInput { get; set; }
 
-
         public int StorageId { get; set; }
-        public virtual Storage Storage { get; set; }
+        public Storage Storage { get; set; }
+       
     }
 }

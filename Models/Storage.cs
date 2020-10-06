@@ -1,14 +1,13 @@
-﻿using System;
+﻿using ERPNet.Models;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
 namespace EmployeeWebMySQL.Models
 {
-    public class Storage
+    public class Storage : IEntity
     {
-        public int StorageId { get; set; }
+        public int Id { get; set; }
         public DateTime LastUpdate { get; set; }
         public int PartialQuantity { get; set; }
 
@@ -20,5 +19,6 @@ namespace EmployeeWebMySQL.Models
 
         [JsonIgnore]
         public ICollection<Movements> InputOutputs { get; set; }
+      
     }
 }

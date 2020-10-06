@@ -1,16 +1,14 @@
-﻿using System;
+﻿using ERPNet.Models;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
+
 
 namespace EmployeeWebMySQL.Models
 {
-    public class Warehouse
+    public class Warehouse : IEntity
     {
-        public int WarehouseId { get; set; }
-
+        public int Id { get; set; }
         [Required]
         [StringLength ( 100 )]
         public string Name { get; set; }
@@ -21,5 +19,6 @@ namespace EmployeeWebMySQL.Models
 
         [JsonIgnore]
         public ICollection<Storage> Storages { get; set; }
+      
     }
 }

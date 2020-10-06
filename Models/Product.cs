@@ -1,17 +1,15 @@
-﻿using System;
+﻿using ERPNet.Models;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
+
 
 namespace EmployeeWebMySQL.Models
 {
-    public class Product
+    public class Product : IEntity
     {
-        public int ProductId { get; set; }
-
+        public int Id { get; set; }
+   
         [Required]
         [StringLength ( 100 )]
         public string Name { get; set; }
@@ -28,5 +26,6 @@ namespace EmployeeWebMySQL.Models
 
         [JsonIgnore]
         public ICollection<Order> Orders { get; set; }
+      
     }
 }
