@@ -57,7 +57,7 @@ namespace ERPNet.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutEmployee(int id, Employee employee)
         {
-            if (id != employee.EmployeeId)
+            if (id != employee.Id)
             {
                 return BadRequest();
             }
@@ -132,7 +132,7 @@ namespace ERPNet.Controllers
             _context.Employee.Add( newEmployee );
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetEmployee", new { id = employee.EmployeeId }, newEmployee );
+            return CreatedAtAction("GetEmployee", new { id = employee.Id }, newEmployee );
         }
 
         // DELETE: api/Employees/5
@@ -153,7 +153,7 @@ namespace ERPNet.Controllers
 
         private bool EmployeeExists(int id)
         {
-            return _context.Employee.Any(e => e.EmployeeId == id);
+            return _context.Employee.Any(e => e.Id == id);
         }
     }
 }

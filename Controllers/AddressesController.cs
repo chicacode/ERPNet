@@ -50,7 +50,7 @@ namespace ERPNet.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutAddress(int id, Address address)
         {
-            if (id != address.AddressId)
+            if (id != address.Id)
             {
                 return BadRequest();
             }
@@ -85,7 +85,7 @@ namespace ERPNet.Controllers
             _context.Address.Add(address);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetAddress", new { id = address.AddressId }, address);
+            return CreatedAtAction("GetAddress", new { id = address.Id }, address);
         }
 
         // DELETE: api/Addresses/5
@@ -106,7 +106,7 @@ namespace ERPNet.Controllers
 
         private bool AddressExists(int id)
         {
-            return _context.Address.Any(e => e.AddressId == id);
+            return _context.Address.Any(e => e.Id == id);
         }
     }
 }
