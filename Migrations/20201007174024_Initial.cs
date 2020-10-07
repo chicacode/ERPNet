@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ERPNet.Migrations
 {
-    public partial class myNewFuCreation : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -120,11 +120,12 @@ namespace ERPNet.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    PersonId = table.Column<int>(nullable: false),
                     PositionJob = table.Column<string>(nullable: true),
                     Salary = table.Column<int>(nullable: false),
                     UserName = table.Column<string>(nullable: true),
                     Password = table.Column<string>(nullable: true),
-                    PersonId = table.Column<int>(nullable: false)
+                    isAdmin = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -254,6 +255,16 @@ namespace ERPNet.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
+
+            migrationBuilder.InsertData(
+                table: "Category",
+                columns: new[] { "Id", "Name" },
+                values: new object[] { 1, "Clothing" });
+
+            migrationBuilder.InsertData(
+                table: "Category",
+                columns: new[] { "Id", "Name" },
+                values: new object[] { 2, "Merchandising" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Customer_PersonId",

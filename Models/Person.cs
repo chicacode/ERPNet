@@ -19,6 +19,6 @@ namespace EmployeeWebMySQL.Models
 
         [JsonIgnore]
         public virtual Customer Customer { get; set; }
-       
+
     }
 }

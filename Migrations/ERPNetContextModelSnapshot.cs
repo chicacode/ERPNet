@@ -95,6 +95,18 @@ namespace ERPNet.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Category");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Clothing"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Merchandising"
+                        });
                 });
 
             modelBuilder.Entity("EmployeeWebMySQL.Models.Customer", b =>
@@ -136,6 +148,9 @@ namespace ERPNet.Migrations
 
                     b.Property<string>("UserName")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("isAdmin")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 

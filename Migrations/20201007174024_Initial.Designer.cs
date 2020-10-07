@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ERPNet.Migrations
 {
     [DbContext(typeof(ERPNetContext))]
-    [Migration("20201007154806_myNewFuCreation")]
-    partial class myNewFuCreation
+    [Migration("20201007174024_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -97,6 +97,18 @@ namespace ERPNet.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Category");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Clothing"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Merchandising"
+                        });
                 });
 
             modelBuilder.Entity("EmployeeWebMySQL.Models.Customer", b =>
@@ -138,6 +150,9 @@ namespace ERPNet.Migrations
 
                     b.Property<string>("UserName")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("isAdmin")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
