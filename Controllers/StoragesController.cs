@@ -46,7 +46,7 @@ namespace ERPNet.Controllers
               .Include ( s => s.Product.Category )
               .Include ( s => s.Warehouse )
               .Include ( s => s.Warehouse.Address )
-              .SingleOrDefaultAsync ( s => s.StorageId == id );
+              .SingleOrDefaultAsync ( s => s.Id == id );
 
             if (storage == null)
             {
@@ -62,7 +62,7 @@ namespace ERPNet.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutStorage(int id, Storage storage)
         {
-            if (id != storage.StorageId)
+            if (id != storage.Id)
             {
                 return BadRequest();
             }
@@ -81,11 +81,11 @@ namespace ERPNet.Controllers
 
             var productId = _context.Product
                 .FirstOrDefault ( p => p.Name == storage.Product.Name)
-                .ProductId;
+                .Id;
 
             var warehouseId = _context.Warehouse
                .FirstOrDefault ( w => w.Name == storage.Warehouse.Name )
-               .WarehouseId;
+               .Id;
 
             editStorage.ProductId = productId;
             editStorage.WarehouseId = warehouseId;
@@ -129,7 +129,7 @@ namespace ERPNet.Controllers
             _context.Storage.Add ( newStorage );
             await _context.SaveChangesAsync ();
 
-            return CreatedAtAction("GetStorage", new { id = storage.StorageId }, newStorage );
+            return CreatedAtAction("GetStorage", new { id = storage.Id }, newStorage );
         }
 
         // DELETE: api/Storages/5
@@ -150,7 +150,7 @@ namespace ERPNet.Controllers
 
         private bool StorageExists(int id)
         {
-            return _context.Storage.Any(e => e.StorageId == id);
+            return _context.Storage.Any(e => e.Id == id);
         }
     }
 }

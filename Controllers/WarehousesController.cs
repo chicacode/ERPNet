@@ -56,7 +56,7 @@ namespace ERPNet.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutWarehouse(int id, Warehouse warehouse)
         {
-            if (id != warehouse.WarehouseId)
+            if (id != warehouse.Id)
             {
                 return BadRequest();
             }
@@ -91,7 +91,7 @@ namespace ERPNet.Controllers
             _context.Warehouse.Add(warehouse);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetWarehouse", new { id = warehouse.WarehouseId }, warehouse);
+            return CreatedAtAction("GetWarehouse", new { id = warehouse.Id }, warehouse);
         }
 
         // DELETE: api/Warehouses/5
@@ -112,7 +112,7 @@ namespace ERPNet.Controllers
 
         private bool WarehouseExists(int id)
         {
-            return _context.Warehouse.Any(e => e.WarehouseId == id);
+            return _context.Warehouse.Any(e => e.Id == id);
         }
     }
 }

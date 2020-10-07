@@ -42,7 +42,7 @@ namespace ERPNet.Controllers
 
             var product = await _context.Product
                 .Include ( p => p.Category )
-                .SingleOrDefaultAsync ( p => p.ProductId == id );
+                .SingleOrDefaultAsync ( p => p.Id == id );
 
             if (product == null)
             {
@@ -58,7 +58,7 @@ namespace ERPNet.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutProduct(int id, Product product)
         {
-            if (id != product.ProductId)
+            if (id != product.Id)
             {
                 return BadRequest();
             }
@@ -75,7 +75,7 @@ namespace ERPNet.Controllers
 
             var categoryId = _context.Category
                 .FirstOrDefault ( p => p.Name == product.Category.Name )
-                .CategoryId;
+                .Id;
 
             editProduct.CategoryId = categoryId;
 
@@ -113,7 +113,7 @@ namespace ERPNet.Controllers
 
             var categoryId = _context.Category
                 .FirstOrDefault ( p => p.Name == product.Category.Name )
-                .CategoryId;
+                .Id;
 
             var newProduct = new Product
             {
@@ -125,7 +125,7 @@ namespace ERPNet.Controllers
             _context.Product.Add ( newProduct );
             await _context.SaveChangesAsync ();
 
-            return CreatedAtAction ( "GetProduct", new { id = product.ProductId }, newProduct );
+            return CreatedAtAction ( "GetProduct", new { id = product.Id }, newProduct );
 
         }
 
@@ -147,7 +147,7 @@ namespace ERPNet.Controllers
 
         private bool ProductExists(int id)
         {
-            return _context.Product.Any(e => e.ProductId == id);
+            return _context.Product.Any(e => e.Id == id);
         }
     }
 }

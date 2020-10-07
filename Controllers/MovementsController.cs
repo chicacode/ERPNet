@@ -50,7 +50,7 @@ namespace ERPNet.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutMovements(int id, Movements movements)
         {
-            if (id != movements.MovementsId)
+            if (id != movements.Id)
             {
                 return BadRequest();
             }
@@ -85,7 +85,7 @@ namespace ERPNet.Controllers
             _context.Movements.Add(movements);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetMovements", new { id = movements.MovementsId }, movements);
+            return CreatedAtAction("GetMovements", new { id = movements.Id }, movements);
         }
 
         // DELETE: api/Movements/5
@@ -106,7 +106,7 @@ namespace ERPNet.Controllers
 
         private bool MovementsExists(int id)
         {
-            return _context.Movements.Any(e => e.MovementsId == id);
+            return _context.Movements.Any(e => e.Id == id);
         }
     }
 }

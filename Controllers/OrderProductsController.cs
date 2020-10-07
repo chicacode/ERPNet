@@ -6,56 +6,54 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ERPNet.Data;
-using EmployeeWebMySQL.Models;
-using Microsoft.AspNetCore.Cors;
+using ERPNet.Models;
 
 namespace ERPNet.Controllers
 {
-    [EnableCors ( "AllowSpecificOrigin" )]
     [Route("api/[controller]")]
     [ApiController]
-    public class OrdersController : ControllerBase
+    public class OrderProductsController : ControllerBase
     {
         private readonly ERPNetContext _context;
 
-        public OrdersController(ERPNetContext context)
+        public OrderProductsController(ERPNetContext context)
         {
             _context = context;
         }
 
-        // GET: api/Orders
+        // GET: api/OrderProducts
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Order>>> GetOrder()
+        public async Task<ActionResult<IEnumerable<OrderProduct>>> GetOrderProduct()
         {
-            return await _context.Order.ToListAsync ();
+            return await _context.OrderProduct.ToListAsync();
         }
 
-        // GET: api/Orders/5
+        // GET: api/OrderProducts/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Order>> GetOrder(int id)
+        public async Task<ActionResult<OrderProduct>> GetOrderProduct(int id)
         {
-            var order = await _context.Order.FindAsync(id);
+            var orderProduct = await _context.OrderProduct.FindAsync(id);
 
-            if (order == null)
+            if (orderProduct == null)
             {
                 return NotFound();
             }
 
-            return order;
+            return orderProduct;
         }
 
-        // PUT: api/Orders/5
+        // PUT: api/OrderProducts/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutOrder(int id, Order order)
+        public async Task<IActionResult> PutOrderProduct(int id, OrderProduct orderProduct)
         {
-            if (id != order.Id)
+            if (id != orderProduct.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(order).State = EntityState.Modified;
+            _context.Entry(orderProduct).State = EntityState.Modified;
 
             try
             {
@@ -63,7 +61,7 @@ namespace ERPNet.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!OrderExists(id))
+                if (!OrderProductExists(id))
                 {
                     return NotFound();
                 }
@@ -76,37 +74,37 @@ namespace ERPNet.Controllers
             return NoContent();
         }
 
-        // POST: api/Orders
+        // POST: api/OrderProducts
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<Order>> PostOrder(Order order)
+        public async Task<ActionResult<OrderProduct>> PostOrderProduct(OrderProduct orderProduct)
         {
-            _context.Order.Add(order);
+            _context.OrderProduct.Add(orderProduct);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetOrder", new { id = order.Id }, order);
+            return CreatedAtAction("GetOrderProduct", new { id = orderProduct.Id }, orderProduct);
         }
 
-        // DELETE: api/Orders/5
+        // DELETE: api/OrderProducts/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Order>> DeleteOrder(int id)
+        public async Task<ActionResult<OrderProduct>> DeleteOrderProduct(int id)
         {
-            var order = await _context.Order.FindAsync(id);
-            if (order == null)
+            var orderProduct = await _context.OrderProduct.FindAsync(id);
+            if (orderProduct == null)
             {
                 return NotFound();
             }
 
-            _context.Order.Remove(order);
+            _context.OrderProduct.Remove(orderProduct);
             await _context.SaveChangesAsync();
 
-            return order;
+            return orderProduct;
         }
 
-        private bool OrderExists(int id)
+        private bool OrderProductExists(int id)
         {
-            return _context.Order.Any(e => e.Id == id);
+            return _context.OrderProduct.Any(e => e.Id == id);
         }
     }
 }

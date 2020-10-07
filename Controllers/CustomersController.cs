@@ -59,7 +59,7 @@ namespace ERPNet.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCustomer(int id, Customer customer)
         {
-            if (id != customer.CustomerId)
+            if (id != customer.Id)
             {
                 return BadRequest();
             }
@@ -129,7 +129,7 @@ namespace ERPNet.Controllers
 
             _context.Customer.Add ( newCustomer );
             await _context.SaveChangesAsync ();
-            return CreatedAtAction ( "GetCustomer", new { id = customer.CustomerId }, newCustomer );
+            return CreatedAtAction ( "GetCustomer", new { id = customer.Id }, newCustomer );
 
         }
 
@@ -151,7 +151,7 @@ namespace ERPNet.Controllers
 
         private bool CustomerExists(int id)
         {
-            return _context.Customer.Any(e => e.CustomerId == id);
+            return _context.Customer.Any(e => e.Id == id);
         }
     }
 }

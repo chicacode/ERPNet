@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using EmployeeWebMySQL.Models;
+using ERPNet.Models;
 
 namespace ERPNet.Data
 {
@@ -292,5 +293,8 @@ namespace ERPNet.Data
          //    }
          //);
         }
+
+
+        public DbSet<ERPNet.Models.OrderProduct> OrderProduct { get; set; }
     }
  }
