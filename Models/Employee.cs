@@ -8,11 +8,12 @@ namespace EmployeeWebMySQL.Models
     public class Employee : IEntity
     {
         public int Id { get; set; }
-        public int PersonId { get; set; }
         public string PositionJob { get; set; }
         public int Salary { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
+
+        public int PersonId { get; set; }
         public virtual Person Person { get; set; }
 
         [JsonIgnore]

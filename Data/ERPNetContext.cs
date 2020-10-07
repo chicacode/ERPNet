@@ -31,6 +31,8 @@ namespace ERPNet.Data
 
         public DbSet<Product> Product { get; set; }
 
+        public DbSet<OrderProduct> OrderProduct { get; set; }
+
         public DbSet<Storage> Storage { get; set; }
 
         public DbSet<Warehouse> Warehouse { get; set; }
@@ -294,7 +296,5 @@ namespace ERPNet.Data
          //);
         }
 
-
-        public DbSet<ERPNet.Models.OrderProduct> OrderProduct { get; set; }
     }
  }

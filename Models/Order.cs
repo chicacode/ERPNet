@@ -16,15 +16,15 @@ namespace EmployeeWebMySQL.Models
         public DateTime DoneByEmployeeOrder { get; set; }
         public DateTime OrderCompleted { get; set; }
 
-        public int AddressId { get; set; }
+        public int? AddressId { get; set; }
         [JsonIgnore]
         public virtual Address Address { get; set; }
 
-        public int CustomerId { get; set; }
+        public int? CustomerId { get; set; }
         [JsonIgnore]
         public virtual Customer Customer { get; set; }
 
-       public int EmployeeId { get; set; }
+       public int? EmployeeId { get; set; }
         [JsonIgnore]
         public virtual Employee Employee { get; set; }
 
