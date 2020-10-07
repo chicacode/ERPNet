@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 using EmployeeWebMySQL.Models.enums;
 using ERPNet.Models;
@@ -14,26 +15,20 @@ namespace EmployeeWebMySQL.Models
         public DateTime CreationOrder { get; set; }
         public DateTime DoneByEmployeeOrder { get; set; }
         public DateTime OrderCompleted { get; set; }
-        public double PriceItem { get; set; }
-        public double PriceItemIva { get; set; }
-        public double TotalPrice { get; set; }
 
-        //public int AddressId { get; set; }
+        public int AddressId { get; set; }
         [JsonIgnore]
-        public Address Address { get; set; }
+        public virtual Address Address { get; set; }
 
-        //public int CustomerId { get; set; }
+        public int CustomerId { get; set; }
         [JsonIgnore]
-        public Customer Customer { get; set; }
+        public virtual Customer Customer { get; set; }
 
-        //public int EmployeeId { get; set; }
+       public int EmployeeId { get; set; }
         [JsonIgnore]
-        public Employee Employee { get; set; }
-        public int ProductId { get; set; }
-        public int ProductQuantity { get; set; }
+        public virtual Employee Employee { get; set; }
 
-        [JsonIgnore]
-        public Product Product { get; set; }
-      
+        public List<OrderProduct> Products { get; set; }
+
     }
 }

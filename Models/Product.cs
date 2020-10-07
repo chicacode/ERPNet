@@ -18,14 +18,13 @@ namespace EmployeeWebMySQL.Models
         public string Description { get; set; }
         public int TotalQuantity { get; set; }
 
+        public double Price { get; set; }
+
         public int CategoryId { get; set; }
         public virtual Category Category { get; set; }
 
         [JsonIgnore]
         public ICollection<Storage> Storages { get; set; }
-
-        [JsonIgnore]
-        public ICollection<Order> Orders { get; set; }
       
     }
 }
