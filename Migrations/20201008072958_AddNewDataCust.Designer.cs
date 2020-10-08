@@ -4,14 +4,16 @@ using ERPNet.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ERPNet.Migrations
 {
     [DbContext(typeof(ERPNetContext))]
-    partial class ERPNetContextModelSnapshot : ModelSnapshot
+    [Migration("20201008072958_AddNewDataCust")]
+    partial class AddNewDataCust
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -78,20 +80,6 @@ namespace ERPNet.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Address");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            AddressNumber = 7676,
-                            AddressStreet = "8 street / 23"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            AddressNumber = 6376,
-                            AddressStreet = "Zona Franca"
-                        });
                 });
 
             modelBuilder.Entity("EmployeeWebMySQL.Models.Category", b =>

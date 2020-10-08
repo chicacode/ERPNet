@@ -60,149 +60,155 @@ namespace ERPNet.Data
                }
             );
 
-            //modelBuilder.Entity<Person> ().HasData (
+            modelBuilder.Entity<Person> ().HasData (
+                  new Person
+                  {
+                      Id = 1,
+                      Name = "Tony",
+                      LastName = "Stark"
 
-            //    new Person
-            //    {
-            //        Id = 2,
-            //        Name = "Steve",
-            //        LastName = "Rogers"
+                  },
+                new Person
+                {
+                    Id = 2,
+                    Name = "Steve",
+                    LastName = "Rogers"
 
-            //    },
-            //     new Person
-            //     {
-            //         Id = 3,
-            //         Name = "Bruce",
-            //         LastName = "Banner"
+                },
+                 new Person
+                 {
+                     Id = 3,
+                     Name = "Bruce",
+                     LastName = "Banner"
 
-            //     },
-            //      new Person
-            //      {
-            //          Id = 4,
-            //          Name = "Natacha",
-            //          LastName = "Romanoff"
+                 },
+                  new Person
+                  {
+                      Id = 4,
+                      Name = "Natacha",
+                      LastName = "Romanoff"
 
-            //      },
-            //       new Person
-            //       {
-            //           Id = 5,
-            //           Name = "Thor",
-            //           LastName = "Son of Odin"
-                   
-            //       },
-            //      new Person
-            //      {
-            //          Id = 6,
-            //          Name = "Olivia",
-            //          LastName = "Wilde"
+                  },
+                   new Person
+                   {
+                       Id = 5,
+                       Name = "Thor",
+                       LastName = "Son of Odin"
 
-            //      },
-            //       new Person
-            //       {
-            //           Id = 7,
-            //           Name = "Teresa",
-            //           LastName = "Carreño"
-            //       },
+                   },
+                  new Person
+                  {
+                      Id = 6,
+                      Name = "Olivia",
+                      LastName = "Wilde"
 
-            //       new Person
-            //       {
-            //           Id = 8,
-            //           Name = "Lujan",
-            //           LastName = "Singleton"
+                  },
+                   new Person
+                   {
+                       Id = 7,
+                       Name = "Teresa",
+                       LastName = "Carreño"
+                   },
 
-            //       },
-            //        new Person
-            //        {
-            //            Id = 9,
-            //            Name = "Thomas",
-            //            LastName = "Jefferson"
-            //        }
-            //    );
+                   new Person
+                   {
+                       Id = 8,
+                       Name = "Lujan",
+                       LastName = "Singleton"
 
-            //modelBuilder.Entity<Employee> ().HasData (
-            //    new Employee
-            //    {
-            //        Id = 1,
-            //        PositionJob = "Boss",
-            //        Salary = 300,
-            //        UserName = "Ironman",
-            //        Password = "test",
-            //        PersonId = 1
-            //    },
-            //   new Employee
-            //   {
-            //       Id = 2,
-            //       PositionJob = "Soldier",
-            //       Salary = 200,
-            //       UserName = "Capitan America",
-            //       Password = "test",
-            //       PersonId = 2
-            //   },
-            //    new Employee
-            //    {
-            //        Id = 3,
-            //        PositionJob = "BioTech",
-            //        Salary = 200,
-            //        UserName = "Hulk",
-            //        Password = "test",
-            //        PersonId = 3
-            //    },
-            //     new Employee
-            //     {
-            //         Id = 4,
-            //         PositionJob = "Secret Agent",
-            //         Salary = 200,
-            //         UserName = "Black Widow",
-            //         Password = "test",
-            //         PersonId = 4,
-            //     },
-            //      new Employee
-            //      {
-            //          Id = 5,
-            //          PositionJob = "God of Thunder",
-            //          Salary = 200,
-            //          UserName = "Thor",
-            //          Password = "test",
-            //          PersonId = 5
-            //      }
-            //    );
+                   },
+                    new Person
+                    {
+                        Id = 9,
+                        Name = "Thomas",
+                        LastName = "Jefferson"
+                    }
+                );
 
-            //   modelBuilder.Entity<Customer> ().HasData (
-            //        new Customer
-            //        {
-            //            Id = 1,
-            //            PersonId = 6
-            //        },
-            //        new Customer
-            //        {
-            //            Id = 2,
-            //            PersonId = 7
-            //        },
-            //         new Customer
-            //         {
-            //             Id = 3,
-            //             PersonId = 8
-            //         },
-            //        new Customer
-            //        {
-            //            Id = 4,
-            //            PersonId = 9
-            //        }
-            //    );
-            //   modelBuilder.Entity<Address> ().HasData (
-            //      new Address
-            //      {
-            //          Id = 1,
-            //          AddressNumber = 7676,
-            //          AddressStreet = "8 street / 23"
-            //      },
-            //      new Address
-            //      {
-            //          Id = 2,
-            //          AddressNumber = 6376,
-            //          AddressStreet = "Zona Franca"
-            //      }
-            //  );
+            modelBuilder.Entity<Employee> ().HasData (
+                new Employee
+                {
+                    Id = 1,
+                    PositionJob = "Boss",
+                    Salary = 300,
+                    UserName = "Ironman",
+                    Password = "test",
+                    PersonId = 1
+                },
+               new Employee
+               {
+                   Id = 2,
+                   PositionJob = "Soldier",
+                   Salary = 200,
+                   UserName = "Capitan America",
+                   Password = "test",
+                   PersonId = 2
+               },
+                new Employee
+                {
+                    Id = 3,
+                    PositionJob = "BioTech",
+                    Salary = 200,
+                    UserName = "Hulk",
+                    Password = "test",
+                    PersonId = 3
+                },
+                 new Employee
+                 {
+                     Id = 4,
+                     PositionJob = "Secret Agent",
+                     Salary = 200,
+                     UserName = "Black Widow",
+                     Password = "test",
+                     PersonId = 4,
+                 },
+                  new Employee
+                  {
+                      Id = 5,
+                      PositionJob = "God of Thunder",
+                      Salary = 200,
+                      UserName = "Thor",
+                      Password = "test",
+                      PersonId = 5
+                  }
+                );
+
+            modelBuilder.Entity<Customer> ().HasData (
+                 new Customer
+                 {
+                     Id = 1,
+                     PersonId = 6
+                 },
+                 new Customer
+                 {
+                     Id = 2,
+                     PersonId = 7
+                 },
+                  new Customer
+                  {
+                      Id = 3,
+                      PersonId = 8
+                  },
+                 new Customer
+                 {
+                     Id = 4,
+                     PersonId = 9
+                 }
+             );
+            modelBuilder.Entity<Address> ().HasData (
+               new Address
+               {
+                   Id = 1,
+                   AddressNumber = 7676,
+                   AddressStreet = "8 street / 23"
+               },
+               new Address
+               {
+                   Id = 2,
+                   AddressNumber = 6376,
+                   AddressStreet = "Zona Franca"
+               }
+           );
             //   modelBuilder.Entity<Warehouse> ().HasData (
             //       new Warehouse
             //       {
