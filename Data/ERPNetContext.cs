@@ -209,20 +209,20 @@ namespace ERPNet.Data
                    AddressStreet = "Zona Franca"
                }
            );
-            //   modelBuilder.Entity<Warehouse> ().HasData (
-            //       new Warehouse
-            //       {
-            //           Id = 1,
-            //           Name = "New York C",
-            //           AddressId = 1
-            //       },
-            //       new Warehouse
-            //       {
-            //           Id = 2,
-            //           Name = "Barcelona C",
-            //           AddressId = 2
-            //       }
-            //   );
+            modelBuilder.Entity<Warehouse> ().HasData (
+                new Warehouse
+                {
+                    Id = 1,
+                    Name = "New York C",
+                    AddressId = 1
+                },
+                new Warehouse
+                {
+                    Id = 2,
+                    Name = "Barcelona C",
+                    AddressId = 2
+                }
+            );
             //   modelBuilder.Entity<Product> ().HasData (
             //       new Product
             //       {
