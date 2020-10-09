@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
-using EmployeeWebMySQL.Models.enums;
-using ERPNet.Models;
+using ERPNet.Models.enums;
 
-namespace EmployeeWebMySQL.Models
+
+namespace ERPNet.Models
 {
     public class Order : IEntity
     {

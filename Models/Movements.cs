@@ -1,7 +1,7 @@
 ﻿using ERPNet.Models;
 using System;
 
-namespace EmployeeWebMySQL.Models
+namespace ERPNet.Models
 {
     public class Movements : IEntity
     {

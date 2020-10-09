@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
 
-namespace EmployeeWebMySQL.Models
+namespace ERPNet.Models
 {
     public class Employee : IEntity
     {

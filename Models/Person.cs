@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 
-namespace EmployeeWebMySQL.Models
+namespace ERPNet.Models
 {
     public class Person : IEntity
     {

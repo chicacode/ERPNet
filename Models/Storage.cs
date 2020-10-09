@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-namespace EmployeeWebMySQL.Models
+namespace ERPNet.Models
 {
     public class Storage : IEntity
     {
