@@ -37,7 +37,7 @@ namespace ERPNet.Controllers
         {
             var item = await _repository.Get ( id );
 
-            if(item== null)
+            if(item == null)
             {
                 return NotFound ();
             }
@@ -47,20 +47,35 @@ namespace ERPNet.Controllers
 
         // POST api/<GenericController>
         [HttpPost]
-        public void Post ( [FromBody] string value )
+        public async Task<ActionResult<TEntity>> Post ( TEntity entity )
         {
+            await _repository.Add ( entity );
+            return CreatedAtAction ( "Get", new { id = entity.Id }, entity );
         }
 
         // PUT api/<GenericController>/5
         [HttpPut ( "{id}" )]
-        public void Put ( int id, [FromBody] string value )
+        public async Task<ActionResult<TEntity>> Put ( int id, TEntity entity )
         {
+            if( id != entity.Id)
+            {
+                return BadRequest ();
+            }
+
+            await _repository.Update ( entity );
+            return NoContent ();
         }
 
         // DELETE api/<GenericController>/5
         [HttpDelete ( "{id}" )]
-        public void Delete ( int id )
+        public async Task<ActionResult<TEntity>> Delete ( int id )
         {
+            var item = await _repository.Delete ( id );
+            if( item == null)
+            {
+                return NotFound ();
+            }
+            return item;
         }
     }
 }
