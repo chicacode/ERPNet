@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ERPNet.Data;
-using EmployeeWebMySQL.Models;
+using ERPNet.Models;
 using Microsoft.AspNetCore.Cors;
 
 namespace ERPNet.Controllers
