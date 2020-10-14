@@ -15,7 +15,7 @@ namespace ERPNet.Data.Repositories
             _context = context;
         }
 
-        public async Task<List<Employee>> GetAllEmployee ( )
+        public async Task<List<Employee>> GetAllEmployees ( )
         {
             return await _context.Set<Employee> ()
                 .Include ( e => e.Person )
@@ -30,34 +30,6 @@ namespace ERPNet.Data.Repositories
 
         public async Task<Employee> AddByPerson ( Person employee )
         {
-
-            //_context.Set<Employee> ().Add ( employee );
-            //await _context.SaveChangesAsync ();
-            //return employee;
-
-            //Person person = new Person
-            //{
-            //    Name = employee.Person.Name,
-            //    LastName = employee.Person.LastName
-            //};
-
-            //_context.Person.Add ( person );
-            //await _context.SaveChangesAsync ();
-
-            //var newEmployee = new Employee
-            //{
-            //    PersonId = employee.PersonId,
-            //    PositionJob = employee.PositionJob,
-            //    Salary = employee.Salary,
-            //    UserName = employee.UserName,
-            //    Password = employee.Password
-            //};
-
-            //_context.Set<Employee> ().Add ( newEmployee );
-            //await _context.SaveChangesAsync ();
-
-            //return newEmployee;
-
             Person person = new Person ();
 
             person.Name = employee.Name;

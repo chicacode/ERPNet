@@ -18,22 +18,17 @@ namespace ERPNet.Controllers
     {
 
         private readonly EmployeeRepository _repository;
-        //public EmployeesController(ERPNetContext context)
-        //{
-        //    _context = context;
-        //}
 
         public EmployeesController ( EmployeeRepository repository ) : base(repository)
         {
             _repository = repository;
         }
 
-        //// GET: api/Employees
-       [HttpGet( "allpersons" )]
-        public async Task<ActionResult<IEnumerable<Employee>>> GetAllEmployee ( )
+        // GET: api/Employees
+       [HttpGet( "byperson" )]
+        public async Task<ActionResult<IEnumerable<Employee>>> GetAllEmployees ( )
         {
-            //return await _repository.Employee.ToListAsync ();
-            return await _repository.GetAllEmployee ();
+            return await _repository.GetAllEmployees ();
         }
 
         //GET: api/Employees/5
