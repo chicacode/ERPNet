@@ -1,5 +1,4 @@
 ﻿using ERPNet.Models;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,13 +22,19 @@ namespace ERPNet.Data.Repositories
 
         public async Task<List<Employee>> GetAllEmployees ( )
         {
-            return await _context.Set<Employee> ()
+            return await _context.Employee
                 .Include ( e => e.Person )
                 .ToListAsync ();
         }
+        public async Task<Employee> GetEmployee ( int id )
+        {
+            return await _context.Employee
+                .Include ( e => e.Person )
+                .SingleOrDefaultAsync ( e => e.Id == id );
+        }
         public async Task<Employee> GetByPerson ( int id )
         {
-            return await _context.Set<Employee> ()
+            return await _context.Employee
                 .Include( e => e.Person)
                 .SingleOrDefaultAsync ( e => e.PersonId == id );
         }

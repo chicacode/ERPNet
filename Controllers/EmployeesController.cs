@@ -23,10 +23,7 @@ namespace ERPNet.Controllers
         //private readonly PeopleRepository _peopleRepository;
 
 
-        public EmployeesController ( 
-            EmployeeRepository repository
-            //PeopleController peopleController,
-            // PeopleRepository peopleRepository
+        public EmployeesController ( EmployeeRepository repository /*, PeopleController peopleController, PeopleRepository peopleRepository*/
              ) : base(repository)
         {
             _repository = repository;
@@ -36,7 +33,7 @@ namespace ERPNet.Controllers
 
         // GET: api/Employees
        [HttpGet( "byperson" )]
-        public async Task<ActionResult<IEnumerable<Employee>>> GetAllEmployees ( )
+        public async Task<IEnumerable<Employee>> GetAllEmployees ( )
         {
             return await _repository.GetAllEmployees ();
         }
@@ -47,6 +44,10 @@ namespace ERPNet.Controllers
         {
             var employeebyPerson = await _repository.GetByPerson ( id );
 
+            if(employeebyPerson == null)
+            {
+                return NotFound ();
+            }
             return employeebyPerson;
         }
 
@@ -67,7 +68,7 @@ namespace ERPNet.Controllers
        
 
 
-            var employeeEdited = await _repository.Update ( employee );
+            var employeeEdited = await _repository.GetEmployee ( employee.Id );
 
             employeeEdited.PositionJob = employee.PositionJob;
             employeeEdited.Salary = employee.Salary;
