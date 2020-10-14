@@ -8,6 +8,7 @@ using ERPNet.Data;
 using ERPNet.Models;
 using Microsoft.AspNetCore.Cors;
 using ERPNet.Data.Repositories;
+using System.Net;
 
 namespace ERPNet.Controllers
 {
@@ -18,10 +19,19 @@ namespace ERPNet.Controllers
     {
 
         private readonly EmployeeRepository _repository;
+        //private readonly PeopleController _peopleController;
+        //private readonly PeopleRepository _peopleRepository;
 
-        public EmployeesController ( EmployeeRepository repository ) : base(repository)
+
+        public EmployeesController ( 
+            EmployeeRepository repository
+            //PeopleController peopleController,
+            // PeopleRepository peopleRepository
+             ) : base(repository)
         {
             _repository = repository;
+            //_peopleRepository = peopleRepository;
+            //_peopleController = peopleController;
         }
 
         // GET: api/Employees
@@ -43,55 +53,29 @@ namespace ERPNet.Controllers
         //// PUT: api/Employees/5
         //// To protect from overposting attacks, enable the specific properties you want to bind to, for
         //// more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        //[HttpPut("{id}")]
-        //public async Task<IActionResult> PutEmployee(int id, Employee employee)
-        //{
-        //    if (id != employee.Id)
-        //    {
-        //        return BadRequest();
-        //    }
+        [HttpPut ( "edit/{id}" )]
+        public async Task<IActionResult> EditEmployee (  Employee employee )
+        {
+            var personId = (await _repository.GetByPerson ( employee.PersonId )).Id;
+            //Person person = new Person
+            //{
+            //    Id = personId,
+            //    Name = employee.Person.Name,
+            //    LastName = employee.Person.LastName
+            //};
+            //var updatePerson = await _peopleController.PutPerson ( person );
+       
 
-        //    var editEmployee = await _context.Employee.FindAsync ( id );
 
-        //    if(editEmployee == null)
-        //    {
-        //        return NotFound ();
-        //    }
+            var employeeEdited = await _repository.Update ( employee );
 
-        //    var person = await _context.Person.FindAsync ( employee.PersonId );
+            employeeEdited.PositionJob = employee.PositionJob;
+            employeeEdited.Salary = employee.Salary;
+            employeeEdited.UserName = employee.UserName;
+            employeeEdited.Password = employee.Password;
 
-        //    if(person == null)
-        //    {
-        //        return NotFound ();
-        //    }
-        //    editEmployee.PositionJob = employee.PositionJob;
-        //    editEmployee.Salary = employee.Salary;
-        //    editEmployee.UserName = employee.UserName;
-        //    editEmployee.Password = employee.Password;
-
-        //    person.Name = employee.Person.Name;
-        //    person.Name = employee.Person.LastName;
-
-        //    _context.Entry ( person ).State = EntityState.Modified;
-
-        //    try
-        //    {
-        //        await _context.SaveChangesAsync();
-        //    }
-        //    catch (DbUpdateConcurrencyException)
-        //    {
-        //        if (!EmployeeExists(id))
-        //        {
-        //            return NotFound();
-        //        }
-        //        else
-        //        {
-        //            throw;
-        //        }
-        //    }
-
-        //    return NoContent();
-        //}
+            return (IActionResult)await _repository.Update ( employeeEdited );
+        }
 
         //// POST: api/Employees
         //// To protect from overposting attacks, enable the specific properties you want to bind to, for

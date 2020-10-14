@@ -39,10 +39,10 @@ namespace ERPNet.Data
         {
             base.OnModelCreating ( modelBuilder );
 
-            //modelBuilder.Entity<Customer> ()
+            //modelBuilder.Entity<Employee> ()
             //.HasOne ( a => a.Person )
-            //.WithOne ( b => b.Customer )
-            //.HasForeignKey<Customer> ( c => c.PersonForeignKey );
+            //.WithOne ( b => b.Employee );
+           
 
             modelBuilder.Entity<Category> ().HasData (
                new Category

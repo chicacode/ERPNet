@@ -10,9 +10,15 @@ namespace ERPNet.Data.Repositories
     public class EmployeeRepository : GenericRepository<Employee, ERPNetContext>
     {
         private readonly ERPNetContext _context;
-        public EmployeeRepository(ERPNetContext context ) : base(context)
+        private readonly PeopleRepository _peopleRepository;
+        public EmployeeRepository(
+
+            ERPNetContext context, 
+            PeopleRepository peopleRepository 
+            ) : base(context)
         {
             _context = context;
+            _peopleRepository = peopleRepository;
         }
 
         public async Task<List<Employee>> GetAllEmployees ( )
@@ -56,5 +62,15 @@ namespace ERPNet.Data.Repositories
 
             return newEmployee;
         }
+
+        public int GetEmployeeId ( int employeeId )
+        {
+            var personId = _peopleRepository.GetPerson ( employeeId );
+
+            return _context.Employee
+                    .FirstOrDefault ( x => x.PersonId == employeeId )
+                    .Id;
+        }
+
     }
 }

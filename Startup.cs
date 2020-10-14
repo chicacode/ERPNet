@@ -52,7 +52,7 @@ namespace ERPNet
 
             // scope
             services.AddScoped<EmployeeRepository> ();
-
+            services.AddScoped<PeopleRepository> ();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

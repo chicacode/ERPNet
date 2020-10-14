@@ -8,105 +8,109 @@ using Microsoft.EntityFrameworkCore;
 using ERPNet.Data;
 using ERPNet.Models;
 using Microsoft.AspNetCore.Cors;
+using ERPNet.Data.Repositories;
 
 namespace ERPNet.Controllers
 {
     [EnableCors ( "AllowSpecificOrigin" )]
     [Route("api/[controller]")]
     [ApiController]
-    public class PeopleController : ControllerBase
+    public class PeopleController : GenericController<Person, PeopleRepository>
     {
-        private readonly ERPNetContext _context;
+        private readonly PeopleRepository _repository;
 
-        public PeopleController(ERPNetContext context)
+        public PeopleController ( PeopleRepository repository ) : base(repository)
         {
-            _context = context;
+            _repository = repository;
         }
 
         // GET: api/People
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Person>>> GetPerson()
-        {
-            return await _context.Person.ToListAsync ();
-        }
+        //[HttpGet]
+        //public async Task<ActionResult<IEnumerable<Person>>> GetPerson()
+        //{
+        //    return await _repository.Person.ToListAsync ();
+        //}
 
         // GET: api/People/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Person>> GetPerson(int id)
-        {
-            var person = await _context.Person.FindAsync(id);
+        //[HttpGet("{id}")]
+        //public async Task<ActionResult<Person>> GetPerson(int id)
+        //{
+        //    var person = await _context.Person.FindAsync(id);
 
-            if (person == null)
-            {
-                return NotFound();
-            }
+        //    if (person == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return person;
-        }
+        //    return person;
+        //}
 
         // PUT: api/People/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutPerson(int id, Person person)
+        //[HttpPut("{id}")]
+        public async Task<IActionResult> PutPerson( Person personEd )
         {
-            if (id != person.Id)
-            {
-                return BadRequest();
-            }
 
-            _context.Entry(person).State = EntityState.Modified;
+            var person = await _repository.GetPerson ( personEd.Id );
+            person.Name = personEd.Name;
+            person.LastName = personEd.LastName;
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!PersonExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            var updatePerson = await _repository.Update ( person );
 
-            return NoContent();
+            return (IActionResult)updatePerson;
+            //_context.Entry(person).State = EntityState.Modified;
+
+            //try
+            //{
+            //    await _context.SaveChangesAsync();
+            //}
+            //catch (DbUpdateConcurrencyException)
+            //{
+            //    if (!PersonExists(id))
+            //    {
+            //        return NotFound();
+            //    }
+            //    else
+            //    {
+            //        throw;
+            //    }
+            //}
+
+            //return NoContent();
         }
 
         // POST: api/People
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPost]
-        public async Task<ActionResult<Person>> PostPerson(Person person)
-        {
-            _context.Person.Add(person);
-            await _context.SaveChangesAsync();
+        //[HttpPost]
+        //public async Task<ActionResult<Person>> PostPerson(Person person)
+        //{
+        //    _context.Person.Add(person);
+        //    await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetPerson", new { id = person.Id }, person);
-        }
+        //    return CreatedAtAction("GetPerson", new { id = person.Id }, person);
+        //}
 
         // DELETE: api/People/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<Person>> DeletePerson(int id)
-        {
-            var person = await _context.Person.FindAsync(id);
-            if (person == null)
-            {
-                return NotFound();
-            }
+        //[HttpDelete("{id}")]
+        //public async Task<ActionResult<Person>> DeletePerson(int id)
+        //{
+        //    var person = await _context.Person.FindAsync(id);
+        //    if (person == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            _context.Person.Remove(person);
-            await _context.SaveChangesAsync();
+        //    _context.Person.Remove(person);
+        //    await _context.SaveChangesAsync();
 
-            return person;
-        }
+        //    return person;
+        //}
 
-        private bool PersonExists(int id)
-        {
-            return _context.Person.Any(e => e.Id == id);
-        }
+        //private bool PersonExists(int id)
+        //{
+        //    return _context.Person.Any(e => e.Id == id);
+        //}
     }
 }
