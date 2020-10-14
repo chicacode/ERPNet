@@ -220,40 +220,40 @@ namespace ERPNet.Data
                     AddressId = 2
                 }
             );
-            //   modelBuilder.Entity<Product> ().HasData (
-            //       new Product
-            //       {
-            //           Id = 1,
-            //           Name = "T-Shirts",
-            //           Description = "Shop high-quality unique T-Shirts designed and sold by artist. 100% cotton",
-            //           TotalQuantity = 2,
-            //           CategoryId = 1
-            //       },
-            //       new Product
-            //       {
-            //           Id = 2,
-            //           Name = "Hoodies",
-            //           Description = "Shop high-quality unique Hoodies designed and sold by artist. 100% cotton",
-            //           TotalQuantity = 2,
-            //           CategoryId = 1
-            //       },
-            //        new Product
-            //        {
-            //            Id = 3,
-            //            Name = "Mugs",
-            //            Description = "Coffee, Tea Mugs",
-            //            TotalQuantity = 12,
-            //            CategoryId = 2
-            //        },
-            //         new Product
-            //         {
-            //             Id = 4,
-            //             Name = "Stickers",
-            //             Description = "Code Stickers",
-            //             TotalQuantity = 10,
-            //             CategoryId = 2
-            //         }
-            //   );
+            modelBuilder.Entity<Product> ().HasData (
+                new Product
+                {
+                    Id = 1,
+                    Name = "T-Shirts",
+                    Description = "Shop high-quality unique T-Shirts designed and sold by artist. 100% cotton",
+                    TotalQuantity = 2,
+                    CategoryId = 1
+                },
+                new Product
+                {
+                    Id = 2,
+                    Name = "Hoodies",
+                    Description = "Shop high-quality unique Hoodies designed and sold by artist. 100% cotton",
+                    TotalQuantity = 2,
+                    CategoryId = 1
+                },
+                 new Product
+                 {
+                     Id = 3,
+                     Name = "Mugs",
+                     Description = "Coffee, Tea Mugs",
+                     TotalQuantity = 12,
+                     CategoryId = 2
+                 },
+                  new Product
+                  {
+                      Id = 4,
+                      Name = "Stickers",
+                      Description = "Code Stickers",
+                      TotalQuantity = 10,
+                      CategoryId = 2
+                  }
+            );
             //   modelBuilder.Entity<Order> ().HasData (
             //       new Order
             //       {
@@ -272,7 +272,6 @@ namespace ERPNet.Data
             //            Id = 4,
             //            OrderNumber = "XXX909092",
             //            CustomerId = 1
-
             //        },
             //       new Order
             //       {

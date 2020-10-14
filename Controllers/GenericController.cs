@@ -24,6 +24,11 @@ namespace ERPNet.Controllers
             this._repository = repository;
         }
 
+        public TRepository getRepository ( )
+        {
+            return _repository;
+        }
+
         // GET: api/<GenericController>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TEntity>>> Get ( )

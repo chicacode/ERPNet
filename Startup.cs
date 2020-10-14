@@ -12,6 +12,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using ERPNet.Data;
+using ERPNet.Data.Repositories;
 
 namespace ERPNet
 {
@@ -48,6 +49,10 @@ namespace ERPNet
             // configure dbContext with SQL server db
             services.AddDbContext<ERPNetContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString( "ERPNetContext" ) ));
+
+            // scope
+            services.AddScoped<EmployeeRepository> ();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

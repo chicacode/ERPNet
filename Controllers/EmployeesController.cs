@@ -7,149 +7,127 @@ using Microsoft.EntityFrameworkCore;
 using ERPNet.Data;
 using ERPNet.Models;
 using Microsoft.AspNetCore.Cors;
+using ERPNet.Data.Repositories;
 
 namespace ERPNet.Controllers
 {
     [EnableCors ( "AllowSpecificOrigin" )]
     [Route("api/[controller]")]
     [ApiController]
-    public class EmployeesController : ControllerBase
+    public class EmployeesController : GenericController<Employee, EmployeeRepository>
     {
-        private readonly ERPNetContext _context;
 
-        public EmployeesController(ERPNetContext context)
+        private readonly EmployeeRepository _repository;
+        //public EmployeesController(ERPNetContext context)
+        //{
+        //    _context = context;
+        //}
+
+        public EmployeesController ( EmployeeRepository repository ) : base(repository)
         {
-            _context = context;
+            _repository = repository;
         }
 
-        // GET: api/Employees
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Employee>>> GetEmployee()
+        //// GET: api/Employees
+       [HttpGet( "allpersons" )]
+        public async Task<ActionResult<IEnumerable<Employee>>> GetAllEmployee ( )
         {
-            return await _context.Employee.ToListAsync();
+            //return await _repository.Employee.ToListAsync ();
+            return await _repository.GetAllEmployee ();
         }
 
-        // GET: api/Employees/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Employee>> GetEmployee(int id)
+        //GET: api/Employees/5
+        [HttpGet ( "person/{id}" )]
+        public async Task<ActionResult<Employee>> GetByPerson ( int id )
         {
-            //var employee = await _context.Employee.FindAsync(id);
+            var employeebyPerson = await _repository.GetByPerson ( id );
 
-            var employee = await _context.Employee
-            .Include ( c => c.Person )
-            .SingleOrDefaultAsync ( c => c.PersonId == id );
-
-            if (employee == null)
-            {
-                return NotFound();
-            }
-
-            return employee;
+            return employeebyPerson;
         }
 
-        // PUT: api/Employees/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutEmployee(int id, Employee employee)
+        //// PUT: api/Employees/5
+        //// To protect from overposting attacks, enable the specific properties you want to bind to, for
+        //// more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        //[HttpPut("{id}")]
+        //public async Task<IActionResult> PutEmployee(int id, Employee employee)
+        //{
+        //    if (id != employee.Id)
+        //    {
+        //        return BadRequest();
+        //    }
+
+        //    var editEmployee = await _context.Employee.FindAsync ( id );
+
+        //    if(editEmployee == null)
+        //    {
+        //        return NotFound ();
+        //    }
+
+        //    var person = await _context.Person.FindAsync ( employee.PersonId );
+
+        //    if(person == null)
+        //    {
+        //        return NotFound ();
+        //    }
+        //    editEmployee.PositionJob = employee.PositionJob;
+        //    editEmployee.Salary = employee.Salary;
+        //    editEmployee.UserName = employee.UserName;
+        //    editEmployee.Password = employee.Password;
+
+        //    person.Name = employee.Person.Name;
+        //    person.Name = employee.Person.LastName;
+
+        //    _context.Entry ( person ).State = EntityState.Modified;
+
+        //    try
+        //    {
+        //        await _context.SaveChangesAsync();
+        //    }
+        //    catch (DbUpdateConcurrencyException)
+        //    {
+        //        if (!EmployeeExists(id))
+        //        {
+        //            return NotFound();
+        //        }
+        //        else
+        //        {
+        //            throw;
+        //        }
+        //    }
+
+        //    return NoContent();
+        //}
+
+        //// POST: api/Employees
+        //// To protect from overposting attacks, enable the specific properties you want to bind to, for
+        //// more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        [HttpPost ( "person" )]
+        public async Task<ActionResult<Employee>> PostEmployee ( Person employee )
         {
-            if (id != employee.Id)
-            {
-                return BadRequest();
-            }
-
-            var editEmployee = await _context.Employee.FindAsync ( id );
-
-            if(editEmployee == null)
-            {
-                return NotFound ();
-            }
-
-            var person = await _context.Person.FindAsync ( employee.PersonId );
-
-            if(person == null)
-            {
-                return NotFound ();
-            }
-            editEmployee.PositionJob = employee.PositionJob;
-            editEmployee.Salary = employee.Salary;
-            editEmployee.UserName = employee.UserName;
-            editEmployee.Password = employee.Password;
-
-            person.Name = employee.Person.Name;
-            person.Name = employee.Person.LastName;
-
-            _context.Entry ( person ).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!EmployeeExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
+            var newEmployee = await _repository.AddByPerson ( employee );
+     
+            return CreatedAtAction ( "GetEmployee", new { id = employee.Id }, newEmployee );
         }
 
-        // POST: api/Employees
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPost]
-        public async Task<ActionResult<Employee>> PostEmployee(Employee employee)
-        {
+        //// DELETE: api/Employees/5
+        //[HttpDelete("{id}")]
+        //public async Task<ActionResult<Employee>> DeleteEmployee(int id)
+        //{
+        //    var employee = await _context.Employee.FindAsync(id);
+        //    if (employee == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var person = new Person
-            {
-                Name = employee.Person.Name,
-                LastName = employee.Person.LastName
-            };
+        //    _context.Employee.Remove(employee);
+        //    await _context.SaveChangesAsync();
 
-            _context.Person.Add ( person );
-            await _context.SaveChangesAsync ();
+        //    return employee;
+        //}
 
-            var newEmployee = new Employee
-            {
-                PersonId = employee.PersonId,
-                PositionJob = employee.PositionJob,
-                Salary = employee.Salary,
-                UserName = employee.UserName,
-                Password = employee.Password
-            };
-
-            _context.Employee.Add( newEmployee );
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetEmployee", new { id = employee.Id }, newEmployee );
-        }
-
-        // DELETE: api/Employees/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<Employee>> DeleteEmployee(int id)
-        {
-            var employee = await _context.Employee.FindAsync(id);
-            if (employee == null)
-            {
-                return NotFound();
-            }
-
-            _context.Employee.Remove(employee);
-            await _context.SaveChangesAsync();
-
-            return employee;
-        }
-
-        private bool EmployeeExists(int id)
-        {
-            return _context.Employee.Any(e => e.Id == id);
-        }
+        //private bool EmployeeExists(int id)
+        //{
+        //    return _context.Employee.Any(e => e.Id == id);
+        //}
     }
 }
