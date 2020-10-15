@@ -64,8 +64,8 @@ namespace ERPNet.Controllers
             //    Name = employee.Person.Name,
             //    LastName = employee.Person.LastName
             //};
-            //var updatePerson = await _peopleController.PutPerson ( person );
-       
+            //var updatePerson = await _peopleController.EditPerson ( person );
+
 
 
             var employeeEdited = await _repository.GetEmployee ( employee.Id );
@@ -79,35 +79,27 @@ namespace ERPNet.Controllers
         }
 
         //// POST: api/Employees
-        //// To protect from overposting attacks, enable the specific properties you want to bind to, for
-        //// more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost ( "person" )]
         public async Task<ActionResult<Employee>> PostEmployee ( Person employee )
         {
+            //TODO CON AUTH
             var newEmployee = await _repository.AddByPerson ( employee );
      
             return CreatedAtAction ( "GetEmployee", new { id = employee.Id }, newEmployee );
         }
 
         //// DELETE: api/Employees/5
-        //[HttpDelete("{id}")]
-        //public async Task<ActionResult<Employee>> DeleteEmployee(int id)
-        //{
-        //    var employee = await _context.Employee.FindAsync(id);
-        //    if (employee == null)
-        //    {
-        //        return NotFound();
-        //    }
+        [HttpDelete ( "{id}" )]
+        public async Task<ActionResult<Employee>> DeleteEmployee ( int id )
+        {
+            var employee = await _repository.Delete ( id );
+            if(employee == null)
+            {
+                return NotFound ();
+            }
 
-        //    _context.Employee.Remove(employee);
-        //    await _context.SaveChangesAsync();
+            return employee;
+        }
 
-        //    return employee;
-        //}
-
-        //private bool EmployeeExists(int id)
-        //{
-        //    return _context.Employee.Any(e => e.Id == id);
-        //}
     }
 }
