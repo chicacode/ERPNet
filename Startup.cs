@@ -56,6 +56,12 @@ namespace ERPNet
             services.AddScoped<AddressesRepository> ();
             services.AddScoped<CustomerRepository> ();
             services.AddScoped<CategoriesRepository> ();
+            services.AddScoped<MovementsRepository> ();
+            services.AddScoped<OrderRepository> ();
+            services.AddScoped<OrderProductRepository> ();
+            services.AddScoped<ProductRepository> ();
+            services.AddScoped<StoragesRepository> ();
+            services.AddScoped<WarehouseRepository> ();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
