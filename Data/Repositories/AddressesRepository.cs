@@ -16,13 +16,11 @@ namespace ERPNet.Data.Repositories
         {
             _context = context;
         }
-
         public async Task<Address> GetAddress (int id )
         {
             return await _context.Address
                 .SingleOrDefaultAsync ( a => a.Id == id );
         }
-
         public async Task<ActionResult<Address>> DeleteAddress ( [FromBody] int id )
         {
             var address = await _context.Address.FindAsync ( id );
