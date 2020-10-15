@@ -23,7 +23,8 @@ namespace ERPNet.Controllers
         //private readonly PeopleRepository _peopleRepository;
 
 
-        public EmployeesController ( EmployeeRepository repository /*, PeopleController peopleController, PeopleRepository peopleRepository*/
+        public EmployeesController ( EmployeeRepository repository 
+            /*, PeopleController peopleController, PeopleRepository peopleRepository*/
              ) : base(repository)
         {
             _repository = repository;

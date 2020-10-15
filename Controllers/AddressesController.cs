@@ -8,54 +8,46 @@ using Microsoft.EntityFrameworkCore;
 using ERPNet.Data;
 using ERPNet.Models;
 using Microsoft.AspNetCore.Cors;
+using ERPNet.Data.Repositories;
 
 namespace ERPNet.Controllers
 {
     [EnableCors ( "AllowSpecificOrigin" )]
     [Route("api/[controller]")]
     [ApiController]
-    public class AddressesController : ControllerBase
+    public class AddressesController : GenericController<Address, AddressesRepository>
     {
         private readonly ERPNetContext _context;
+        private readonly AddressesRepository _repository;
 
-        public AddressesController(ERPNetContext context)
+        public AddressesController( ERPNetContext context, AddressesRepository repository ): base(repository)
         {
             _context = context;
+            _repository = repository;
         }
 
-        // GET: api/Addresses
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Address>>> GetAddress()
-        {
-            return await _context.Address.ToListAsync();
-        }
-
-        // GET: api/Addresses/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Address>> GetAddress(int id)
-        {
-            var address = await _context.Address.FindAsync(id);
-
-            if (address == null)
-            {
-                return NotFound();
-            }
-
-            return address;
-        }
-
-        // PUT: api/Addresses/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutAddress(int id, Address address)
+        public async Task<IActionResult> EditAddress(int id, Address address)
         {
-            if (id != address.Id)
+
+            var addressEdited = await _repository.GetAddress ( address.Id );
+
+
+            addressEdited.Id = address.Id;
+            addressEdited.AddressNumber = address.AddressNumber;
+            addressEdited.AddressStreet = address.AddressStreet;
+            addressEdited.AddressContactName = address.AddressContactName;
+            addressEdited.AddressZipCode = address.AddressZipCode;
+            addressEdited.AddressCity = address.AddressCity;
+            addressEdited.AddressCountry = address.AddressCountry;
+
+
+            if(id != address.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(address).State = EntityState.Modified;
+           await _repository.Update ( addressEdited );
 
             try
             {
@@ -77,15 +69,23 @@ namespace ERPNet.Controllers
         }
 
         // POST: api/Addresses
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<Address>> PostAddress(Address address)
+        public async Task<ActionResult<Address>> PostAddress ( Address address )
         {
-            _context.Address.Add(address);
-            await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetAddress", new { id = address.Id }, address);
+            var newAddress = new Address
+            {
+                Id = address.Id,
+                AddressNumber = address.AddressNumber,
+                AddressStreet = address.AddressStreet,
+                AddressContactName = address.AddressContactName,
+                AddressZipCode = address.AddressZipCode,
+                AddressCity = address.AddressCity,
+                AddressCountry = address.AddressCountry
+
+            };
+
+           return await _repository.Add ( newAddress );
         }
 
         // DELETE: api/Addresses/5
