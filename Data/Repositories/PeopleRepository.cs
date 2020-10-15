@@ -19,7 +19,13 @@ namespace ERPNet.Data.Repositories
         {
             return await _context.Person
                 .SingleOrDefaultAsync ( p => p.Id == id );
-                
+        }
+
+        public async Task<Person> GetPersonName ( string name )
+        {
+            return await _context.Person
+               .SingleOrDefaultAsync ( p => p.Name == name );
+
         }
 
     }
