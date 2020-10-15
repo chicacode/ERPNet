@@ -88,7 +88,7 @@ namespace ERPNet.Controllers
             return CreatedAtAction ( "GetEmployee", new { id = employee.Id }, newEmployee );
         }
 
-        //// DELETE: api/Employees/5
+        // DELETE: api/Employees/5
         [HttpDelete ( "{id}" )]
         public async Task<ActionResult<Employee>> DeleteEmployee ( int id )
         {
