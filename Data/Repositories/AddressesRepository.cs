@@ -1,4 +1,5 @@
 ﻿using ERPNet.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,15 @@ namespace ERPNet.Data.Repositories
                 .SingleOrDefaultAsync ( a => a.Id == id );
         }
 
+        public async Task<ActionResult<Address>> DeleteAddress ( [FromBody] int id )
+        {
+            var address = await _context.Address.FindAsync ( id );
+  
+            _context.Address.Remove ( address );
+            await _context.SaveChangesAsync ();
+
+            return address;
+        }
 
     }
 }

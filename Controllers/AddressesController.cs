@@ -90,18 +90,9 @@ namespace ERPNet.Controllers
 
         // DELETE: api/Addresses/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Address>> DeleteAddress(int id)
+        public Task<ActionResult<Address>> DeleteAddress ( int id)
         {
-            var address = await _context.Address.FindAsync(id);
-            if (address == null)
-            {
-                return NotFound();
-            }
-
-            _context.Address.Remove(address);
-            await _context.SaveChangesAsync();
-
-            return address;
+            return _repository.DeleteAddress ( id );
         }
 
         private bool AddressExists(int id)
