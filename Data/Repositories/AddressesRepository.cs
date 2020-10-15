@@ -12,7 +12,7 @@ namespace ERPNet.Data.Repositories
     {
         private readonly ERPNetContext _context;
 
-        public AddressesRepository ( ERPNetContext context ) :base(context)
+        public AddressesRepository ( ERPNetContext context ) : base( context )
         {
             _context = context;
         }
