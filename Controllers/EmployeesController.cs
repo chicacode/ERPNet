@@ -22,7 +22,6 @@ namespace ERPNet.Controllers
         //private readonly PeopleController _peopleController;
         //private readonly PeopleRepository _peopleRepository;
 
-
         public EmployeesController ( EmployeeRepository repository 
             /*, PeopleController peopleController, PeopleRepository peopleRepository*/
              ) : base(repository)
@@ -53,7 +52,6 @@ namespace ERPNet.Controllers
         }
 
         //// PUT: api/Employees/5
-    
         [HttpPut ( "edit/{id}" )]
         public async Task<IActionResult> EditEmployee (  Employee employee )
         {
@@ -65,8 +63,6 @@ namespace ERPNet.Controllers
             //    LastName = employee.Person.LastName
             //};
             //var updatePerson = await _peopleController.EditPerson ( person );
-
-
 
             var employeeEdited = await _repository.GetEmployee ( employee.Id );
 
