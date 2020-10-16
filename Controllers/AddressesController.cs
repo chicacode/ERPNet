@@ -32,7 +32,6 @@ namespace ERPNet.Controllers
 
             var addressEdited = await _repository.GetAddress ( address.Id );
 
-
             addressEdited.Id = address.Id;
             addressEdited.AddressNumber = address.AddressNumber;
             addressEdited.AddressStreet = address.AddressStreet;
