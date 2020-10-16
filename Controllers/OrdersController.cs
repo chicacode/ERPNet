@@ -8,26 +8,29 @@ using Microsoft.EntityFrameworkCore;
 using ERPNet.Data;
 using ERPNet.Models;
 using Microsoft.AspNetCore.Cors;
+using ERPNet.Data.Repositories;
 
 namespace ERPNet.Controllers
 {
     [EnableCors ( "AllowSpecificOrigin" )]
     [Route("api/[controller]")]
     [ApiController]
-    public class OrdersController : ControllerBase
+    public class OrdersController : GenericController<Order, OrderRepository>
     {
-        private readonly ERPNetContext _context;
+        private readonly OrderRepository _repository;
 
-        public OrdersController(ERPNetContext context)
+        public OrdersController( OrderRepository repository ) : base ( repository )
         {
-            _context = context;
+            _repository = repository;
         }
 
         // GET: api/Orders
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Order>>> GetOrder()
+        public async Task<ActionResult<IEnumerable<Order>>> GetOrders()
         {
-            return await _context.Order.ToListAsync ();
+            var orders = await _repository.GetOrders ();
+
+            return orders;
         }
 
         // GET: api/Orders/5

@@ -1,4 +1,5 @@
 ﻿using ERPNet.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +10,47 @@ namespace ERPNet.Data.Repositories
     public class OrderRepository : GenericRepository<Order, ERPNetContext>
     {
         private readonly ERPNetContext _context;
-        public OrderRepository ( ERPNetContext context ) : base ( context )
+        private readonly EmployeeRepository _employeeRepository;
+        private readonly CustomerRepository _customerRepository;
+        private readonly OrderProductRepository _orderProductRepository;
+        public OrderRepository (
+            ERPNetContext context,
+            EmployeeRepository employeeRepository,
+            CustomerRepository customerRepository,
+            OrderProductRepository orderProductRepository
+            ) : base ( context )
         {
             _context = context;
+            _employeeRepository = employeeRepository;
+            _customerRepository = customerRepository;
+            _orderProductRepository = orderProductRepository;
+        }
+
+        public async Task<List<Order>> GetOrders ( )
+        {
+            return await _context.Order
+                .Include ( o => o.Customer )
+                .ThenInclude ( c => c.Person )
+                .Include ( o => o.Employee )
+                .ThenInclude ( e => e.Person )
+                .Include ( o => o.OrderState )
+                .Include ( o => o.OrderPriority )
+                .Include ( o => o.Products )
+                .ToListAsync ();
+        }
+
+        public async Task<List<Order>> GetOrdersByCustomer ( int customerId )
+        {
+            return await _context.Order
+                .Include ( o => o.Customer )
+                .ThenInclude ( c => c.Person )
+                .Include ( o => o.Employee )
+                .ThenInclude ( e => e.Person )
+                .Include ( o => o.OrderState )
+                .Include ( o => o.OrderPriority )
+                .Include ( o => o.Products )
+                .Where( o => o.CustomerId == customerId )
+                .ToListAsync ();
         }
 
     }
