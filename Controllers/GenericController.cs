@@ -21,7 +21,7 @@ namespace ERPNet.Controllers
 
         public GenericController ( TRepository repository )
         {
-            this._repository = repository;
+            _repository = repository;
         }
 
         public TRepository getRepository ( )

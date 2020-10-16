@@ -23,8 +23,8 @@ namespace ERPNet.Controllers
         }
 
         // GET: api/OrderProducts
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<OrderProduct>>> GetOrderProduct()
+        [HttpGet ( "ordersproducts" )]
+        public async Task<ActionResult<IEnumerable<OrderProduct>>> GetOrderProducts()
         {
             var orderProducts = await _repository.GetOrderProducts ();
 

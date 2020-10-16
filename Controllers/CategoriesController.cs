@@ -17,7 +17,6 @@ namespace ERPNet.Controllers
     [ApiController]
     public class CategoriesController : GenericController<Category, CategoriesRepository>
     {
-
         public CategoriesController( CategoriesRepository repository ) : base(repository)
         {
            

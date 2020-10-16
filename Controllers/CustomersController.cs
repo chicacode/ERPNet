@@ -18,22 +18,15 @@ namespace ERPNet.Controllers
     public class CustomersController : GenericController<Customer, CustomerRepository>
     {
         private readonly CustomerRepository _repository;
-        private readonly PeopleRepository _peopleRepository;
-        private readonly PeopleController _peopleController;
 
-        public CustomersController( 
-            CustomerRepository repository, 
-            PeopleRepository peopleRepository, 
-            PeopleController peopleController ) : base (repository)
+        public CustomersController( CustomerRepository repository ) : base (repository)
         {
             _repository = repository;
-            _peopleRepository = peopleRepository;
-            _peopleController = peopleController;
         }
 
         // GET: api/Customers
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Customer>>> GetCustomer()
+        [HttpGet ( "byperson" )]
+        public async Task<ActionResult<IEnumerable<Customer>>> GetCustomers()
         {
             var customer = await _repository.GetAllCustomers ();
 
@@ -41,7 +34,7 @@ namespace ERPNet.Controllers
         }
 
         // GET: api/Customers/5
-        [HttpGet("{id}")]
+        [HttpGet( "person/{id}" )]
         public async Task<ActionResult<Customer>> GetCustomer(int id)
         {
             var customer = await _repository.GetCustomer ( id );
@@ -55,53 +48,53 @@ namespace ERPNet.Controllers
         }
 
         // PUT: api/Customers/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutCustomer(int id, Customer customer)
-        {
-            var personId = (await _peopleRepository.GetPerson ( customer.Id )).Id;
+        //[HttpPut( "edit/{id}" )]
+        //public async Task<IActionResult> PutCustomer(int id, Customer customer)
+        //{
+        //    var personId = (await _peopleRepository.GetPerson ( customer.Id )).Id;
 
-            var person = new Person
-            {
-                Id = personId,
-                Name = customer.Person.Name,
-                LastName = customer.Person.LastName
-            };
+        //    var person = new Person
+        //    {
+        //        Id = personId,
+        //        Name = customer.Person.Name,
+        //        LastName = customer.Person.LastName
+        //    };
 
-            return await _peopleController.EditPerson ( person );
-        }
+        //    return await _peopleController.EditPerson ( person );
+        //}
 
         // POST: api/Customers
-        [HttpPost]
-        public async Task<ActionResult<Customer>> PostCustomer(Customer customer)
-        {
-           var person = (await _peopleRepository.GetPerson ( customer.Id ));
+        //[HttpPost ( "person" )]
+        //public async Task<ActionResult<Customer>> PostCustomer(Customer customer)
+        //{
+        //   var person = (await _peopleRepository.GetPerson ( customer.Id ));
 
-            if( person == null)
-            {
-                var personCustomer = new Person
-                {
-                    Name = customer.Person.Name,
-                    LastName = customer.Person.LastName
-                };
+        //    if( person == null)
+        //    {
+        //        var personCustomer = new Person
+        //        {
+        //            Name = customer.Person.Name,
+        //            LastName = customer.Person.LastName
+        //        };
 
-                await _peopleRepository.Add ( personCustomer );
-            }
-            else
-            {
-                person.Name = customer.Person.Name;
-                person.LastName = customer.Person.LastName;
+        //        await _peopleRepository.Add ( personCustomer );
+        //    }
+        //    else
+        //    {
+        //        person.Name = customer.Person.Name;
+        //        person.LastName = customer.Person.LastName;
 
-                await _peopleRepository.Update ( person );
+        //        await _peopleRepository.Update ( person );
 
-            }
-            //Fix latter
-            var newCustomer = new Customer
-            {
-                PersonId = (await _peopleRepository.GetPersonName ( customer.Person.Name )).Id
-            };
+        //    }
+        //    //Fix latter
+        //    var newCustomer = new Customer
+        //    {
+        //        PersonId = (await _peopleRepository.GetPersonName ( customer.Person.Name )).Id
+        //    };
 
-            return await _repository.Add ( newCustomer );
-        }
+        //    return await _repository.Add ( newCustomer );
+        //}
 
         // DELETE: api/Employees/5
         [HttpDelete ( "{id}" )]

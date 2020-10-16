@@ -28,6 +28,25 @@ namespace ERPNet
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices ( IServiceCollection services )
         {
+            // configure dbContext with SQL server db
+            services.AddDbContext<ERPNetContext> ( options =>
+                      options.UseSqlServer ( Configuration.GetConnectionString ( "ERPNetContext" ) ) );
+
+           
+            // scope
+            services.AddScoped<CustomerRepository> ();
+            services.AddScoped<PeopleRepository> ();
+            services.AddScoped<EmployeeRepository> ();
+            services.AddScoped<AddressesRepository> ();
+            services.AddScoped<CategoriesRepository> ();
+            services.AddScoped<MovementsRepository> ();
+            services.AddScoped<OrderRepository> ();
+            services.AddScoped<OrderProductRepository> ();
+            services.AddScoped<ProductRepository> ();
+            services.AddScoped<StoragesRepository> ();
+            services.AddScoped<WarehouseRepository> ();
+
+
             services.AddCors ( options =>
             {
                 options.AddPolicy ( "AllowSpecificOrigin",
@@ -45,23 +64,6 @@ namespace ERPNet
             services.AddControllers ();
 
             // ADD Login JSON Web Token
-
-            // configure dbContext with SQL server db
-            services.AddDbContext<ERPNetContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString( "ERPNetContext" ) ));
-
-            // scope
-            services.AddScoped<EmployeeRepository> ();
-            services.AddScoped<PeopleRepository> ();
-            services.AddScoped<AddressesRepository> ();
-            services.AddScoped<CustomerRepository> ();
-            services.AddScoped<CategoriesRepository> ();
-            services.AddScoped<MovementsRepository> ();
-            services.AddScoped<OrderRepository> ();
-            services.AddScoped<OrderProductRepository> ();
-            services.AddScoped<ProductRepository> ();
-            services.AddScoped<StoragesRepository> ();
-            services.AddScoped<WarehouseRepository> ();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

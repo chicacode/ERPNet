@@ -10,20 +10,10 @@ namespace ERPNet.Data.Repositories
     public class OrderRepository : GenericRepository<Order, ERPNetContext>
     {
         private readonly ERPNetContext _context;
-        private readonly EmployeeRepository _employeeRepository;
-        private readonly CustomerRepository _customerRepository;
-        private readonly OrderProductRepository _orderProductRepository;
-        public OrderRepository (
-            ERPNetContext context,
-            EmployeeRepository employeeRepository,
-            CustomerRepository customerRepository,
-            OrderProductRepository orderProductRepository
-            ) : base ( context )
+
+        public OrderRepository ( ERPNetContext context ) : base ( context )
         {
             _context = context;
-            _employeeRepository = employeeRepository;
-            _customerRepository = customerRepository;
-            _orderProductRepository = orderProductRepository;
         }
 
         public async Task<List<Order>> GetOrders ( )

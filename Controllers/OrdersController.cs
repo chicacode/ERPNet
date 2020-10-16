@@ -32,7 +32,7 @@ namespace ERPNet.Controllers
         }
 
         // GET: api/Orders
-        [HttpGet]
+        [HttpGet ( "orders" )]
         public async Task<ActionResult<IEnumerable<Order>>> GetOrders()
         {
             var orders = await _repository.GetOrders ();
@@ -59,7 +59,7 @@ namespace ERPNet.Controllers
         }
 
         // GET: api/Orders/5
-        [HttpGet ("{id}")]
+        [HttpGet ( "order/{id}" )]
         public async Task<ActionResult<Order>> GetOrder ( int id)
         {
             var order = await _repository.GetOrder(id);
@@ -73,7 +73,7 @@ namespace ERPNet.Controllers
         }
 
         // PUT: api/Orders/5
-        [HttpPut("{id}")]
+        [HttpPut( "order/{id}" )]
         public async Task<IActionResult> PutOrder(int id, Order order)
         {
             var orderEdited = await _repository.GetOrder ( id );

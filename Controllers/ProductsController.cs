@@ -29,14 +29,14 @@ namespace ERPNet.Controllers
         }
 
         // GET: api/Products
-        [HttpGet]
+        [HttpGet ( "products" )]
         public async Task<IEnumerable<Product>> GetProducts()
         {
             return await _repository.GetProducts ();
         }
 
         // GET: api/Products/5
-        [HttpGet("{id}")]
+        [HttpGet( "Product/{id}" )]
         public async Task<ActionResult<Product>> GetProduct(int id)
         {
 
@@ -51,7 +51,7 @@ namespace ERPNet.Controllers
         }
 
         // PUT: api/Products/5
-        [HttpPut("{id}")]
+        [HttpPut( "Product/{id}" )]
         public async Task<IActionResult> PutProduct(int id, Product product)
         {
             if (id != product.Id)
@@ -91,7 +91,7 @@ namespace ERPNet.Controllers
         }
 
         // DELETE: api/Products/5
-        [HttpDelete("{id}")]
+        [HttpDelete( "Product/{id}" )]
         public async Task<ActionResult<Product>> DeleteProduct(int id)
         {
             var product = await _repository.GetProduct ( id );

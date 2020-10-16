@@ -19,16 +19,14 @@ namespace ERPNet.Controllers
     {
 
         private readonly EmployeeRepository _repository;
-        //private readonly PeopleController _peopleController;
-        //private readonly PeopleRepository _peopleRepository;
-
-        public EmployeesController ( EmployeeRepository repository 
-            /*, PeopleController peopleController, PeopleRepository peopleRepository*/
+       
+        public EmployeesController ( 
+            EmployeeRepository repository
+    
              ) : base(repository)
         {
             _repository = repository;
-            //_peopleRepository = peopleRepository;
-            //_peopleController = peopleController;
+ 
         }
 
         // GET: api/Employees
@@ -56,12 +54,12 @@ namespace ERPNet.Controllers
         public async Task<IActionResult> EditEmployee (  Employee employee )
         {
             var personId = (await _repository.GetByPerson ( employee.PersonId )).Id;
-            //Person person = new Person
-            //{
-            //    Id = personId,
-            //    Name = employee.Person.Name,
-            //    LastName = employee.Person.LastName
-            //};
+            Person person = new Person
+            {
+                Id = personId,
+                Name = employee.Person.Name,
+                LastName = employee.Person.LastName
+            };
             //var updatePerson = await _peopleController.EditPerson ( person );
 
             var employeeEdited = await _repository.GetEmployee ( employee.Id );

@@ -33,21 +33,21 @@ namespace ERPNet.Controllers
         }
 
         // GET: api/Storages
-        [HttpGet]
+        [HttpGet ( "Storages" )]
         public async Task<IEnumerable<Storage>> GetStorage()
         {
             return await _repository.GetStorages ();
         }
 
         // GET: api/Storages/5
-        [HttpGet("{id}")]
+        [HttpGet( "Storage/{id}" )]
         public async Task<ActionResult<Storage>> GetStorage(int id)
         {
           return await _repository.GetStorage (id);
         }
 
         // PUT: api/Storages/5
-        [HttpPut("{id}")]
+        [HttpPut( "Storage/{id}" )]
         public async Task<IActionResult> PutStorage ( int id, Storage storage)
         {
 
