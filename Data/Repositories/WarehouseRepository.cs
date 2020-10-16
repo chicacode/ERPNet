@@ -1,4 +1,5 @@
 ﻿using ERPNet.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,5 +14,24 @@ namespace ERPNet.Data.Repositories
         {
             _context = context;
         }
+
+        public async Task<IEnumerable<Warehouse>> GetWareHouses ( )
+        {
+            var warehouse = await _context.Warehouse
+              .Include ( s => s.Address )
+              .ToListAsync ();
+
+            return warehouse;
+        }
+
+        public async Task<Warehouse> GetWarehouse ( int id )
+        {
+            var warehouse = await _context.Warehouse.FindAsync ( id );
+
+            return warehouse;
+        }
+
+
+
     }
 }

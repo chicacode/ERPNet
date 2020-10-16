@@ -25,10 +25,9 @@ namespace ERPNet.Controllers
 
         // GET: api/Warehouses
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Warehouse>>> GetWarehouse()
+        public async Task<ActionResult<IEnumerable<Warehouse>>> GetWarehouses()
         {
-            //return await _context.Warehouse.ToListAsync();
-
+         
             var warehouse = await _context.Warehouse
               .Include ( s => s.Address )
               .ToListAsync ();

@@ -39,7 +39,6 @@ namespace ERPNet.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Product>> GetProduct(int id)
         {
-         
 
             var product = await _repository.GetProduct (id);
               
@@ -80,8 +79,6 @@ namespace ERPNet.Controllers
         {
 
             var categoryId = _categoryRepository.getCategoryById ( product.Category.Name );
-     
-
             var newProduct = new Product
             {
                 Name = product.Name,
