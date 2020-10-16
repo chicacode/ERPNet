@@ -47,15 +47,12 @@ namespace ERPNet.Controllers
         }
 
         // PUT: api/Storages/5
-
         [HttpPut("{id}")]
         public async Task<IActionResult> PutStorage ( int id, Storage storage)
         {
 
             var editStorage = await _repository.GetStorage ( id );
 
-
-            // edit each property
             editStorage.LastUpdate = storage.LastUpdate;
             editStorage.PartialQuantity = storage.PartialQuantity;
             editStorage.Product = storage.Product;
@@ -73,11 +70,9 @@ namespace ERPNet.Controllers
         }
 
         // POST: api/Storages
-
         [HttpPost]
         public async Task<ActionResult<Storage>> PostStorage(Storage storage)
         {
-
             var newStorage = new Storage
             {
                 LastUpdate = storage.LastUpdate,

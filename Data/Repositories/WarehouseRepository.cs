@@ -15,13 +15,11 @@ namespace ERPNet.Data.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<Warehouse>> GetWareHouses ( )
+        public async Task<List<Warehouse>> GetWareHouses ( )
         {
-            var warehouse = await _context.Warehouse
+            return await _context.Warehouse
               .Include ( s => s.Address )
               .ToListAsync ();
-
-            return warehouse;
         }
 
         public async Task<Warehouse> GetWarehouse ( int id )

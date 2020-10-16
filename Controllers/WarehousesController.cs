@@ -8,38 +8,41 @@ using Microsoft.EntityFrameworkCore;
 using ERPNet.Data;
 using ERPNet.Models;
 using Microsoft.AspNetCore.Cors;
+using ERPNet.Data.Repositories;
 
 namespace ERPNet.Controllers
 {
     [EnableCors ( "AllowSpecificOrigin" )]
     [Route("api/[controller]")]
     [ApiController]
-    public class WarehousesController : ControllerBase
+    public class WarehousesController : GenericController<Warehouse, WarehouseRepository>
     {
-        private readonly ERPNetContext _context;
+        private readonly WarehouseRepository _repository;
+        private readonly AddressesRepository _addressRepository;
 
-        public WarehousesController(ERPNetContext context)
+        public WarehousesController(
+            WarehouseRepository repository,
+            AddressesRepository addressRepository
+            ) :base (repository)
         {
-            _context = context;
+            _repository = repository;
+            _addressRepository = addressRepository;
         }
 
         // GET: api/Warehouses
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Warehouse>>> GetWarehouses()
         {
-         
-            var warehouse = await _context.Warehouse
-              .Include ( s => s.Address )
-              .ToListAsync ();
+            var warehouses = await _repository.GetWareHouses ();
 
-            return warehouse;
+            return warehouses;
         }
 
         // GET: api/Warehouses/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Warehouse>> GetWarehouse(int id)
         {
-            var warehouse = await _context.Warehouse.FindAsync(id);
+            var warehouse = await _repository.GetWarehouse ( id);
 
             if (warehouse == null)
             {
@@ -50,68 +53,16 @@ namespace ERPNet.Controllers
         }
 
         // PUT: api/Warehouses/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutWarehouse(int id, Warehouse warehouse)
+        public async Task<ActionResult<Warehouse>> PutWarehouse(int id, Warehouse warehouse)
         {
-            if (id != warehouse.Id)
-            {
-                return BadRequest();
-            }
+            var wareEdited = await _repository.GetWarehouse ( id );
+            var addressId = (await _addressRepository.GetAddress ( warehouse.Id )).Id;
+            wareEdited.Name = warehouse.Name;
+            wareEdited.AddressId = addressId;
 
-            _context.Entry(warehouse).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!WarehouseExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
+            return await _repository.Update ( wareEdited );
         }
-
-        // POST: api/Warehouses
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPost]
-        public async Task<ActionResult<Warehouse>> PostWarehouse(Warehouse warehouse)
-        {
-            _context.Warehouse.Add(warehouse);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetWarehouse", new { id = warehouse.Id }, warehouse);
-        }
-
-        // DELETE: api/Warehouses/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<Warehouse>> DeleteWarehouse(int id)
-        {
-            var warehouse = await _context.Warehouse.FindAsync(id);
-            if (warehouse == null)
-            {
-                return NotFound();
-            }
-
-            _context.Warehouse.Remove(warehouse);
-            await _context.SaveChangesAsync();
-
-            return warehouse;
-        }
-
-        private bool WarehouseExists(int id)
-        {
-            return _context.Warehouse.Any(e => e.Id == id);
-        }
+       
     }
 }
