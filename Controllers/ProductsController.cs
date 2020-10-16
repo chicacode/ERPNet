@@ -8,42 +8,41 @@ using Microsoft.EntityFrameworkCore;
 using ERPNet.Data;
 using ERPNet.Models;
 using Microsoft.AspNetCore.Cors;
+using ERPNet.Data.Repositories;
 
 namespace ERPNet.Controllers
 {
     [EnableCors ( "AllowSpecificOrigin" )]
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductsController : ControllerBase
+    public class ProductsController : GenericController<Product, ProductRepository>
     {
-        private readonly ERPNetContext _context;
-
-        public ProductsController(ERPNetContext context)
+        private readonly ProductRepository _repository;
+        private readonly CategoriesRepository _categoryRepository;
+        public ProductsController(
+            ProductRepository repository,
+            CategoriesRepository categoryRepository
+            ) : base (repository)
         {
-            _context = context;
+            _repository = repository;
+            _categoryRepository = categoryRepository;
         }
 
         // GET: api/Products
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Product>>> GetProduct()
+        public async Task<IEnumerable<Product>> GetProducts()
         {
-            //return await _context.Product.ToListAsync ();
-            // Adding Linq
-            return await _context.Product
-                .Include ( p => p.Category )
-                .ToListAsync ();
+            return await _repository.GetProducts ();
         }
 
         // GET: api/Products/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Product>> GetProduct(int id)
         {
-            //var product = await _context.Product.FindAsync(id);
+         
 
-            var product = await _context.Product
-                .Include ( p => p.Category )
-                .SingleOrDefaultAsync ( p => p.Id == id );
-
+            var product = await _repository.GetProduct (id);
+              
             if (product == null)
             {
                 return NotFound();
@@ -53,8 +52,6 @@ namespace ERPNet.Controllers
         }
 
         // PUT: api/Products/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
         public async Task<IActionResult> PutProduct(int id, Product product)
         {
@@ -62,58 +59,28 @@ namespace ERPNet.Controllers
             {
                 return BadRequest();
             }
-            var editProduct = await _context.Product.FindAsync ( id );
+            var editProduct = await _repository.GetProduct ( product.Id);
 
-            if(editProduct == null)
-            {
-                return NotFound ();
-            }
             // edit each property
             editProduct.Name = product.Name;
             editProduct.Description = product.Description;
             editProduct.TotalQuantity = product.TotalQuantity;
 
-            var categoryId = _context.Category
-                .FirstOrDefault ( p => p.Name == product.Category.Name )
-                .Id;
+            var categoryId = _categoryRepository.getCategoryById ( product.Category.Name );
 
             editProduct.CategoryId = categoryId;
 
-            _context.Entry( editProduct ).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ProductExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
+            return (IActionResult)await _repository.Update ( editProduct );
         }
 
         // POST: api/Products
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+
         [HttpPost]
         public async Task<ActionResult<Product>> PostProduct(Product product)
         {
-            //_context.Product.Add(product);
-            //await _context.SaveChangesAsync();
 
-            //return CreatedAtAction("GetProduct", new { id = product.ProductId }, product);
-
-            var categoryId = _context.Category
-                .FirstOrDefault ( p => p.Name == product.Category.Name )
-                .Id;
+            var categoryId = _categoryRepository.getCategoryById ( product.Category.Name );
+     
 
             var newProduct = new Product
             {
@@ -122,32 +89,23 @@ namespace ERPNet.Controllers
                 TotalQuantity = product.TotalQuantity,
                 CategoryId = categoryId
             };
-            _context.Product.Add ( newProduct );
-            await _context.SaveChangesAsync ();
 
-            return CreatedAtAction ( "GetProduct", new { id = product.Id }, newProduct );
-
+           return await _repository.Add ( newProduct );
         }
 
         // DELETE: api/Products/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<Product>> DeleteProduct(int id)
         {
-            var product = await _context.Product.FindAsync(id);
+            var product = await _repository.GetProduct ( id );
             if (product == null)
             {
                 return NotFound();
             }
 
-            _context.Product.Remove(product);
-            await _context.SaveChangesAsync();
+            return await _repository.Delete ( product.Id );
 
-            return product;
         }
 
-        private bool ProductExists(int id)
-        {
-            return _context.Product.Any(e => e.Id == id);
-        }
     }
 }
