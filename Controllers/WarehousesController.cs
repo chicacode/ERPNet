@@ -30,7 +30,7 @@ namespace ERPNet.Controllers
         }
 
         // GET: api/Warehouses
-        [HttpGet]
+        [HttpGet ( "Warehouses" )]
         public async Task<ActionResult<IEnumerable<Warehouse>>> GetWarehouses()
         {
             var warehouses = await _repository.GetWareHouses ();
@@ -39,7 +39,7 @@ namespace ERPNet.Controllers
         }
 
         // GET: api/Warehouses/5
-        [HttpGet("{id}")]
+        [HttpGet( "Warehouses/{id}" )]
         public async Task<ActionResult<Warehouse>> GetWarehouse(int id)
         {
             var warehouse = await _repository.GetWarehouse ( id);
@@ -53,7 +53,7 @@ namespace ERPNet.Controllers
         }
 
         // PUT: api/Warehouses/5
-        [HttpPut("{id}")]
+        [HttpPut( "Warehouses/{id}" )]
         public async Task<ActionResult<Warehouse>> PutWarehouse(int id, Warehouse warehouse)
         {
             var wareEdited = await _repository.GetWarehouse ( id );
