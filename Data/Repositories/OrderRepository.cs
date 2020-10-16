@@ -53,5 +53,18 @@ namespace ERPNet.Data.Repositories
                 .ToListAsync ();
         }
 
+        public async Task<Order> GetOrder ( int id)
+        {
+            return await _context.Order
+                .Include ( o => o.Customer )
+                .ThenInclude ( c => c.Person )
+                .Include ( o => o.Employee )
+                .ThenInclude ( e => e.Person )
+                .Include ( o => o.OrderState )
+                .Include ( o => o.OrderPriority )
+                .Include ( o => o.Products )
+                .SingleOrDefaultAsync ( o => o.Id == id );
+        }
+
     }
 }

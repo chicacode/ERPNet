@@ -18,10 +18,17 @@ namespace ERPNet.Controllers
     public class OrdersController : GenericController<Order, OrderRepository>
     {
         private readonly OrderRepository _repository;
-
-        public OrdersController( OrderRepository repository ) : base ( repository )
+        private readonly CustomerRepository _customerRepository;
+        private readonly EmployeeRepository _employeeRepository;
+        public OrdersController( 
+            OrderRepository repository,
+            CustomerRepository customerRepository,
+            EmployeeRepository employeeRepository
+            ) : base ( repository )
         {
             _repository = repository;
+            _customerRepository = customerRepository;
+            _employeeRepository = employeeRepository;
         }
 
         // GET: api/Orders
@@ -32,12 +39,20 @@ namespace ERPNet.Controllers
 
             return orders;
         }
+        [Route("customer")]
+        [HttpGet]
+        public async Task<IEnumerable<Order>> GetOrdersBycustomer ( int customerId)
+        {
+            var orders = await _repository.GetOrdersByCustomer ( customerId );
+
+            return orders;
+        }
 
         // GET: api/Orders/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Order>> GetOrder(int id)
+        [HttpGet ("{id}")]
+        public async Task<ActionResult<Order>> GetOrder ( int id)
         {
-            var order = await _context.Order.FindAsync(id);
+            var order = await _repository.GetOrder(id);
 
             if (order == null)
             {
@@ -53,63 +68,33 @@ namespace ERPNet.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutOrder(int id, Order order)
         {
-            if (id != order.Id)
-            {
-                return BadRequest();
-            }
+            var orderEdited = await _repository.GetOrder ( id );
 
-            _context.Entry(order).State = EntityState.Modified;
+            orderEdited.OrderNumber = order.OrderNumber;
+            orderEdited.OrderPriority = order.OrderPriority;
+            orderEdited.OrderState = order.OrderState;
+            orderEdited.CustomerId = _customerRepository.GetCustomerByPersonId ( order.Customer.Person.Id);
+            orderEdited.EmployeeId = _employeeRepository.GetEmployeeId ( order.Employee.Person.Id );
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!OrderExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
+            return (IActionResult)await _repository.Update ( orderEdited );
         }
 
         // POST: api/Orders
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<Order>> PostOrder(Order order)
+        public async Task<ActionResult<Order>> PostOrder ( Order order )
         {
-            _context.Order.Add(order);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetOrder", new { id = order.Id }, order);
-        }
-
-        // DELETE: api/Orders/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<Order>> DeleteOrder(int id)
-        {
-            var order = await _context.Order.FindAsync(id);
-            if (order == null)
+            var orderNew = new Order
             {
-                return NotFound();
-            }
+                OrderNumber = order.OrderNumber,
+                OrderPriority = order.OrderPriority,
+                OrderState = order.OrderState,
+                CreationOrder = DateTime.Now,
+                DoneByEmployeeOrder = DateTime.Now,
+                CustomerId = _customerRepository.GetCustomerByPersonId ( order.Customer.Person.Id ),
+                EmployeeId = _employeeRepository.GetEmployeeId ( order.Employee.Person.Id )
+            };
 
-            _context.Order.Remove(order);
-            await _context.SaveChangesAsync();
-
-            return order;
-        }
-
-        private bool OrderExists(int id)
-        {
-            return _context.Order.Any(e => e.Id == id);
+            return await _repository.Add ( orderNew );
         }
     }
 }
