@@ -52,7 +52,20 @@ namespace ERPNet.Data.Repositories
                 .Where( o => o.CustomerId == customerId )
                 .ToListAsync ();
         }
-
+     
+        public async Task<List<Order>> GetOrdersByEmployee ( int employeeId )
+        {
+            return await _context.Order
+                .Include ( o => o.Customer )
+                .ThenInclude ( c => c.Person )
+                .Include ( o => o.Employee )
+                .ThenInclude ( e => e.Person )
+                .Include ( o => o.OrderState )
+                .Include ( o => o.OrderPriority )
+                .Include ( o => o.Products )
+                .Where ( o => o.EmployeeId == employeeId )
+                .ToListAsync ();
+        }
         public async Task<Order> GetOrder ( int id)
         {
             return await _context.Order

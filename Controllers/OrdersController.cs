@@ -39,11 +39,21 @@ namespace ERPNet.Controllers
 
             return orders;
         }
+
         [Route("customer")]
         [HttpGet]
-        public async Task<IEnumerable<Order>> GetOrdersBycustomer ( int customerId)
+        public async Task<IEnumerable<Order>> GetOrdersByCustomer ( int customerId)
         {
             var orders = await _repository.GetOrdersByCustomer ( customerId );
+
+            return orders;
+        }
+
+        [Route ( "employee" )]
+        [HttpGet]
+        public async Task<IEnumerable<Order>> GetOrdersByEmployee ( int employeeId )
+        {
+            var orders = await _repository.GetOrdersByEmployee ( employeeId );
 
             return orders;
         }
