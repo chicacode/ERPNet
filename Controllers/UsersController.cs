@@ -55,8 +55,9 @@ namespace ERPNet.Controllers
             {
                 Subject = new ClaimsIdentity ( new Claim[]
                 {
-                    new Claim(ClaimTypes.Name, user.Id.ToString())
-                }),
+                    new Claim(ClaimTypes.Name, user.Id.ToString()),
+                    new Claim(ClaimTypes.Role, user.Role)
+                } ),
                 Expires = DateTime.UtcNow.AddDays(3),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
@@ -80,7 +81,8 @@ namespace ERPNet.Controllers
         public IActionResult GetAll ( )
         {
             var users = _userService.GetAll ();
-            return Ok ( users );
+            var model = _mapper.Map<IList<UserModel>> ( users );
+            return Ok ( model );
         }
 
         [HttpGet ( "{id}" )]
@@ -92,11 +94,9 @@ namespace ERPNet.Controllers
                 return Forbid ();
 
             var user = _userService.GetById ( id );
+            var model = _mapper.Map<UserModel> ( user );
+            return Ok ( model );
 
-            if(user == null)
-                return NotFound ();
-
-            return Ok ( user );
         }
 
 

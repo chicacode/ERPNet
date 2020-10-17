@@ -40,6 +40,16 @@ namespace ERPNet.Services
             return user;
         }
 
+        public IEnumerable<User> GetAll ( )
+        {
+            return _context.Users;
+        }
+
+        public User GetById ( int id )
+        {
+            return _context.Users.Find ( id );
+        }
+
         public User Create ( User user, string password )
         {
             // validation
@@ -55,15 +65,6 @@ namespace ERPNet.Services
             return user;
         }
 
-        public IEnumerable<User> GetAll ( )
-        {
-            return _context.Users;
-        }
-
-       public User GetById ( int id )
-        {
-            return _context.Users.Find ( id );
-        }
 
        public void Update ( User userParam, string password = null )
         {

@@ -1,10 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "jMG84QDHzeiOcR8eZZ90rp1kF8wwpUbF7P/d+dsvaoJMPfXRyllDu+gfVzwec935IGZlOBfl3Rc5VQYln1tZQA==",
+  "dgSpecHash": "EN7m5fJ4xKEeS6GfifW3tmrluMZWpYrC8B55c1S+zSgTRtDge/4LLyz6ISt4WoaP+RLjAMRYA4onTe6SoN33bQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\Moi\\source\\repos\\ERPNet\\ERPNet.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Moi\\.nuget\\packages\\automapper\\10.1.1\\automapper.10.1.1.nupkg.sha512",
+    "C:\\Users\\Moi\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\8.1.0\\automapper.extensions.microsoft.dependencyinjection.8.1.0.nupkg.sha512",
     "C:\\Users\\Moi\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\3.1.9\\microsoft.aspnetcore.authentication.jwtbearer.3.1.9.nupkg.sha512",
     "C:\\Users\\Moi\\.nuget\\packages\\microsoft.aspnetcore.html.abstractions\\2.2.0\\microsoft.aspnetcore.html.abstractions.2.2.0.nupkg.sha512",
     "C:\\Users\\Moi\\.nuget\\packages\\microsoft.aspnetcore.razor\\2.2.0\\microsoft.aspnetcore.razor.2.2.0.nupkg.sha512",

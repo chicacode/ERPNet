@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using AutoMapper;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -9,7 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using ERPNet.Data;
 using ERPNet.Data.Repositories;
@@ -33,7 +31,11 @@ namespace ERPNet
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices ( IServiceCollection services )
         {
-            services.AddControllers ();
+           
+            // configure dbContext with SQL server db
+            services.AddDbContext<ERPNetContext> ( options =>
+                      options.UseSqlServer ( Configuration.GetConnectionString ( "ERPNetContext" ) ) );
+
             services.AddCors ( options =>
             {
                 options.AddPolicy ( "AllowSpecificOrigin",
@@ -47,6 +49,11 @@ namespace ERPNet
 
                     } );
             } );
+
+            services.AddControllers ();
+
+            services.AddAutoMapper ( AppDomain.CurrentDomain.GetAssemblies () );
+
             // configure strongly typed settings objects
             var appSettingsSection = Configuration.GetSection ( "AppSettings" );
             services.Configure<AppSettings> ( appSettingsSection );
@@ -56,26 +63,41 @@ namespace ERPNet
             var key = Encoding.ASCII.GetBytes ( appSettings.Secret );
 
             // ADD Login JSON Web Token
-            services.AddAuthentication ( JwtBearerDefaults.AuthenticationScheme )
+            services.AddAuthentication ( x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
                .AddJwtBearer ( options =>
                {
+                   options.Events = new JwtBearerEvents
+                   {
+                       OnTokenValidated = context =>
+                       {
+                           var userService = context.HttpContext.RequestServices.GetRequiredService<IUserService> ();
+                           var userId = int.Parse ( context.Principal.Identity.Name );
+                           var user = userService.GetById ( userId );
+                           if(user == null)
+                           {
+                               // return unauthorized if user no longer exists
+                               context.Fail ( "Unauthorized" );
+                           }
+                           return Task.CompletedTask;
+                       }
+                   };
                    options.RequireHttpsMetadata = false;
                    options.SaveToken = true;
                    options.TokenValidationParameters = new TokenValidationParameters
                    {
-                       ValidateIssuer = false,
-                       ValidateAudience = false,
                        ValidateLifetime = true,
                        ValidateIssuerSigningKey = true,
-                       IssuerSigningKey = new SymmetricSecurityKey ( key )
+                       IssuerSigningKey = new SymmetricSecurityKey ( key ),
+                       ValidateIssuer = false,
+                       ValidateAudience = false,
                        //ValidIssuer = Configuration["Jwt:Issuer"],
                        //ValidAudience = Configuration["Jwt:Issuer"]
                    };
                } );
-
-            // configure dbContext with SQL server db
-            services.AddDbContext<ERPNetContext> ( options =>
-                      options.UseSqlServer ( Configuration.GetConnectionString ( "ERPNetContext" ) ) );
 
             // scope DI for application services
             services.AddScoped<IUserService, UserService> ();
