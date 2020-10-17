@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "/R2smUaaTT4RLOfC2dcvzwQu1LooKeM7c8PDWZOYxIO+Tz5Uxz0neG2SAtmXuUR9nnYBwA8qZgzGKF+0PDVKzA==",
+  "dgSpecHash": "bnT4IX6mYMQWATWZdbzwp9DEzpQwkjH4qLVJSHc5gqNdEzJiYq7dpqfxl3QePn11DS68lTzxSAK9DVYnzlBqaA==",
   "success": true,
   "projectFilePath": "C:\\Users\\Moi\\source\\repos\\ERPNet\\ERPNet.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\Moi\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\3.1.9\\microsoft.aspnetcore.authentication.jwtbearer.3.1.9.nupkg.sha512",
     "C:\\Users\\Moi\\.nuget\\packages\\microsoft.aspnetcore.html.abstractions\\2.2.0\\microsoft.aspnetcore.html.abstractions.2.2.0.nupkg.sha512",
     "C:\\Users\\Moi\\.nuget\\packages\\microsoft.aspnetcore.razor\\2.2.0\\microsoft.aspnetcore.razor.2.2.0.nupkg.sha512",
     "C:\\Users\\Moi\\.nuget\\packages\\microsoft.aspnetcore.razor.language\\3.1.0\\microsoft.aspnetcore.razor.language.3.1.0.nupkg.sha512",
