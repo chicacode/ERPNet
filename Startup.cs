@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
+
 namespace ERPNet
 {
     public class Startup
@@ -94,9 +95,9 @@ namespace ERPNet
 
             app.UseRouting ();
 
-            app.UseAuthentication ();
-
             app.UseCors ( "AllowSpecificOrigin" );
+
+            app.UseAuthentication ();
 
             app.UseAuthorization ();
 
