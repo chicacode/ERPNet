@@ -56,7 +56,18 @@ namespace ERPNet.Controllers
                 Expires = DateTime.UtcNow.AddDays(3),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
-            return Ok ( user );
+
+            var token = tokenHandler.CreateToken ( tokenDescriptor );
+            var tokenString = tokenHandler.WriteToken ( token );
+
+            return Ok ( new { 
+            
+                Id = user.Id,
+                Username = user.Username,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Token = tokenString
+            });
         }
 
         // GET: api/Users
@@ -108,27 +119,26 @@ namespace ERPNet.Controllers
         }
 
         // POST: api/Users
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        //[AllowAnonymous]
-        //[HttpPost ( "register" )]
-        //public IActionResult Register ( [FromBody] RegisterModel model )
-        //{
-        //    // map model to entity
-        //    var user = _mapper.Map<User> ( model );
 
-        //    try
-        //    {
-        //        // create user
-        //        _userService.Create ( user, model.Password );
-        //        return Ok ();
-        //    }
-        //    catch(AppException ex)
-        //    {
-        //        // return error message if there was an exception
-        //        return BadRequest ( new { message = ex.Message } );
-        //    }
-        //}
+        //[AllowAnonymous]
+        [HttpPost ( "register" )]
+        public IActionResult Register ( [FromBody] RegisterModel model )
+        {
+            // map model to entity
+            var user = _mapper.Map<User> ( model );
+
+            try
+            {
+                // create user
+                _userService.Create ( user, model.Password );
+                return Ok ();
+            }
+            catch(AppException ex)
+            {
+                // return error message if there was an exception
+                return BadRequest ( new { message = ex.Message } );
+            }
+        }
 
         // DELETE: api/Users/5
         [HttpDelete ( "{id}" )]
