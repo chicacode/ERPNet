@@ -8,6 +8,10 @@ using Microsoft.EntityFrameworkCore;
 using ERPNet.Data;
 using ERPNet.Entities;
 using Microsoft.AspNetCore.Authorization;
+using ERPNet.Services;
+using ERPNet.Helpers;
+using Microsoft.Extensions.Options;
+using ERPNet.Models;
 
 namespace ERPNet.Controllers
 {
@@ -16,97 +20,107 @@ namespace ERPNet.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private readonly ERPNetContext _context;
-
-        public UsersController(ERPNetContext context)
+       
+        private IUserService _userService;
+        private readonly AppSettings _appSettings;
+        public UsersController(
+            IUserService userService,
+            IOptions<AppSettings> appSettings
+            )
         {
-            _context = context;
+            _userService = userService;
+            _appSettings = appSettings.Value;
+        }
+
+        [AllowAnonymous]
+        [HttpPost ( "authenticate" )]
+        public IActionResult Authenticate ( [FromBody] AuthenticateModel model )
+        {
+            var user = _userService.Authenticate ( model.Username, model.Password );
+
+            if(user == null)
+                return BadRequest ( new { message = "Username or password is incorrect" } );
+
+            return Ok ( user );
         }
 
         // GET: api/Users
+        [Authorize ( Roles = Role.Admin )]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetUser()
+        public IActionResult GetAll ( )
         {
-            return await _context.User.ToListAsync();
+            var users = _userService.GetAll ();
+            return Ok ( users );
         }
 
-        // GET: api/Users/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUser(int id)
+        [HttpGet ( "{id}" )]
+        public IActionResult GetById ( int id )
         {
-            var user = await _context.User.FindAsync(id);
+            // only allow admins to access other user records
+            var currentUserId = int.Parse ( User.Identity.Name );
+            if(id != currentUserId && !User.IsInRole ( Role.Admin ))
+                return Forbid ();
 
-            if (user == null)
-            {
-                return NotFound();
-            }
+            var user = _userService.GetById ( id );
 
-            return user;
+            if(user == null)
+                return NotFound ();
+
+            return Ok ( user );
         }
+
 
         // PUT: api/Users/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(int id, User user)
+        [HttpPut ( "{id}" )]
+        public IActionResult Update ( int id, [FromBody] AuthenticateModel model )
         {
-            if (id != user.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(user).State = EntityState.Modified;
+            // map model to entity and set id
+            //var user = _mapper.Map<User> ( model );
+            var user = _userService.GetById ( id );
+            user.Id = id;
 
             try
             {
-                await _context.SaveChangesAsync();
+                // update user 
+                _userService.Update ( user, model.Password );
+                return Ok ();
             }
-            catch (DbUpdateConcurrencyException)
+            catch(AppException ex)
             {
-                if (!UserExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                // return error message if there was an exception
+                return BadRequest ( new { message = ex.Message } );
             }
-
-            return NoContent();
         }
 
         // POST: api/Users
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPost]
-        public async Task<ActionResult<User>> PostUser(User user)
-        {
-            _context.User.Add(user);
-            await _context.SaveChangesAsync();
+        //[AllowAnonymous]
+        //[HttpPost ( "register" )]
+        //public IActionResult Register ( [FromBody] RegisterModel model )
+        //{
+        //    // map model to entity
+        //    var user = _mapper.Map<User> ( model );
 
-            return CreatedAtAction("GetUser", new { id = user.Id }, user);
-        }
+        //    try
+        //    {
+        //        // create user
+        //        _userService.Create ( user, model.Password );
+        //        return Ok ();
+        //    }
+        //    catch(AppException ex)
+        //    {
+        //        // return error message if there was an exception
+        //        return BadRequest ( new { message = ex.Message } );
+        //    }
+        //}
 
         // DELETE: api/Users/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<User>> DeleteUser(int id)
+        [HttpDelete ( "{id}" )]
+        public IActionResult Delete ( int id )
         {
-            var user = await _context.User.FindAsync(id);
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            _context.User.Remove(user);
-            await _context.SaveChangesAsync();
-
-            return user;
-        }
-
-        private bool UserExists(int id)
-        {
-            return _context.User.Any(e => e.Id == id);
+            _userService.Delete ( id );
+            return Ok ();
         }
     }
 }

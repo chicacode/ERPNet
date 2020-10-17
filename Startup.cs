@@ -16,7 +16,8 @@ using ERPNet.Data.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-
+using ERPNet.Helpers;
+using ERPNet.Services;
 
 namespace ERPNet
 {
@@ -33,41 +34,6 @@ namespace ERPNet
         public void ConfigureServices ( IServiceCollection services )
         {
             services.AddControllers ();
-
-            // ADD Login JSON Web Token
-            services.AddAuthentication ( JwtBearerDefaults.AuthenticationScheme )
-               .AddJwtBearer ( options =>
-               {
-                   options.TokenValidationParameters = new TokenValidationParameters
-                   {
-                       ValidateIssuer = true,
-                       ValidateAudience = true,
-                       ValidateLifetime = true,
-                       ValidateIssuerSigningKey = true,
-                       ValidIssuer = Configuration["Jwt:Issuer"],
-                       ValidAudience = Configuration["Jwt:Issuer"],
-                       IssuerSigningKey = new SymmetricSecurityKey ( Encoding.UTF8.GetBytes ( Configuration["Jwt:Key"] ) )
-                   };
-               } );
-
-            // configure dbContext with SQL server db
-            services.AddDbContext<ERPNetContext> ( options =>
-                      options.UseSqlServer ( Configuration.GetConnectionString ( "ERPNetContext" ) ) );
-
-            // scope
-            services.AddScoped<PeopleRepository> ();
-            services.AddScoped<CustomerRepository> ();
-            services.AddScoped<EmployeeRepository> ();
-            services.AddScoped<AddressesRepository> ();
-            services.AddScoped<CategoriesRepository> ();
-            services.AddScoped<MovementsRepository> ();
-            services.AddScoped<OrderRepository> ();
-            services.AddScoped<OrderProductRepository> ();
-            services.AddScoped<ProductRepository> ();
-            services.AddScoped<StoragesRepository> ();
-            services.AddScoped<WarehouseRepository> ();
-
-
             services.AddCors ( options =>
             {
                 options.AddPolicy ( "AllowSpecificOrigin",
@@ -81,6 +47,50 @@ namespace ERPNet
 
                     } );
             } );
+            // configure strongly typed settings objects
+            var appSettingsSection = Configuration.GetSection ( "AppSettings" );
+            services.Configure<AppSettings> ( appSettingsSection );
+
+            // configure jwt authentication
+            var appSettings = appSettingsSection.Get<AppSettings> ();
+            var key = Encoding.ASCII.GetBytes ( appSettings.Secret );
+
+            // ADD Login JSON Web Token
+            services.AddAuthentication ( JwtBearerDefaults.AuthenticationScheme )
+               .AddJwtBearer ( options =>
+               {
+                   options.RequireHttpsMetadata = false;
+                   options.SaveToken = true;
+                   options.TokenValidationParameters = new TokenValidationParameters
+                   {
+                       ValidateIssuer = false,
+                       ValidateAudience = false,
+                       ValidateLifetime = true,
+                       ValidateIssuerSigningKey = true,
+                       IssuerSigningKey = new SymmetricSecurityKey ( key )
+                       //ValidIssuer = Configuration["Jwt:Issuer"],
+                       //ValidAudience = Configuration["Jwt:Issuer"]
+                   };
+               } );
+
+            // configure dbContext with SQL server db
+            services.AddDbContext<ERPNetContext> ( options =>
+                      options.UseSqlServer ( Configuration.GetConnectionString ( "ERPNetContext" ) ) );
+
+            // scope DI for application services
+            services.AddScoped<IUserService, UserService> ();
+            services.AddScoped<PeopleRepository> ();
+            services.AddScoped<CustomerRepository> ();
+            services.AddScoped<EmployeeRepository> ();
+            services.AddScoped<AddressesRepository> ();
+            services.AddScoped<CategoriesRepository> ();
+            services.AddScoped<MovementsRepository> ();
+            services.AddScoped<OrderRepository> ();
+            services.AddScoped<OrderProductRepository> ();
+            services.AddScoped<ProductRepository> ();
+            services.AddScoped<StoragesRepository> ();
+            services.AddScoped<WarehouseRepository> ();
+    
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
