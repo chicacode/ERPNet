@@ -2,6 +2,7 @@
 
 using Microsoft.EntityFrameworkCore;
 using ERPNet.Models;
+using ERPNet.Entities;
 
 namespace ERPNet.Data
 {
@@ -299,6 +300,9 @@ namespace ERPNet.Data
             //    }
             //);
         }
+
+
+        public DbSet<ERPNet.Entities.User> User { get; set; }
 
     }
  }
