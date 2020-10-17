@@ -12,6 +12,10 @@ using ERPNet.Services;
 using ERPNet.Helpers;
 using Microsoft.Extensions.Options;
 using ERPNet.Models;
+using System.IdentityModel.Tokens.Jwt;
+using System.Text;
+using Microsoft.IdentityModel.Tokens;
+using System.Security.Claims;
 
 namespace ERPNet.Controllers
 {
@@ -41,6 +45,17 @@ namespace ERPNet.Controllers
             if(user == null)
                 return BadRequest ( new { message = "Username or password is incorrect" } );
 
+            var tokenHandler = new JwtSecurityTokenHandler ();
+            var key = Encoding.ASCII.GetBytes ( _appSettings.Secret );
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity ( new Claim[]
+                {
+                    new Claim(ClaimTypes.Name, user.Id.ToString())
+                }),
+                Expires = DateTime.UtcNow.AddDays(3),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
             return Ok ( user );
         }
 
