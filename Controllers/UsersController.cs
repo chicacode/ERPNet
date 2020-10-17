@@ -16,6 +16,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
+using AutoMapper;
 
 namespace ERPNet.Controllers
 {
@@ -26,13 +27,16 @@ namespace ERPNet.Controllers
     {
        
         private IUserService _userService;
+        private IMapper _mapper;
         private readonly AppSettings _appSettings;
         public UsersController(
             IUserService userService,
+            IMapper mapper,
             IOptions<AppSettings> appSettings
             )
         {
             _userService = userService;
+            _mapper = mapper;
             _appSettings = appSettings.Value;
         }
 

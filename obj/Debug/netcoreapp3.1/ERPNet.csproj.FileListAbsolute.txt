@@ -153,5 +153,3 @@ C:\Users\Moi\source\repos\ERPNet\bin\Debug\netcoreapp3.1\zh-Hant\Microsoft.CodeA
 C:\Users\Moi\source\repos\ERPNet\bin\Debug\netcoreapp3.1\Properties\serviceDependencies.json
 C:\Users\Moi\source\repos\ERPNet\bin\Debug\netcoreapp3.1\Properties\serviceDependencies.local.json
 C:\Users\Moi\source\repos\ERPNet\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Authentication.JwtBearer.dll
-C:\Users\Moi\source\repos\ERPNet\obj\Debug\netcoreapp3.1\ERPNet.csproj.CoreCompileInputs.cache
-C:\Users\Moi\source\repos\ERPNet\obj\Debug\netcoreapp3.1\ERPNet.MvcApplicationPartsAssemblyInfo.cache
