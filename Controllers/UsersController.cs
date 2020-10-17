@@ -25,7 +25,6 @@ namespace ERPNet.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-       
         private IUserService _userService;
         private IMapper _mapper;
         private readonly AppSettings _appSettings;
@@ -71,8 +70,61 @@ namespace ERPNet.Controllers
                 Username = user.Username,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
+                Role = user.Role,
                 Token = tokenString
             });
+        }
+
+        // POST: api/Users
+
+        [AllowAnonymous]
+        [HttpPost ( "register" )]
+        public IActionResult Register ( [FromBody] RegisterModel model )
+        {
+            // map model to entity
+            var user = _mapper.Map<User> ( model );
+
+            try
+            {
+                // create user
+                _userService.Create ( user, model.Password );
+                return Ok ();
+            }
+            catch(AppException ex)
+            {
+                // return error message if there was an exception
+                return BadRequest ( new { message = ex.Message } );
+            }
+        }
+
+        // PUT: api/Users/5
+        [HttpPut ( "{id}" )]
+        public IActionResult Update ( int id, [FromBody] UpdateModel model )
+        {
+            // map model to entity and set id
+            var user = _mapper.Map<User> ( model );
+            //var user = _userService.GetById ( id );
+            user.Id = id;
+
+            try
+            {
+                // update user 
+                _userService.Update ( user, model.Password );
+                return Ok ();
+            }
+            catch(AppException ex)
+            {
+                // return error message if there was an exception
+                return BadRequest ( new { message = ex.Message } );
+            }
+        }
+
+        // DELETE: api/Users/5
+        [HttpDelete ( "{id}" )]
+        public IActionResult Delete ( int id )
+        {
+            _userService.Delete ( id );
+            return Ok ();
         }
 
         // GET: api/Users
@@ -97,59 +149,6 @@ namespace ERPNet.Controllers
             var model = _mapper.Map<UserModel> ( user );
             return Ok ( model );
 
-        }
-
-
-        // PUT: api/Users/5
-        [HttpPut ( "{id}" )]
-        public IActionResult Update ( int id, [FromBody] AuthenticateModel model )
-        {
-            // map model to entity and set id
-            //var user = _mapper.Map<User> ( model );
-            var user = _userService.GetById ( id );
-            user.Id = id;
-
-            try
-            {
-                // update user 
-                _userService.Update ( user, model.Password );
-                return Ok ();
-            }
-            catch(AppException ex)
-            {
-                // return error message if there was an exception
-                return BadRequest ( new { message = ex.Message } );
-            }
-        }
-
-        // POST: api/Users
-
-        //[AllowAnonymous]
-        [HttpPost ( "register" )]
-        public IActionResult Register ( [FromBody] RegisterModel model )
-        {
-            // map model to entity
-            var user = _mapper.Map<User> ( model );
-
-            try
-            {
-                // create user
-                _userService.Create ( user, model.Password );
-                return Ok ();
-            }
-            catch(AppException ex)
-            {
-                // return error message if there was an exception
-                return BadRequest ( new { message = ex.Message } );
-            }
-        }
-
-        // DELETE: api/Users/5
-        [HttpDelete ( "{id}" )]
-        public IActionResult Delete ( int id )
-        {
-            _userService.Delete ( id );
-            return Ok ();
         }
     }
 }
