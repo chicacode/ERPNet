@@ -27,6 +27,8 @@ namespace ERPNet.Data
 
         public DbSet<Person> Person { get; set; }
 
+        public DbSet<User> Users { get; set; }
+
         public DbSet<Product> Product { get; set; }
 
         public DbSet<OrderProduct> OrderProduct { get; set; }
