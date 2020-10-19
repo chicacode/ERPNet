@@ -78,8 +78,6 @@ namespace ERPNet
                        IssuerSigningKey = new SymmetricSecurityKey ( key ),
                        ValidateIssuer = false,
                        ValidateAudience = false
-                       //ValidIssuer = Configuration["Jwt:Issuer"],
-                       //ValidAudience = Configuration["Jwt:Issuer"]
                    };
                } );
 

@@ -12,8 +12,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace ERPNet.Controllers
 {
-    //[Authorize]
-    [Authorize ( AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme )]
+    [Authorize]
     [ApiController]
     [Route ( "api/[controller]" )]
     public class UsersController : ControllerBase
@@ -99,7 +98,6 @@ namespace ERPNet.Controllers
         {
             // map model to entity and set id
             var user = _mapper.Map<User> ( model );
-            //var user = _userService.GetById ( id );
             user.Id = id;
 
             try

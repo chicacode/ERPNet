@@ -25,12 +25,6 @@ namespace ERPNet.Services
     public class UserService : IUserService
     {
 
-        //private List<User> _users = new List<User>
-        //{
-        //    new User { Id = 2, FirstName = "Admin", LastName = "User", Username = "admin", Password = "admin", Role = Role.Admin },
-        //    new User { Id = 3, FirstName = "Normal", LastName = "User", Username = "user", Password = "user", Role = Role.User }
-        //};
-
         private readonly ERPNetContext _context;
         private readonly AppSettings _appSettings;
 
