@@ -1,5 +1,4 @@
-﻿
-using ERPNet.Models;
+﻿using ERPNet.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

@@ -9,13 +9,25 @@ namespace ERPNet.Data.Repositories
         where TEntity : class, IEntity
         where TContext : DbContext
     {
-        // attribute
+        // attribute context data base 
         private readonly TContext context;
         // constructor
         public GenericRepository(TContext context )
         {
             this.context = context;
         }
+
+        public async Task<List<TEntity>> GetAll ( )
+        {
+            return await context.Set<TEntity> ().ToListAsync ();
+        }
+
+
+        public async Task<TEntity> Get ( int id )
+        {
+            return await context.Set<TEntity> ().FindAsync ( id );
+        }
+
         public async Task<TEntity> Add ( TEntity entity )
         {
             context.Set<TEntity> ().Add ( entity );
@@ -35,16 +47,6 @@ namespace ERPNet.Data.Repositories
             await context.SaveChangesAsync ();
 
             return entity;
-        }
-
-        public async Task<TEntity> Get ( int id )
-        {
-            return await context.Set<TEntity> ().FindAsync ( id );
-        }
-
-        public async Task<List<TEntity>> GetAll ( )
-        {
-            return await context.Set<TEntity> ().ToListAsync ();
         }
 
         public async Task<TEntity> Update ( TEntity entity )
