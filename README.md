@@ -19,6 +19,7 @@ It contains the employed users who can have the admin role to create other users
 	* Access the data source from many locations and want to apply centrally managed, consistent access rules and logic
 	* Improve the code's maintainability and readability by separating business logic from data or service access logic
 
+* JWT For Authentication Login and Register
 *In Frontend Angular 2
 
 If you'd like to quote someone, use the > character before the line:
