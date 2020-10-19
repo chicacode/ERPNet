@@ -1,9 +1,14 @@
 ﻿using ERPNet.Data;
 using ERPNet.Entities;
 using ERPNet.Helpers;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace ERPNet.Services
@@ -14,35 +19,61 @@ namespace ERPNet.Services
         IEnumerable<User> GetAll ( );
         User GetById ( int id );
         User Create ( User user, string password );
-        void Update ( User user, string password = null );
+        User Update ( User user, string password = null );
         void Delete ( int id );
     }
     public class UserService : IUserService
     {
-        private readonly ERPNetContext _context;
 
-        public UserService ( ERPNetContext context )
+        //private List<User> _users = new List<User>
+        //{
+        //    new User { Id = 2, FirstName = "Admin", LastName = "User", Username = "admin", Password = "admin", Role = Role.Admin },
+        //    new User { Id = 3, FirstName = "Normal", LastName = "User", Username = "user", Password = "user", Role = Role.User }
+        //};
+
+        private readonly ERPNetContext _context;
+        private readonly AppSettings _appSettings;
+
+        public UserService ( ERPNetContext context, IOptions<AppSettings> appSettings )
         {
             _context = context;
+            _appSettings = appSettings.Value;
         }
        public User Authenticate ( string username, string password )
         {
+
             if(string.IsNullOrEmpty ( username ) || string.IsNullOrEmpty ( password ))
                 return null;
 
-            var user = _context.Users.SingleOrDefault ( x => x.Username == username );
+            var user = _context.Users.SingleOrDefault ( x => x.Username == username && x.Password == password );
 
             // check if username exists
             if(user == null)
                 return null;
 
-            // authentication successful
-            return user;
+            // authentication successful so generate JWT Token
+            var tokenHandler = new JwtSecurityTokenHandler ();
+            var key = Encoding.ASCII.GetBytes ( _appSettings.Secret );
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity ( new Claim[]
+                {
+                    new Claim(ClaimTypes.Name, user.Id.ToString()),
+                    new Claim(ClaimTypes.Role, user.Role)
+                }),
+                Expires = DateTime.UtcNow.AddDays ( 7 ),
+                SigningCredentials = new SigningCredentials ( new SymmetricSecurityKey ( key ), SecurityAlgorithms.HmacSha256Signature )
+            };
+
+            var token = tokenHandler.CreateToken ( tokenDescriptor ) ;
+            user.Token = tokenHandler.WriteToken ( token );
+        
+            return user.WithoutPassword();
         }
 
         public IEnumerable<User> GetAll ( )
         {
-            return _context.Users;
+            return _context.Users.WithoutPasswords();
         }
 
         public User GetById ( int id )
@@ -66,7 +97,7 @@ namespace ERPNet.Services
         }
 
 
-       public void Update ( User userParam, string password = null )
+       public User Update ( User userParam, string password = null )
         {
             var user = _context.Users.Find ( userParam.Id );
 
@@ -81,6 +112,7 @@ namespace ERPNet.Services
                     throw new AppException ( "Username " + userParam.Username + " is already taken" );
 
                 user.Username = userParam.Username;
+                user.Role = userParam.Role;
             }
 
             // update user properties if provided
@@ -92,6 +124,7 @@ namespace ERPNet.Services
 
             _context.Users.Update ( user );
             _context.SaveChanges ();
+            return user;
         }
 
         public void Delete ( int id )

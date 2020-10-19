@@ -9,11 +9,15 @@ using ERPNet.Models;
 using Microsoft.AspNetCore.Cors;
 using ERPNet.Data.Repositories;
 using System.Net;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using ERPNet.Entities;
 
 namespace ERPNet.Controllers
 {
     [EnableCors ( "AllowSpecificOrigin" )]
     [Route("api/[controller]")]
+    //[Authorize ( AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = Role.Admin )]
     [ApiController]
     public class EmployeesController : GenericController<Employee, EmployeeRepository>
     {

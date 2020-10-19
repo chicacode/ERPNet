@@ -1,28 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using ERPNet.Data;
 using ERPNet.Entities;
 using Microsoft.AspNetCore.Authorization;
 using ERPNet.Services;
 using ERPNet.Helpers;
 using Microsoft.Extensions.Options;
 using ERPNet.Models;
-using System.IdentityModel.Tokens.Jwt;
-using System.Text;
-using Microsoft.IdentityModel.Tokens;
-using System.Security.Claims;
 using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace ERPNet.Controllers
 {
-    [Authorize]
-    [Route("api/[controller]")]
+    //[Authorize]
+    [Authorize ( AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme )]
     [ApiController]
+    [Route ( "api/[controller]" )]
     public class UsersController : ControllerBase
     {
         private IUserService _userService;
@@ -48,35 +41,38 @@ namespace ERPNet.Controllers
             if(user == null)
                 return BadRequest ( new { message = "Username or password is incorrect" } );
 
-            var tokenHandler = new JwtSecurityTokenHandler ();
-            var key = Encoding.ASCII.GetBytes ( _appSettings.Secret );
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity ( new Claim[]
-                {
-                    new Claim(ClaimTypes.Name, user.Id.ToString()),
-                    new Claim(ClaimTypes.Role, user.Role)
-                } ),
-                Expires = DateTime.UtcNow.AddDays(3),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-            };
+            return Ok ( user );
 
-            var token = tokenHandler.CreateToken ( tokenDescriptor );
-            var tokenString = tokenHandler.WriteToken ( token );
+        }
 
-            return Ok ( new { 
-            
-                Id = user.Id,
-                Username = user.Username,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Role = user.Role,
-                Token = tokenString
-            });
+        // GET: api/Users
+        [Authorize ( Roles = Role.Admin )]
+        [HttpGet]
+        public IActionResult GetAll ( )
+        {
+            var users = _userService.GetAll ();
+            var model = _mapper.Map<IList<UserModel>> ( users );
+            return Ok ( model );
+        }
+
+        [HttpGet ( "{id}" )]
+        public IActionResult GetById ( int id )
+        {
+            // only allow admins to access other user records
+            var currentUserId = int.Parse ( User.Identity.Name );
+            if(id != currentUserId && !User.IsInRole ( Role.Admin ))
+                return Forbid ();
+
+            var user = _userService.GetById ( id );
+            if(user == null)
+                return NotFound ();
+
+            var model = _mapper.Map<UserModel> ( user );
+            return Ok ( model );
+
         }
 
         // POST: api/Users
-
         [AllowAnonymous]
         [HttpPost ( "register" )]
         public IActionResult Register ( [FromBody] RegisterModel model )
@@ -127,28 +123,5 @@ namespace ERPNet.Controllers
             return Ok ();
         }
 
-        // GET: api/Users
-        [Authorize ( Roles = Role.Admin )]
-        [HttpGet]
-        public IActionResult GetAll ( )
-        {
-            var users = _userService.GetAll ();
-            var model = _mapper.Map<IList<UserModel>> ( users );
-            return Ok ( model );
-        }
-
-        [HttpGet ( "{id}" )]
-        public IActionResult GetById ( int id )
-        {
-            // only allow admins to access other user records
-            var currentUserId = int.Parse ( User.Identity.Name );
-            if(id != currentUserId && !User.IsInRole ( Role.Admin ))
-                return Forbid ();
-
-            var user = _userService.GetById ( id );
-            var model = _mapper.Map<UserModel> ( user );
-            return Ok ( model );
-
-        }
     }
 }

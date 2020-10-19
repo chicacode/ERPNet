@@ -26,4 +26,4 @@ It contains the employee users who can have the admin role to create other users
 If you'd like to quote someone, use the > character before the line:
 
 > Coffee. The finest organic suspension ever devised... I beat the Borg with it.
-> - Developed by Geraldine Hernández Al-Attrach
+> - Developed by Geraldine Hernández Al Attrach
