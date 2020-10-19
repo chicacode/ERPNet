@@ -2,7 +2,7 @@
 
 **Enterprise resource planning (ERP)** is the integrated management of main business processes, often in real time and mediated bu software and technology.
 ### This ERP Net
-Is created as a final project of the It Academy, which contains 4 main modules in the internal management of employees, human resources, sales, product orders made by clients, and product management in warehouses and warehouses.
+Is created as a final project of the It Academy, which contains 4 main modules in the internal management of employees, CRM, sales, and inventory which contains: product, categories, movements, storage, warehouses made by clients.
 
 It contains the employed users who can have the admin role to create other users, and to carry out special procedures. All users can login and place orders.
 
