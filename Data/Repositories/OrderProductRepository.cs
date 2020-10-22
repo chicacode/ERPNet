@@ -33,7 +33,5 @@ namespace ERPNet.Data.Repositories
                 .Include ( o => o.TotalPrice )
                 .ToListAsync ();
         }
-
-
     }
 }

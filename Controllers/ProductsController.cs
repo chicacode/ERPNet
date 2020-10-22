@@ -18,14 +18,14 @@ namespace ERPNet.Controllers
     public class ProductsController : GenericController<Product, ProductRepository>
     {
         private readonly ProductRepository _repository;
-        private readonly CategoriesRepository _categoryRepository;
+        //private readonly CategoriesRepository _categoryRepository;
         public ProductsController(
-            ProductRepository repository,
-            CategoriesRepository categoryRepository
+            ProductRepository repository
+            //CategoriesRepository categoryRepository
             ) : base (repository)
         {
             _repository = repository;
-            _categoryRepository = categoryRepository;
+            //_categoryRepository = categoryRepository;
         }
 
         // GET: api/Products
@@ -65,9 +65,9 @@ namespace ERPNet.Controllers
             editProduct.Description = product.Description;
             editProduct.TotalQuantity = product.TotalQuantity;
 
-            var categoryId = _categoryRepository.getCategoryById ( product.Category.Name );
+            //var categoryId = _categoryRepository.getCategoryById ( product.CategoryName );
 
-            editProduct.CategoryId = categoryId;
+            //editProduct.CategoryId = categoryId;
 
             return (IActionResult)await _repository.Update ( editProduct );
         }
@@ -78,13 +78,13 @@ namespace ERPNet.Controllers
         public async Task<ActionResult<Product>> PostProduct(Product product)
         {
 
-            var categoryId = _categoryRepository.getCategoryById ( product.Category.Name );
+            //var categoryId = _categoryRepository.getCategoryById ( product.CategoryName);
             var newProduct = new Product
             {
                 Name = product.Name,
                 Description = product.Description,
                 TotalQuantity = product.TotalQuantity,
-                CategoryId = categoryId
+                //CategoryId = categoryId
             };
 
            return await _repository.Add ( newProduct );

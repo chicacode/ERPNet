@@ -20,8 +20,9 @@ namespace ERPNet.Models
 
         public double Price { get; set; }
 
-        public int CategoryId { get; set; }
-        public virtual Category Category { get; set; }
+        [Required]
+        [StringLength ( 50 )]
+        public string CategoryName { get; set; }
 
         [JsonIgnore]
         public ICollection<Storage> Storages { get; set; }

@@ -30,7 +30,6 @@ namespace ERPNet.Data.Repositories
         {
             return await _context.Storage
                 .Include ( s => s.Product )
-                .Include ( s => s.Product.Category )
                 .Include ( s => s.Warehouse )
                 .Include ( s => s.Warehouse.Address )
                 .Include ( s => s.InputOutputs )
@@ -41,7 +40,6 @@ namespace ERPNet.Data.Repositories
         {
             var storage = await _context.Storage
               .Include ( s => s.Product )
-              .Include ( s => s.Product.Category )
               .Include ( s => s.Warehouse )
               .Include ( s => s.Warehouse.Address )
                .Include ( s => s.InputOutputs )

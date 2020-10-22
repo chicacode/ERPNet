@@ -15,8 +15,6 @@ namespace ERPNet.Data
 
         public DbSet<Address> Address { get; set; }
 
-        public DbSet<Category> Category { get; set; }
-
         public DbSet<Customer> Customer { get; set; }
 
         public DbSet<Employee> Employee { get; set; }
@@ -43,19 +41,6 @@ namespace ERPNet.Data
         protected override void OnModelCreating ( ModelBuilder modelBuilder )
         {
             base.OnModelCreating ( modelBuilder );
-
-            modelBuilder.Entity<Category> ().HasData (
-               new Category
-               {
-                   Id = 1,
-                   Name = "Clothing"
-               },
-               new Category
-               {
-                   Id = 2,
-                   Name = "Merchandising"
-               }
-            );
 
             modelBuilder.Entity<Person> ().HasData (
                   new Person
@@ -227,7 +212,7 @@ namespace ERPNet.Data
                     Name = "T-Shirts",
                     Description = "Shop high-quality unique T-Shirts designed and sold by artist. 100% cotton",
                     TotalQuantity = 2,
-                    CategoryId = 1
+                    CategoryName = "Clothing"
                 },
                 new Product
                 {
@@ -235,7 +220,7 @@ namespace ERPNet.Data
                     Name = "Hoodies",
                     Description = "Shop high-quality unique Hoodies designed and sold by artist. 100% cotton",
                     TotalQuantity = 2,
-                    CategoryId = 1
+                    CategoryName = "Clothing"
                 },
                  new Product
                  {
@@ -243,7 +228,7 @@ namespace ERPNet.Data
                      Name = "Mugs",
                      Description = "Coffee, Tea Mugs",
                      TotalQuantity = 12,
-                     CategoryId = 2
+                     CategoryName = "Merchandising"
                  },
                   new Product
                   {
@@ -251,7 +236,7 @@ namespace ERPNet.Data
                       Name = "Stickers",
                       Description = "Code Stickers",
                       TotalQuantity = 10,
-                      CategoryId = 2
+                      CategoryName = "Merchandising"
                   }
             );
             modelBuilder.Entity<Order> ().HasData (

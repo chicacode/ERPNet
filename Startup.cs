@@ -87,7 +87,6 @@ namespace ERPNet
             services.AddScoped<CustomerRepository> ();
             services.AddScoped<EmployeeRepository> ();
             services.AddScoped<AddressesRepository> ();
-            services.AddScoped<CategoriesRepository> ();
             services.AddScoped<MovementsRepository> ();
             services.AddScoped<OrderRepository> ();
             services.AddScoped<OrderProductRepository> ();
