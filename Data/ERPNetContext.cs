@@ -27,6 +27,8 @@ namespace ERPNet.Data
 
         public DbSet<Person> Person { get; set; }
 
+        public DbSet<User> User { get; set; }
+
         public DbSet<User> Users { get; set; }
 
         public DbSet<Product> Product { get; set; }
@@ -41,11 +43,6 @@ namespace ERPNet.Data
         protected override void OnModelCreating ( ModelBuilder modelBuilder )
         {
             base.OnModelCreating ( modelBuilder );
-
-            //modelBuilder.Entity<Employee> ()
-            //.HasOne ( a => a.Person )
-            //.WithOne ( b => b.Employee );
-           
 
             modelBuilder.Entity<Category> ().HasData (
                new Category
@@ -257,54 +254,50 @@ namespace ERPNet.Data
                       CategoryId = 2
                   }
             );
-            //   modelBuilder.Entity<Order> ().HasData (
-            //       new Order
-            //       {
-            //           Id = 1,
-            //           OrderNumber = "XXX909090",
-            //           CustomerId = 1
-            //       },
-            //       new Order
-            //       {
-            //           Id = 2,
-            //           OrderNumber = "XXX909091",
-            //           CustomerId = 2
-            //       },
-            //        new Order
-            //        {
-            //            Id = 4,
-            //            OrderNumber = "XXX909092",
-            //            CustomerId = 1
-            //        },
-            //       new Order
-            //       {
-            //           Id = 5,
-            //           OrderNumber = "XXX909093",
-            //           CustomerId = 2
+            modelBuilder.Entity<Order> ().HasData (
+                new Order
+                {
+                    Id = 1,
+                    OrderNumber = "XXX909090",
+                    CustomerId = 1
+                },
+                new Order
+                {
+                    Id = 2,
+                    OrderNumber = "XXX909091",
+                    CustomerId = 2
+                },
+                 new Order
+                 {
+                     Id = 4,
+                     OrderNumber = "XXX909092",
+                     CustomerId = 1
+                 },
+                new Order
+                {
+                    Id = 5,
+                    OrderNumber = "XXX909093",
+                    CustomerId = 2
 
-            //       }
-            //   );
+                }
+            );
 
-            //   modelBuilder.Entity<Storage> ().HasData (
-            //    new Storage
-            //    {
-            //        Id = 1,
-            //        PartialQuantity = 900,
-            //        ProductId = 1,
-            //        WarehouseId = 1
-            //    },
-            //    new Storage
-            //    {
-            //        Id = 2,
-            //        PartialQuantity = 700,
-            //        ProductId = 2,
-            //        WarehouseId = 1
-            //    }
-            //);
+            modelBuilder.Entity<Storage> ().HasData (
+             new Storage
+             {
+                 Id = 1,
+                 PartialQuantity = 900,
+                 ProductId = 1,
+                 WarehouseId = 1
+             },
+             new Storage
+             {
+                 Id = 2,
+                 PartialQuantity = 700,
+                 ProductId = 2,
+                 WarehouseId = 1
+             }
+         );
         }
-
-
-        public DbSet<ERPNet.Entities.User> User { get; set; }
-
     }
  }

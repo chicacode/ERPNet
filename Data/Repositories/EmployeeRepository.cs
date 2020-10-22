@@ -20,13 +20,12 @@ namespace ERPNet.Data.Repositories
             _peopleRepository = peopleRepository;
         }
 
-        //public async Task<List<Employee>> GetAllEmployees ( )
-        //{
-           
-        //    //return await _context.Employee
-        //    //    .Include ( e => e.Person )
-        //    //    .ToListAsync ();
-        //}
+        public async Task<List<Employee>> GetAllEmployeesbyPerson ( )
+        { 
+            return await _context.Employee
+                .Include ( e => e.Person )
+                .ToListAsync ();
+        }
         public async Task<Employee> GetEmployee ( int id )
         {
             return await _context.Employee

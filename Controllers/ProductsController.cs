@@ -30,7 +30,7 @@ namespace ERPNet.Controllers
 
         // GET: api/Products
         [HttpGet ( "products" )]
-        public async Task<IEnumerable<Product>> GetProducts()
+        public async Task<IEnumerable<Product>> GetProductsBycat()
         {
             return await _repository.GetProducts ();
         }

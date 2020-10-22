@@ -17,7 +17,7 @@ namespace ERPNet.Data.Repositories
             this.context = context;
         }
 
-        public async Task<List<TEntity>> GetAll ( )
+        public virtual async Task<List<TEntity>> GetAll ( )
         {
             return await context.Set<TEntity> ().ToListAsync ();
         }

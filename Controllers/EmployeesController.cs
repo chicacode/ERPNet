@@ -37,13 +37,15 @@ namespace ERPNet.Controllers
        [HttpGet( "byperson" )]
         public async Task<IEnumerable<Employee>> GetAllEmployees ( )
         {
-            return await _repository.GetAll ();
+            // This method retrieve the list of employees by person
+            return await _repository.GetAllEmployeesbyPerson ();
         }
 
         //GET: api/Employees/5
         [HttpGet ( "person/{id}" )]
         public async Task<ActionResult<Employee>> GetByPerson ( int id )
         {
+            // This method retrieve one  employee by person and id
             var employeebyPerson = await _repository.GetByPerson ( id );
 
             if(employeebyPerson == null)

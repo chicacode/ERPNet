@@ -24,7 +24,6 @@ namespace ERPNet.Services
     }
     public class UserService : IUserService
     {
-
         private readonly ERPNetContext _context;
         private readonly AppSettings _appSettings;
 

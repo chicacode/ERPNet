@@ -77,6 +77,7 @@ namespace ERPNet.Controllers
         public IActionResult Register ( [FromBody] RegisterModel model )
         {
             // map model to entity
+            // TODO <User> mapper <Person>
             var user = _mapper.Map<User> ( model );
 
             try

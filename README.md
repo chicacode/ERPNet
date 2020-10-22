@@ -12,7 +12,7 @@ It contains the employee users who can have the admin role to create other users
 * Entity Framework for Database persistance
 * LINQ
 * SQL Server Database
-* Automapper
+* Automapper is an object object mapper. Works transforming an input object of one type into an output object of a different type
 * Repository Pattern to achive some objectives as: 
 	* Using Generic Repository which are bridges netween data and operations that are in different domains
 	* Increases the level of abstraction in code

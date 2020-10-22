@@ -19,13 +19,11 @@ namespace ERPNet.Data.Repositories
         public async Task<List<Order>> GetOrders ( )
         {
             return await _context.Order
-                .Include ( o => o.Customer )
-                .ThenInclude ( c => c.Person )
-                .Include ( o => o.Employee )
-                .ThenInclude ( e => e.Person )
-                .Include ( o => o.Address )
-                .Include ( o => o.OrderState )
-                .Include ( o => o.OrderPriority )
+                .Include ( o => o.Customer.Person)
+                //.Include ( o => o.Employee.Person.Employee.Id )
+                .Include ( o => o.Address)
+                //.Include ( o => o.OrderState )
+               // .Include ( o => o.OrderPriority )
                 .Include ( o => o.Products )
                 .ToListAsync ();
         }
@@ -33,13 +31,8 @@ namespace ERPNet.Data.Repositories
         public async Task<List<Order>> GetOrdersByCustomer ( int customerId )
         {
             return await _context.Order
-                .Include ( o => o.Customer )
-                .ThenInclude ( c => c.Person )
-                .Include ( o => o.Employee )
-                .ThenInclude ( e => e.Person )
-                .Include( o => o.Address)
-                .Include ( o => o.OrderState )
-                .Include ( o => o.OrderPriority )
+                .Include ( o => o.Customer.Person )
+                .Include ( o => o.Address )
                 .Include ( o => o.Products )
                 .Where( o => o.CustomerId == customerId )
                 .ToListAsync ();
@@ -48,13 +41,8 @@ namespace ERPNet.Data.Repositories
         public async Task<List<Order>> GetOrdersByEmployee ( int employeeId )
         {
             return await _context.Order
-                .Include ( o => o.Customer )
-                .ThenInclude ( c => c.Person )
-                .Include ( o => o.Employee )
-                .ThenInclude ( e => e.Person )
+                .Include ( o => o.Employee.Person )
                 .Include ( o => o.Address )
-                .Include ( o => o.OrderState )
-                .Include ( o => o.OrderPriority )
                 .Include ( o => o.Products )
                 .Where ( o => o.EmployeeId == employeeId )
                 .ToListAsync ();
@@ -63,12 +51,7 @@ namespace ERPNet.Data.Repositories
         {
             return await _context.Order
                 .Include ( o => o.Customer )
-                .ThenInclude ( c => c.Person )
-                .Include ( o => o.Employee )
-                .ThenInclude ( e => e.Person )
                 .Include ( o => o.Address )
-                .Include ( o => o.OrderState )
-                .Include ( o => o.OrderPriority )
                 .Include ( o => o.Products )
                 .SingleOrDefaultAsync ( o => o.Id == id );
         }

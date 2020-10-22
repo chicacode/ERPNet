@@ -4,14 +4,16 @@ using ERPNet.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ERPNet.Migrations
 {
     [DbContext(typeof(ERPNetContext))]
-    partial class ERPNetContextModelSnapshot : ModelSnapshot
+    [Migration("20201022132028_newOrder")]
+    partial class newOrder
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -567,24 +569,6 @@ namespace ERPNet.Migrations
                     b.HasIndex("WarehouseId");
 
                     b.ToTable("Storage");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            LastUpdate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            PartialQuantity = 900,
-                            ProductId = 1,
-                            WarehouseId = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            LastUpdate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            PartialQuantity = 700,
-                            ProductId = 2,
-                            WarehouseId = 1
-                        });
                 });
 
             modelBuilder.Entity("ERPNet.Models.Warehouse", b =>
