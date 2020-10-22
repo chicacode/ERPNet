@@ -1,10 +1,4 @@
-﻿using ERPNet.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace ERPNet.Models
+﻿namespace ERPNet.Models
 {
     public class OrderProduct : IEntity
     {

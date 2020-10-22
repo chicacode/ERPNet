@@ -16,7 +16,8 @@ namespace ERPNet.Data.Repositories
         {
             this.context = context;
         }
-
+        // TODO
+        // Colocar Virtual y Overriden en los metodos padres e hijos para poder sobreescribirlos
         public virtual async Task<List<TEntity>> GetAll ( )
         {
             return await context.Set<TEntity> ().ToListAsync ();
