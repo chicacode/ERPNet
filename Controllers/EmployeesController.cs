@@ -41,7 +41,6 @@ namespace ERPNet.Controllers
         [HttpGet ( "person/{id}" )]
         public async Task<ActionResult<Employee>> GetByPerson ( int id )
         {
-            // This method retrieve one  employee by person and id
             var employeebyPerson = await _repository.GetEmployee ( id );
 
             if(employeebyPerson == null)
@@ -50,6 +49,16 @@ namespace ERPNet.Controllers
             }
             return employeebyPerson;
         }
+
+        //// POST: api/Employees
+        [HttpPost("employee")]
+        public async Task<ActionResult<Employee>> PostEmployee ( Employee employee )
+        {
+            var newEmployee = await _repository.AddEmployee ( employee );
+
+            return CreatedAtAction ( "GetEmployee", new { id = employee.Id }, newEmployee );
+        }
+
 
         //// PUT: api/Employees/5
         [HttpPut ( "edit/{id}" )]
@@ -74,16 +83,7 @@ namespace ERPNet.Controllers
         //    return (IActionResult)await _repository.Update ( employeeEdited );
         //}
 
-        //// POST: api/Employees
-        [HttpPost ( "person" )]
-        //public async Task<ActionResult<Employee>> PostEmployee ( Person employee )
-        //{
-        //    //TODO CON AUTH
-        //    var newEmployee = await _repository.AddByPerson ( employee );
-     
-        //    return CreatedAtAction ( "GetEmployee", new { id = employee.Id }, newEmployee );
-        //}
-
+       
         // DELETE: api/Employees/5
         [HttpDelete ( "{id}" )]
         public async Task<ActionResult<Employee>> DeleteEmployee ( int id )

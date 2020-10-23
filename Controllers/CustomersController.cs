@@ -37,7 +37,6 @@ namespace ERPNet.Controllers
             {
                 return NotFound();
             }
-
             return customer;
         }
 

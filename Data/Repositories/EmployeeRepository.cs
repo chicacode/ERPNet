@@ -25,36 +25,24 @@ namespace ERPNet.Data.Repositories
             return await _context.Employee
                 .SingleOrDefaultAsync ( e => e.Id == id );
         }
-      
-
-        //public async Task<Employee> AddByPerson ( Person employee )
-        //{
-        //    Person person = new Person ();
-
-        //    person.Name = employee.Name;
-        //    person.LastName = employee.LastName;
-         
-
-        //    _context.Set<Person> ().Add ( person );
-        //    await _context.SaveChangesAsync ();
 
 
-        //    var newEmployee = new Employee ();
+        public async Task<Employee> AddEmployee ( Employee employee )
+        {
+          
+            var newEmployee = new Employee ();
 
-        //    newEmployee.PersonId = employee.Employee.PersonId;
-        //    newEmployee.PositionJob = employee.Employee.PositionJob;
-        //    newEmployee.Salary = employee.Employee.Salary;
-        //    newEmployee.UserName = employee.Employee.UserName;
-        //    newEmployee.Password = employee.Employee.Password;
+            newEmployee.Name = employee.Name;
+            newEmployee.LastName = employee.LastName;
+            newEmployee.PositionJob = employee.PositionJob;
+            newEmployee.Salary = employee.Salary;
+            newEmployee.UserName = employee.UserName;
+            newEmployee.Password = employee.Password;
+            _context.Set<Employee> ().Add ( newEmployee );
+            await _context.SaveChangesAsync ();
 
-            
-
-        //    _context.Set<Employee> ().Add ( newEmployee );
-        //    await _context.SaveChangesAsync ();
-
-
-        //    return newEmployee;
-        //}
+            return newEmployee;
+        }
 
         //public int GetEmployeeId ( int employeeId )
         //{
