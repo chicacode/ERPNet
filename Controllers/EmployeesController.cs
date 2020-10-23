@@ -61,8 +61,8 @@ namespace ERPNet.Controllers
 
         // TODDO
         // PUT: api/Employees/5
-      /* [HttpPut ( "{id}" )]
-        public async Task<IActionResult> EditEmployee ( Employee employee )
+       [HttpPut ( "edit{id}" )]
+        public async Task<ActionResult<Employee>> EditEmployee ( Employee employee )
         {
             var employeeEdited = await _repository.GetEmployee ( employee.Id );
 
@@ -74,8 +74,8 @@ namespace ERPNet.Controllers
             employeeEdited.UserName = employee.UserName;
             employeeEdited.Password = employee.Password;
 
-            return (IActionResult)await _repository.Update ( employeeEdited );
-        } */
+            return await _repository.Update ( employeeEdited );
+        } 
 
         // DELETE: api/Employees/5
         [HttpDelete ( "{id}" )]
