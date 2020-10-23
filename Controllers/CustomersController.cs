@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using ERPNet.Data;
 using ERPNet.Models;
 using Microsoft.AspNetCore.Cors;
@@ -26,19 +22,16 @@ namespace ERPNet.Controllers
 
         // GET: api/Customers
         [HttpGet ( "byperson" )]
-        public async Task<ActionResult<IEnumerable<Customer>>> GetCustomers()
+        public async Task<IEnumerable<Customer>> GetAllCustomers()
         {
-            // Retrieve all the customers by person
-            var customer = await _repository.GetAllCustomers ();
-
-            return customer;
+            return await _repository.GetAll ();
         }
 
         // GET: api/Customers/5
-        [HttpGet( "person/{id}" )]
+        [HttpGet ( "customer/{id}" )]
         public async Task<ActionResult<Customer>> GetCustomer(int id)
         {
-            var customer = await _repository.GetCustomer ( id );
+            var customer = await _repository.Get( id );
              
             if(customer == null)
             {
@@ -51,31 +44,31 @@ namespace ERPNet.Controllers
 
         //PUT: api/Customers/5
         [HttpPut ( "edit/{id}" )]
-        public async Task<IActionResult> PutCustomer ( int id, Customer customer )
-        {
-            var personId = (await _repository.GetByPerson ( customer.Id )).Id;
+        //public async Task<IActionResult> PutCustomer ( int id, Customer customer )
+        //{
+        //    //var personId = (await _repository.GetByPerson ( customer.Id )).Id;
 
-            var person = new Person
-            {
-                Id = personId,
-                Name = customer.Person.Name,
-                LastName = customer.Person.LastName
-            };
+        //    //var person = new Person
+        //    //{
+        //    //    Id = personId,
+        //    //    Name = customer.Person.Name,
+        //    //    LastName = customer.Person.LastName
+        //    //};
 
-            var customerEdited = await _repository.GetCustomer ( customer.Id );
+        //    //var customerEdited = await _repository.GetCustomer ( customer.Id );
 
-            customerEdited.Orders = customer.Orders;
-            customerEdited.Person = customer.Person;
+        //    //customerEdited.Orders = customer.Orders;
+        //    ////customerEdited.Person = customer.Person;
 
 
-            return (IActionResult)await _repository.Update ( customerEdited );
-        }
+        //    //return (IActionResult)await _repository.Update ( customerEdited );
+        //}
 
         // POST: api/Customers
-        [HttpPost ( "person" )]
+        [HttpPost ( "customer" )]
         public async Task<ActionResult<Customer>> PostCustomer ( Customer customer )
         {
-            var newCustomer = await _repository.AddByPerson ( customer.Person );
+            var newCustomer = await _repository.Add ( customer);
 
             return CreatedAtAction ( "GetCustomer", new { id = customer.Id }, newCustomer );
         }

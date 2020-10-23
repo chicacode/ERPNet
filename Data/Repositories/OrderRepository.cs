@@ -19,7 +19,7 @@ namespace ERPNet.Data.Repositories
         public async Task<List<Order>> GetOrders ( )
         {
             return await _context.Order
-                .Include ( o => o.Customer.Person)
+                //.Include ( o => o.Customer.Person)
                 //.Include ( o => o.Employee.Person.Employee.Id )
                 .Include ( o => o.Address)
                 //.Include ( o => o.OrderState )
@@ -31,7 +31,7 @@ namespace ERPNet.Data.Repositories
         public async Task<List<Order>> GetOrdersByCustomer ( int customerId )
         {
             return await _context.Order
-                .Include ( o => o.Customer.Person )
+                //.Include ( o => o.Customer.Person )
                 .Include ( o => o.Address )
                 .Include ( o => o.Products )
                 .Where( o => o.CustomerId == customerId )
@@ -41,7 +41,7 @@ namespace ERPNet.Data.Repositories
         public async Task<List<Order>> GetOrdersByEmployee ( int employeeId )
         {
             return await _context.Order
-                .Include ( o => o.Employee.Person )
+                //.Include ( o => o.Employee.Person )
                 .Include ( o => o.Address )
                 .Include ( o => o.Products )
                 .Where ( o => o.EmployeeId == employeeId )

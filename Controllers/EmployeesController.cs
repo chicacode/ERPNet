@@ -24,13 +24,9 @@ namespace ERPNet.Controllers
 
         private readonly EmployeeRepository _repository;
        
-        public EmployeesController ( 
-            EmployeeRepository repository
-    
-             ) : base(repository)
+        public EmployeesController ( EmployeeRepository repository ) : base(repository)
         {
             _repository = repository;
- 
         }
 
         // GET: api/Employees
@@ -46,7 +42,7 @@ namespace ERPNet.Controllers
         public async Task<ActionResult<Employee>> GetByPerson ( int id )
         {
             // This method retrieve one  employee by person and id
-            var employeebyPerson = await _repository.GetByPerson ( id );
+            var employeebyPerson = await _repository.GetEmployee ( id );
 
             if(employeebyPerson == null)
             {
@@ -57,36 +53,36 @@ namespace ERPNet.Controllers
 
         //// PUT: api/Employees/5
         [HttpPut ( "edit/{id}" )]
-        public async Task<IActionResult> EditEmployee (  Employee employee )
-        {
-            var personId = (await _repository.GetByPerson ( employee.PersonId )).Id;
-            Person person = new Person
-            {
-                Id = personId,
-                Name = employee.Person.Name,
-                LastName = employee.Person.LastName
-            };
-            //var updatePerson = await _peopleController.EditPerson ( person );
+        //public async Task<IActionResult> EditEmployee (  Employee employee )
+        //{
+        //    var personId = (await _repository.GetEmployee ( employee.PersonId )).Id;
+        //    Person person = new Person
+        //    {
+        //        Id = personId,
+        //        Name = employee.Person.Name,
+        //        LastName = employee.Person.LastName
+        //    };
+        //    //var updatePerson = await _peopleController.EditPerson ( person );
 
-            var employeeEdited = await _repository.GetEmployee ( employee.Id );
+        //    var employeeEdited = await _repository.GetEmployee ( employee.Id );
 
-            employeeEdited.PositionJob = employee.PositionJob;
-            employeeEdited.Salary = employee.Salary;
-            employeeEdited.UserName = employee.UserName;
-            employeeEdited.Password = employee.Password;
+        //    employeeEdited.PositionJob = employee.PositionJob;
+        //    employeeEdited.Salary = employee.Salary;
+        //    employeeEdited.UserName = employee.UserName;
+        //    employeeEdited.Password = employee.Password;
 
-            return (IActionResult)await _repository.Update ( employeeEdited );
-        }
+        //    return (IActionResult)await _repository.Update ( employeeEdited );
+        //}
 
         //// POST: api/Employees
         [HttpPost ( "person" )]
-        public async Task<ActionResult<Employee>> PostEmployee ( Person employee )
-        {
-            //TODO CON AUTH
-            var newEmployee = await _repository.AddByPerson ( employee );
+        //public async Task<ActionResult<Employee>> PostEmployee ( Person employee )
+        //{
+        //    //TODO CON AUTH
+        //    var newEmployee = await _repository.AddByPerson ( employee );
      
-            return CreatedAtAction ( "GetEmployee", new { id = employee.Id }, newEmployee );
-        }
+        //    return CreatedAtAction ( "GetEmployee", new { id = employee.Id }, newEmployee );
+        //}
 
         // DELETE: api/Employees/5
         [HttpDelete ( "{id}" )]

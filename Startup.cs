@@ -83,7 +83,6 @@ namespace ERPNet
 
             // scope DI for application services
             services.AddScoped<IUserService, UserService> ();
-            services.AddScoped<PeopleRepository> ();
             services.AddScoped<CustomerRepository> ();
             services.AddScoped<EmployeeRepository> ();
             services.AddScoped<AddressesRepository> ();

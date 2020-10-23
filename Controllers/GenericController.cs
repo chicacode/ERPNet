@@ -24,7 +24,7 @@ namespace ERPNet.Controllers
             _repository = repository;
         }
 
-        public TRepository getRepository ( )
+        public TRepository GetRepository ( )
         {
             return _repository;
         }

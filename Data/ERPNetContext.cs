@@ -23,8 +23,6 @@ namespace ERPNet.Data
 
         public DbSet<Order> Order { get; set; }
 
-        public DbSet<Person> Person { get; set; }
-
         public DbSet<User> User { get; set; }
 
         public DbSet<User> Users { get; set; }
@@ -42,116 +40,56 @@ namespace ERPNet.Data
         {
             base.OnModelCreating ( modelBuilder );
 
-            modelBuilder.Entity<Person> ().HasData (
-                  new Person
-                  {
-                      Id = 1,
-                      Name = "Tony",
-                      LastName = "Stark"
-
-                  },
-                new Person
-                {
-                    Id = 2,
-                    Name = "Steve",
-                    LastName = "Rogers"
-
-                },
-                 new Person
-                 {
-                     Id = 3,
-                     Name = "Bruce",
-                     LastName = "Banner"
-
-                 },
-                  new Person
-                  {
-                      Id = 4,
-                      Name = "Natacha",
-                      LastName = "Romanoff"
-
-                  },
-                   new Person
-                   {
-                       Id = 5,
-                       Name = "Thor",
-                       LastName = "Son of Odin"
-
-                   },
-                  new Person
-                  {
-                      Id = 6,
-                      Name = "Olivia",
-                      LastName = "Wilde"
-
-                  },
-                   new Person
-                   {
-                       Id = 7,
-                       Name = "Teresa",
-                       LastName = "Carreño"
-                   },
-
-                   new Person
-                   {
-                       Id = 8,
-                       Name = "Lujan",
-                       LastName = "Singleton"
-
-                   },
-                    new Person
-                    {
-                        Id = 9,
-                        Name = "Thomas",
-                        LastName = "Jefferson"
-                    }
-                );
-
             modelBuilder.Entity<Employee> ().HasData (
                 new Employee
                 {
                     Id = 1,
+                    Name = "Tony",
+                    LastName = "Stark",
                     PositionJob = "Boss",
                     Salary = 300,
                     UserName = "Ironman",
-                    Password = "test",
-                    PersonId = 1
+                    Password = "test"
                 },
                new Employee
                {
                    Id = 2,
+                   Name = "Steve",
+                   LastName = "Rogers",
                    PositionJob = "Soldier",
                    Salary = 200,
                    UserName = "Capitan America",
-                   Password = "test",
-                   PersonId = 2
+                   Password = "test"
                },
                 new Employee
                 {
                     Id = 3,
+                    Name = "Bruce",
+                    LastName = "Banner",
                     PositionJob = "BioTech",
                     Salary = 200,
                     UserName = "Hulk",
-                    Password = "test",
-                    PersonId = 3
+                    Password = "test"
                 },
                  new Employee
                  {
                      Id = 4,
+                     Name = "Natacha",
+                     LastName = "Romanoff",
                      PositionJob = "Secret Agent",
                      Salary = 200,
                      UserName = "Black Widow",
-                     Password = "test",
-                     PersonId = 4,
+                     Password = "test"
                  },
                   new Employee
                   {
                       Id = 5,
+                      Name = "Thor",
+                      LastName = "Son of Odin",
                       PositionJob = "God of Thunder",
                       Salary = 200,
                       UserName = "Thor",
-                      Password = "test",
-                      PersonId = 5
+                      Password = "test"
                   }
                 );
 
@@ -159,22 +97,27 @@ namespace ERPNet.Data
                  new Customer
                  {
                      Id = 1,
-                     PersonId = 6
+                     Name = "Olivia",
+                     LastName = "Wilde"
+
                  },
                  new Customer
                  {
                      Id = 2,
-                     PersonId = 7
+                     Name = "Teresa",
+                     LastName = "Carreño"
                  },
                   new Customer
                   {
                       Id = 3,
-                      PersonId = 8
+                      Name = "Lujan",
+                      LastName = "Singleton"
                   },
                  new Customer
                  {
                      Id = 4,
-                     PersonId = 9
+                     Name = "Thomas",
+                     LastName = "Jefferson"
                  }
              );
             modelBuilder.Entity<Address> ().HasData (

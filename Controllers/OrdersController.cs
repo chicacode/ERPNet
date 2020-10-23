@@ -81,8 +81,8 @@ namespace ERPNet.Controllers
             orderEdited.OrderNumber = order.OrderNumber;
             orderEdited.OrderPriority = order.OrderPriority;
             orderEdited.OrderState = order.OrderState;
-            orderEdited.CustomerId = _customerRepository.GetCustomerByPersonId ( order.Customer.Person.Id);
-            orderEdited.EmployeeId = _employeeRepository.GetEmployeeId ( order.Employee.Person.Id );
+            //orderEdited.CustomerId = _customerRepository.GetCustomerByPersonId ( order.Customer.Person.Id);
+            //orderEdited.EmployeeId = _employeeRepository.GetEmployeeId ( order.Employee.Person.Id );
 
             return (IActionResult)await _repository.Update ( orderEdited );
         }
@@ -98,8 +98,8 @@ namespace ERPNet.Controllers
                 OrderState = order.OrderState,
                 CreationOrder = DateTime.Now,
                 DoneByEmployeeOrder = DateTime.Now,
-                CustomerId = _customerRepository.GetCustomerByPersonId ( order.Customer.Person.Id ),
-                EmployeeId = _employeeRepository.GetEmployeeId ( order.Employee.Person.Id )
+                //CustomerId = _customerRepository.GetCustomerByPersonId ( order.Customer.Person.Id ),
+                //EmployeeId = _employeeRepository.GetEmployeeId ( order.Employee.Person.Id )
             };
 
             return await _repository.Add ( orderNew );
