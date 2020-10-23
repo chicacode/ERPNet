@@ -44,14 +44,5 @@ namespace ERPNet.Data.Repositories
             return newEmployee;
         }
 
-        //public int GetEmployeeId ( int employeeId )
-        //{
-        //    var personId = _peopleRepository.GetPerson ( employeeId );
-
-        //    return _context.Employee
-        //            .FirstOrDefault ( x => x.PersonId == employeeId )
-        //            .Id;
-        //}
-
     }
 }

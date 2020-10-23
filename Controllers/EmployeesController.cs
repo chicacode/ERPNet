@@ -59,31 +59,24 @@ namespace ERPNet.Controllers
             return CreatedAtAction ( "GetEmployee", new { id = employee.Id }, newEmployee );
         }
 
+        // TODDO
+        // PUT: api/Employees/5
+      /* [HttpPut ( "{id}" )]
+        public async Task<IActionResult> EditEmployee ( Employee employee )
+        {
+            var employeeEdited = await _repository.GetEmployee ( employee.Id );
 
-        //// PUT: api/Employees/5
-        [HttpPut ( "edit/{id}" )]
-        //public async Task<IActionResult> EditEmployee (  Employee employee )
-        //{
-        //    var personId = (await _repository.GetEmployee ( employee.PersonId )).Id;
-        //    Person person = new Person
-        //    {
-        //        Id = personId,
-        //        Name = employee.Person.Name,
-        //        LastName = employee.Person.LastName
-        //    };
-        //    //var updatePerson = await _peopleController.EditPerson ( person );
+            employeeEdited.Id = employee.Id;
+            employeeEdited.Name = employee.Name;
+            employeeEdited.LastName = employee.LastName;
+            employeeEdited.PositionJob = employee.PositionJob;
+            employeeEdited.Salary = employee.Salary;
+            employeeEdited.UserName = employee.UserName;
+            employeeEdited.Password = employee.Password;
 
-        //    var employeeEdited = await _repository.GetEmployee ( employee.Id );
+            return (IActionResult)await _repository.Update ( employeeEdited );
+        } */
 
-        //    employeeEdited.PositionJob = employee.PositionJob;
-        //    employeeEdited.Salary = employee.Salary;
-        //    employeeEdited.UserName = employee.UserName;
-        //    employeeEdited.Password = employee.Password;
-
-        //    return (IActionResult)await _repository.Update ( employeeEdited );
-        //}
-
-       
         // DELETE: api/Employees/5
         [HttpDelete ( "{id}" )]
         public async Task<ActionResult<Employee>> DeleteEmployee ( int id )
