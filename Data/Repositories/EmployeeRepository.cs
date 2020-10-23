@@ -20,7 +20,7 @@ namespace ERPNet.Data.Repositories
             _peopleRepository = peopleRepository;
         }
 
-        public async Task<List<Employee>> GetAllEmployeesbyPerson ( )
+        public override async Task<List<Employee>> GetAll ( )
         { 
             return await _context.Employee
                 .Include ( e => e.Person )

@@ -38,7 +38,7 @@ namespace ERPNet.Controllers
         public async Task<IEnumerable<Employee>> GetAllEmployees ( )
         {
             // This method retrieve the list of employees by person
-            return await _repository.GetAllEmployeesbyPerson ();
+            return await _repository.GetAll();
         }
 
         //GET: api/Employees/5
