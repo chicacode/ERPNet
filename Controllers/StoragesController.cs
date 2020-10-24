@@ -58,7 +58,7 @@ namespace ERPNet.Controllers
             editStorage.Product = storage.Product;
             editStorage.Warehouse = storage.Warehouse;
 
-            var productId = _productRepository.GetProduct ( storage.Product.Id );
+            var productId = _productRepository.Get( storage.Product.Id );
 
             var warehouseId = _warehouseRepository.GetWarehouse (storage.Warehouse.Id);
 
