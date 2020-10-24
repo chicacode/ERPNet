@@ -16,22 +16,28 @@ namespace ERPNet.Data.Repositories
             _context = context;
         }
 
-        public async Task<List<Order>> GetOrders ( )
+        public override async Task<List<Order>> GetAll ()
         {
             return await _context.Order
-                //.Include ( o => o.Customer.Person)
-                //.Include ( o => o.Employee.Person.Employee.Id )
-                .Include ( o => o.Address)
-                //.Include ( o => o.OrderState )
-               // .Include ( o => o.OrderPriority )
+                .Include ( o => o.Address )
+                .Include( o => o.Customer )
+                .Include( o => o.Employee )
                 .Include ( o => o.Products )
                 .ToListAsync ();
         }
 
+        public override async Task<Order> Get ( int id )
+        {
+            return await _context.Order
+                .Include ( o => o.Address )
+                .Include ( o => o.Customer )
+                .Include ( o => o.Employee )
+                .SingleOrDefaultAsync ( e => e.Id == id );
+        }
         public async Task<List<Order>> GetOrdersByCustomer ( int customerId )
         {
             return await _context.Order
-                //.Include ( o => o.Customer.Person )
+                .Include ( o => o.Customer)
                 .Include ( o => o.Address )
                 .Include ( o => o.Products )
                 .Where( o => o.CustomerId == customerId )
@@ -41,20 +47,27 @@ namespace ERPNet.Data.Repositories
         public async Task<List<Order>> GetOrdersByEmployee ( int employeeId )
         {
             return await _context.Order
-                //.Include ( o => o.Employee.Person )
+                .Include ( o => o.Employee )
                 .Include ( o => o.Address )
                 .Include ( o => o.Products )
                 .Where ( o => o.EmployeeId == employeeId )
                 .ToListAsync ();
         }
-        public async Task<Order> GetOrder ( int id)
-        {
-            return await _context.Order
-                .Include ( o => o.Customer )
-                .Include ( o => o.Address )
-                .Include ( o => o.Products )
-                .SingleOrDefaultAsync ( o => o.Id == id );
-        }
 
+        public async Task<Order> AddCustomer ( Order order )
+        {
+            var newOrder = new Order ();
+
+            newOrder.OrderNumber = order.OrderNumber;
+            newOrder.OrderPriority = order.OrderPriority;
+            newOrder.OrderState = order.OrderState;
+            newOrder.CreationOrder = order.CreationOrder;
+            newOrder.DoneByEmployeeOrder = order.DoneByEmployeeOrder;
+            newOrder.CreationOrder = order.CreationOrder;
+            _context.Set<Order> ().Add ( newOrder );
+            await _context.SaveChangesAsync ();
+
+            return newOrder;
+        }
     }
 }

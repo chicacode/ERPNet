@@ -33,9 +33,9 @@ namespace ERPNet.Controllers
 
         // GET: api/Orders
         [HttpGet ( "orders" )]
-        public async Task<ActionResult<IEnumerable<Order>>> GetOrders()
+        public async Task<IEnumerable<Order>> GetOrders()
         {
-            var orders = await _repository.GetOrders ();
+            var orders = await _repository.GetAll ();
 
             return orders;
         }
@@ -62,7 +62,7 @@ namespace ERPNet.Controllers
         [HttpGet ( "order/{id}" )]
         public async Task<ActionResult<Order>> GetOrder ( int id)
         {
-            var order = await _repository.GetOrder(id);
+            var order = await _repository.Get(id);
 
             if (order == null)
             {
@@ -74,21 +74,20 @@ namespace ERPNet.Controllers
 
         // PUT: api/Orders/5
         [HttpPut( "order/{id}" )]
-        public async Task<IActionResult> PutOrder(int id, Order order)
+        public async Task<ActionResult<Order>> PutOrder (int id, Order order)
         {
-            var orderEdited = await _repository.GetOrder ( id );
+            var orderEdited = await _repository.Get( id );
 
             orderEdited.OrderNumber = order.OrderNumber;
             orderEdited.OrderPriority = order.OrderPriority;
             orderEdited.OrderState = order.OrderState;
-            //orderEdited.CustomerId = _customerRepository.GetCustomerByPersonId ( order.Customer.Person.Id);
-            //orderEdited.EmployeeId = _employeeRepository.GetEmployeeId ( order.Employee.Person.Id );
+            orderEdited.CustomerId = order.CustomerId;
 
-            return (IActionResult)await _repository.Update ( orderEdited );
+            return await _repository.Update ( orderEdited );
         }
 
         // POST: api/Orders
-        [HttpPost]
+        [HttpPost ( "orders" )]
         public async Task<ActionResult<Order>> PostOrder ( Order order )
         {
             var orderNew = new Order
@@ -98,8 +97,8 @@ namespace ERPNet.Controllers
                 OrderState = order.OrderState,
                 CreationOrder = DateTime.Now,
                 DoneByEmployeeOrder = DateTime.Now,
-                //CustomerId = _customerRepository.GetCustomerByPersonId ( order.Customer.Person.Id ),
-                //EmployeeId = _employeeRepository.GetEmployeeId ( order.Employee.Person.Id )
+                CustomerId = (_customerRepository.Get( order.Customer.Id )).Id,
+                EmployeeId = (_employeeRepository.GetEmployee( order.Employee.Id )).Id
             };
 
             return await _repository.Add ( orderNew );
