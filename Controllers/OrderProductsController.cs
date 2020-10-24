@@ -1,16 +1,15 @@
-﻿using System;
+﻿
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using ERPNet.Data;
 using ERPNet.Models;
 using ERPNet.Data.Repositories;
+using Microsoft.AspNetCore.Cors;
 
 namespace ERPNet.Controllers
 {
+    [EnableCors ( "AllowSpecificOrigin" )]
     [Route("api/[controller]")]
     [ApiController]
     public class OrderProductsController : GenericController<OrderProduct, OrderProductRepository>
@@ -23,14 +22,24 @@ namespace ERPNet.Controllers
         }
 
         // GET: api/OrderProducts
-        [HttpGet ( "ordersproducts" )]
-        public async Task<ActionResult<IEnumerable<OrderProduct>>> GetOrderProducts()
+        [HttpGet ( "byitems" )]
+        public async Task<IEnumerable<OrderProduct>> GetOrderProducts()
         {
-            var orderProducts = await _repository.GetOrderProducts ();
-
-            return orderProducts;
+            return await _repository.GetAll ();
         }
+        // GET: api/Ordersproducts/5
+        [HttpGet ( "Ordersproducts/{id}" )]
+        public async Task<ActionResult<OrderProduct>> GetOrderProduct ( int id )
+        {
+            var orderP = await _repository.Get ( id );
 
+            if(orderP == null)
+            {
+                return NotFound ();
+            }
+
+            return orderP;
+        }
 
     }
 }
