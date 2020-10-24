@@ -54,7 +54,7 @@ namespace ERPNet.Data.Repositories
                 .ToListAsync ();
         }
 
-        public async Task<Order> AddCustomer ( Order order )
+        public async Task<Order> AddOrder ( Order order )
         {
             var newOrder = new Order ();
 
