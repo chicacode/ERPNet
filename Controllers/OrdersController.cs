@@ -72,20 +72,6 @@ namespace ERPNet.Controllers
             return order;
         }
 
-        // PUT: api/Orders/5
-        [HttpPut( "order/{id}" )]
-        public async Task<ActionResult<Order>> PutOrder (int id, Order order)
-        {
-            var orderEdited = await _repository.Get( id );
-
-            orderEdited.OrderNumber = order.OrderNumber;
-            orderEdited.OrderPriority = order.OrderPriority;
-            orderEdited.OrderState = order.OrderState;
-            orderEdited.CustomerId = order.CustomerId;
-
-            return await _repository.Update ( orderEdited );
-        }
-
         // POST: api/Orders
         [HttpPost ( "orders" )]
         public async Task<ActionResult<Order>> PostOrder ( Order order )
@@ -97,11 +83,27 @@ namespace ERPNet.Controllers
                 OrderState = order.OrderState,
                 CreationOrder = DateTime.Now,
                 DoneByEmployeeOrder = DateTime.Now,
-                CustomerId = (_customerRepository.Get( order.Customer.Id )).Id,
-                EmployeeId = (_employeeRepository.GetEmployee( order.Employee.Id )).Id
+                CustomerId = (_customerRepository.Get ( order.Customer.Id )).Id,
+                EmployeeId = (_employeeRepository.GetEmployee ( order.Employee.Id )).Id
             };
 
             return await _repository.Add ( orderNew );
         }
+
+        // PUT: api/Orders/5
+        [HttpPut( "order/{id}" )]
+        public async Task<ActionResult<Order>> PutOrder (int id, Order order)
+        {
+            var orderEdited = await _repository.Get( id );
+
+            orderEdited.OrderNumber = order.OrderNumber;
+            orderEdited.OrderPriority = order.OrderPriority;
+            orderEdited.OrderState = order.OrderState;
+            orderEdited.CustomerId = order.CustomerId;
+            orderEdited.EmployeeId = order.EmployeeId;
+
+            return await _repository.Update ( orderEdited );
+        }
+
     }
 }
