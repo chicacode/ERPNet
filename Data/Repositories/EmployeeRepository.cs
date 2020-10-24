@@ -26,7 +26,6 @@ namespace ERPNet.Data.Repositories
                 .SingleOrDefaultAsync ( e => e.Id == id );
         }
 
-
         public async Task<Employee> AddEmployee ( Employee employee )
         {
           

@@ -1,8 +1,6 @@
 ﻿using ERPNet.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace ERPNet.Data.Repositories
@@ -26,43 +24,22 @@ namespace ERPNet.Data.Repositories
             return await _context.Customer
                 .SingleOrDefaultAsync ( e => e.Id == id );
         }
-        //public async Task<Customer> GetByPerson ( int id )
-        //{
-        //    return await _context.Customer
-               
-        //        .SingleOrDefaultAsync ( e => e.PersonId == id );
-        //}
-
-        //public async Task<Customer> AddByPerson ( Person customer )
-        //{
-        //    Person person = new Person ();
-
-        //    person.Name = customer.Name;
-        //    person.LastName = customer.LastName;
 
 
-        //    _context.Set<Person> ().Add ( person );
-        //    await _context.SaveChangesAsync ();
+        public async Task<Customer> AddCustomer ( Customer customer )
+        {
+         
+            var newCustomer = new Customer ();
 
+            newCustomer.Name = customer.Name;
+            newCustomer.LastName = customer.LastName;
+            newCustomer.PhoneNumber = customer.PhoneNumber;
+            newCustomer.Email = customer.Email;
+            _context.Set<Customer> ().Add ( newCustomer );
+            await _context.SaveChangesAsync ();
 
-        //    var newCustomer = new Customer ();
+            return newCustomer;
+        }
 
-        //    newCustomer.Id = customer.Customer.Id;
-        //    newCustomer.PersonId = customer.Customer.PersonId;
- 
-        //    _context.Set<Customer> ().Add ( newCustomer );
-        //    await _context.SaveChangesAsync ();
-
-
-        //    return newCustomer;
-        //}
-        //public int GetCustomerByPersonId ( int customerId )
-        //{
-        //    var personId = _peopleRepository.GetPerson ( customerId );
-
-        //    return _context.Customer
-        //        .FirstOrDefault ( x => x.PersonId == customerId )
-        //        .Id;
-        //}
     }
 }

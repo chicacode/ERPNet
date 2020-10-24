@@ -57,7 +57,7 @@ namespace ERPNet.Controllers
         public async Task<ActionResult<Warehouse>> PutWarehouse(int id, Warehouse warehouse)
         {
             var wareEdited = await _repository.GetWarehouse ( id );
-            var addressId = (await _addressRepository.GetAddress ( warehouse.Id )).Id;
+            var addressId = (await _addressRepository.Get ( warehouse.Id )).Id;
             wareEdited.Name = warehouse.Name;
             wareEdited.AddressId = addressId;
 

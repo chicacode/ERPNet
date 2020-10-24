@@ -1,6 +1,7 @@
 ﻿using ERPNet.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace ERPNet.Data.Repositories
@@ -13,11 +14,35 @@ namespace ERPNet.Data.Repositories
         {
             _context = context;
         }
-        public async Task<Address> GetAddress (int id )
+        public override async Task<List<Address>> GetAll ()
+        {
+            return await _context.Address
+                .ToListAsync ();
+        }
+
+        public override async Task<Address> Get ( int id )
         {
             return await _context.Address
                 .SingleOrDefaultAsync ( a => a.Id == id );
         }
+
+        public async Task<Address> AddAddress ( Address address )
+        {
+            var newAddress = new Address ();
+
+            newAddress.AddressNumber = address.AddressNumber;
+            newAddress.AddressStreet = address.AddressStreet;
+            newAddress.AddressContactName = address.AddressContactName;
+            newAddress.AddressZipCode = address.AddressZipCode;
+            newAddress.AddressCity = address.AddressCity;
+            newAddress.AddressCountry = address.AddressCountry;
+
+            _context.Set<Address> ().Add ( newAddress );
+            await _context.SaveChangesAsync ();
+
+            return newAddress;
+        }
+
         public async Task<ActionResult<Address>> DeleteAddress ( [FromBody] int id )
         {
             var address = await _context.Address.FindAsync ( id );

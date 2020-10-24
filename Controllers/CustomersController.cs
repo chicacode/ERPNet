@@ -40,36 +40,28 @@ namespace ERPNet.Controllers
             return customer;
         }
 
-
-        //PUT: api/Customers/5
-        [HttpPut ( "edit/{id}" )]
-        //public async Task<IActionResult> PutCustomer ( int id, Customer customer )
-        //{
-        //    //var personId = (await _repository.GetByPerson ( customer.Id )).Id;
-
-        //    //var person = new Person
-        //    //{
-        //    //    Id = personId,
-        //    //    Name = customer.Person.Name,
-        //    //    LastName = customer.Person.LastName
-        //    //};
-
-        //    //var customerEdited = await _repository.GetCustomer ( customer.Id );
-
-        //    //customerEdited.Orders = customer.Orders;
-        //    ////customerEdited.Person = customer.Person;
-
-
-        //    //return (IActionResult)await _repository.Update ( customerEdited );
-        //}
-
         // POST: api/Customers
         [HttpPost ( "customer" )]
         public async Task<ActionResult<Customer>> PostCustomer ( Customer customer )
         {
-            var newCustomer = await _repository.Add ( customer);
+            var newCustomer = await _repository.AddCustomer ( customer );
 
             return CreatedAtAction ( "GetCustomer", new { id = customer.Id }, newCustomer );
+        }
+
+        //PUT: api/Customers/5
+        [HttpPut ( "edit/{id}" )]
+        public async Task<ActionResult<Customer>> EditCustomer ( Customer customer )
+        {
+            var customerEdited = await _repository.Get ( customer.Id );
+
+            customerEdited.Id = customer.Id;
+            customerEdited.Name = customer.Name;
+            customerEdited.LastName = customer.LastName;
+            customerEdited.PhoneNumber = customer.PhoneNumber;
+            customerEdited.Email = customer.Email;
+            
+            return await _repository.Update ( customerEdited );
         }
 
         // DELETE: api/Employees/5

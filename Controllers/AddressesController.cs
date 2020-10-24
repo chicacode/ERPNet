@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using ERPNet.Data;
 using ERPNet.Models;
 using Microsoft.AspNetCore.Cors;
 using ERPNet.Data.Repositories;
@@ -17,58 +11,15 @@ namespace ERPNet.Controllers
     [ApiController]
     public class AddressesController : GenericController<Address, AddressesRepository>
     {
-        private readonly ERPNetContext _context;
         private readonly AddressesRepository _repository;
 
-        public AddressesController( ERPNetContext context, AddressesRepository repository ): base(repository)
+        public AddressesController( AddressesRepository repository ): base(repository)
         {
-            _context = context;
             _repository = repository;
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> EditAddress(int id, Address address)
-        {
-
-            var addressEdited = await _repository.GetAddress ( address.Id );
-
-            addressEdited.Id = address.Id;
-            addressEdited.AddressNumber = address.AddressNumber;
-            addressEdited.AddressStreet = address.AddressStreet;
-            addressEdited.AddressContactName = address.AddressContactName;
-            addressEdited.AddressZipCode = address.AddressZipCode;
-            addressEdited.AddressCity = address.AddressCity;
-            addressEdited.AddressCountry = address.AddressCountry;
-
-
-            if(id != address.Id)
-            {
-                return BadRequest();
-            }
-
-           await _repository.Update ( addressEdited );
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!AddressExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
         // POST: api/Addresses
-        [HttpPost]
+        [HttpPost ( "address" )]
         public async Task<ActionResult<Address>> PostAddress ( Address address )
         {
 
@@ -84,7 +35,25 @@ namespace ERPNet.Controllers
 
             };
 
-           return await _repository.Add ( newAddress );
+            return await _repository.Add ( newAddress );
+        }
+
+        [HttpPut("edit/{id}")]
+        public async Task<ActionResult<Address>> EditAddress( Address address)
+        {
+
+            var addressEdited = await _repository.Get ( address.Id );
+
+            addressEdited.Id = address.Id;
+            addressEdited.AddressNumber = address.AddressNumber;
+            addressEdited.AddressStreet = address.AddressStreet;
+            addressEdited.AddressContactName = address.AddressContactName;
+            addressEdited.AddressZipCode = address.AddressZipCode;
+            addressEdited.AddressCity = address.AddressCity;
+            addressEdited.AddressCountry = address.AddressCountry;
+
+            return await _repository.Update ( addressEdited );
+        
         }
 
         // DELETE: api/Addresses/5
@@ -94,9 +63,5 @@ namespace ERPNet.Controllers
             return _repository.DeleteAddress ( id );
         }
 
-        private bool AddressExists(int id)
-        {
-            return _context.Address.Any(e => e.Id == id);
-        }
     }
 }

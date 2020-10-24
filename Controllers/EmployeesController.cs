@@ -1,17 +1,10 @@
 ﻿
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using ERPNet.Data;
 using ERPNet.Models;
 using Microsoft.AspNetCore.Cors;
 using ERPNet.Data.Repositories;
-using System.Net;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using ERPNet.Entities;
 
 namespace ERPNet.Controllers
 {
@@ -33,7 +26,7 @@ namespace ERPNet.Controllers
        [HttpGet( "byperson" )]
         public async Task<IEnumerable<Employee>> GetAllEmployees ( )
         {
-            // This method retrieve the list of employees by person
+          
             return await _repository.GetAll();
         }
 
@@ -59,7 +52,6 @@ namespace ERPNet.Controllers
             return CreatedAtAction ( "GetEmployee", new { id = employee.Id }, newEmployee );
         }
 
-        // TODDO
         // PUT: api/Employees/5
        [HttpPut ( "edit{id}" )]
         public async Task<ActionResult<Employee>> EditEmployee ( Employee employee )

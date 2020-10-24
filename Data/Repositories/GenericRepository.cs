@@ -22,7 +22,6 @@ namespace ERPNet.Data.Repositories
             return await context.Set<TEntity> ().ToListAsync ();
         }
 
-
         public virtual async Task<TEntity> Get ( int id )
         {
             return await context.Set<TEntity> ().FindAsync ( id );
