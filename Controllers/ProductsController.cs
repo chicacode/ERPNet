@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using ERPNet.Data;
 using ERPNet.Models;
 using Microsoft.AspNetCore.Cors;
 using ERPNet.Data.Repositories;
@@ -18,21 +13,16 @@ namespace ERPNet.Controllers
     public class ProductsController : GenericController<Product, ProductRepository>
     {
         private readonly ProductRepository _repository;
-        //private readonly CategoriesRepository _categoryRepository;
-        public ProductsController(
-            ProductRepository repository
-            //CategoriesRepository categoryRepository
-            ) : base (repository)
+        public ProductsController(ProductRepository repository ) : base (repository)
         {
             _repository = repository;
-            //_categoryRepository = categoryRepository;
         }
 
         // GET: api/Products
         [HttpGet ( "products" )]
-        public async Task<IEnumerable<Product>> GetProductsBycat()
+        public async Task<IEnumerable<Product>> GetProducts()
         {
-            return await _repository.GetProducts ();
+            return await _repository.GetAll ();
         }
 
         // GET: api/Products/5
@@ -40,7 +30,7 @@ namespace ERPNet.Controllers
         public async Task<ActionResult<Product>> GetProduct(int id)
         {
 
-            var product = await _repository.GetProduct (id);
+            var product = await _repository.Get (id);
               
             if (product == null)
             {
@@ -50,51 +40,45 @@ namespace ERPNet.Controllers
             return product;
         }
 
-        // PUT: api/Products/5
-        [HttpPut( "Product/{id}" )]
-        public async Task<IActionResult> PutProduct(int id, Product product)
-        {
-            if (id != product.Id)
-            {
-                return BadRequest();
-            }
-            var editProduct = await _repository.GetProduct ( product.Id);
-
-            // edit each property
-            editProduct.Name = product.Name;
-            editProduct.Description = product.Description;
-            editProduct.TotalQuantity = product.TotalQuantity;
-
-            //var categoryId = _categoryRepository.getCategoryById ( product.CategoryName );
-
-            //editProduct.CategoryId = categoryId;
-
-            return (IActionResult)await _repository.Update ( editProduct );
-        }
-
         // POST: api/Products
-
         [HttpPost]
-        public async Task<ActionResult<Product>> PostProduct(Product product)
+        public async Task<ActionResult<Product>> PostProduct ( Product product )
         {
 
-            //var categoryId = _categoryRepository.getCategoryById ( product.CategoryName);
             var newProduct = new Product
             {
                 Name = product.Name,
                 Description = product.Description,
                 TotalQuantity = product.TotalQuantity,
-                //CategoryId = categoryId
+                Price = product.Price,
+                CategoryName = product.CategoryName
             };
 
-           return await _repository.Add ( newProduct );
+            return await _repository.Add ( newProduct );
+        }
+
+
+        // PUT: api/Products/5
+        [HttpPut ( "Product/{id}" )]
+        public async Task<ActionResult<Product>> PutProduct (  Product product)
+        {
+            var editProduct = await _repository.Get( product.Id);
+
+            editProduct.Id = product.Id;
+            editProduct.Name = product.Name;
+            editProduct.Description = product.Description;
+            editProduct.TotalQuantity = product.TotalQuantity;
+            editProduct.Price = product.Price;
+            editProduct.CategoryName = product.CategoryName;
+
+            return await _repository.Update ( editProduct );
         }
 
         // DELETE: api/Products/5
         [HttpDelete( "Product/{id}" )]
         public async Task<ActionResult<Product>> DeleteProduct(int id)
         {
-            var product = await _repository.GetProduct ( id );
+            var product = await _repository.Get ( id );
             if (product == null)
             {
                 return NotFound();
