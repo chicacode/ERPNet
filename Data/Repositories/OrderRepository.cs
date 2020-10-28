@@ -55,13 +55,14 @@ namespace ERPNet.Data.Repositories
 
         public async Task<Order> AddOrder ( Order order )
         {
-            var newOrder = new Order ();
-
-            newOrder.OrderNumber = order.OrderNumber;
-            newOrder.OrderPriority = order.OrderPriority;
-            newOrder.OrderState = order.OrderState;
-            newOrder.CreationOrder = order.CreationOrder;
-            newOrder.DoneByEmployeeOrder = order.DoneByEmployeeOrder;
+            var newOrder = new Order
+            {
+                OrderNumber = order.OrderNumber,
+                OrderPriority = order.OrderPriority,
+                OrderState = order.OrderState,
+                CreationOrder = order.CreationOrder,
+                DoneByEmployeeOrder = order.DoneByEmployeeOrder
+            };
             newOrder.CreationOrder = order.CreationOrder;
             _context.Set<Order> ().Add ( newOrder );
             await _context.SaveChangesAsync ();

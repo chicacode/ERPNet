@@ -73,12 +73,20 @@ namespace ERPNet.Controllers
 
         // POST: api/Users
         [AllowAnonymous]
+        [Authorize ( Roles = Role.Admin )]
         [HttpPost ( "register" )]
         public IActionResult Register ( [FromBody] RegisterModel model )
         {
             // map model to entity
             var user = _mapper.Map<User> ( model );
-
+            if(user.Role == Role.Admin)
+            {
+                user.Role = Role.Admin;
+            }
+            else
+            {
+                user.Role = Role.User;
+            }
             try
             {
                 // create user

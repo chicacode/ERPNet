@@ -83,6 +83,8 @@ namespace ERPNet.Services
             if(_context.Users.Any ( x => x.Username == user.Username ))
                 throw new AppException ( "Username \"" + user.Username + "\" is already taken" );
 
+            // asign role
+
             _context.Users.Add ( user );
             _context.SaveChanges ();
 

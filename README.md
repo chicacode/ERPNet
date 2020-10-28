@@ -23,7 +23,7 @@ It contains the employee users who can have the admin role to create other users
 * JWT For Authentication Login and Register
 * Frontend developed with Angular 2
 
-### Package Installed
+### NuGet Package Installed
 * AutoMapper
 * AutoMapper extensions for ASP.NET Core
 * Microsoft.AspNetCore.Authentication.JwtBearer
