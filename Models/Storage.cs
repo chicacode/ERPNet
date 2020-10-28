@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace ERPNet.Models
 {
     public class Storage : IEntity
     {
+        [Key]
         public int Id { get; set; }
         public DateTime LastUpdate { get; set; }
         public int PartialQuantity { get; set; }

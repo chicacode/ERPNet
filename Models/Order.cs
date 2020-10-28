@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 using ERPNet.Models.enums;
 
@@ -8,7 +9,10 @@ namespace ERPNet.Models
 {
     public class Order : IEntity
     {
+        [Key]
         public int Id { get; set; }
+
+        [StringLength ( 50 )]
         public string OrderNumber { get; set; }
         public OrderPriority OrderPriority { get; set; }
         public OrderState OrderState { get; set; }

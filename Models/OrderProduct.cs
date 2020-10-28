@@ -1,7 +1,10 @@
-﻿namespace ERPNet.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace ERPNet.Models
 {
     public class OrderProduct : IEntity
     {
+        [Key]
         public int Id { get; set; }
 
         public int OrderId { get; set; }

@@ -7,6 +7,7 @@ namespace ERPNet.Models
 {
     public class Product : IEntity
     {
+        [Key]
         public int Id { get; set; }
    
         [Required]
