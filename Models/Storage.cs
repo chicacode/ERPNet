@@ -9,7 +9,11 @@ namespace ERPNet.Models
     {
         [Key]
         public int Id { get; set; }
+
+        [Required]
         public DateTime LastUpdate { get; set; }
+
+        [Required]
         public int PartialQuantity { get; set; }
 
         public int ProductId { get; set; }

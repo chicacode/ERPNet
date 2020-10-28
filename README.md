@@ -23,6 +23,15 @@ It contains the employee users who can have the admin role to create other users
 * JWT For Authentication Login and Register
 * Frontend developed with Angular 2
 
+### Package Installed
+* AutoMapper
+* AutoMapper extensions for ASP.NET Core
+* Microsoft.AspNetCore.Authentication.JwtBearer
+* Microsoft.EntityFrameworkCore
+* Microsoft.EntityFrameworkCore.SqlServer
+* Microsoft.EntityFrameworkCore.Tool
+* System.IdentityModel.Token.Jwt
+
 If you'd like to quote someone, use the > character before the line:
 
 > Coffee. The finest organic suspension ever devised... I beat the Borg with it.
