@@ -64,8 +64,8 @@ namespace ERPNet.Controllers
             return await _repository.Update ( customerEdited );
         }
 
-        // DELETE: api/Employees/5
-        [HttpDelete ( "{id}" )]
+        // DELETE: api/customer/5
+        [HttpDelete ( "customer/{id}" )]
         public async Task<ActionResult<Customer>> DeleteECustomer ( int id )
         {
             var customer = await _repository.Delete ( id );
